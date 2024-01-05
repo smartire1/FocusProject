@@ -4,54 +4,63 @@
 <html>
 <head>
 
-	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">	
 	<meta charset="ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" src="js/login.js"></script>
+	<link type="text/css" rel="stylesheet" href="../css/style.css">
 	<link type="text/css" rel="stylesheet" href="css/login.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 	<title>Accesso</title>
 </head>
 
 <body>
 	<header>
-	<div id="logo">
-			<img src="imgs/.Logo.png">
-		</div>
-		</header>
-	
-		
-		<div id="loginBox" class="mx-auto">
-			<div class="container">
-				<p class="lead text-center"><strong>LOGIN</strong></p>
-				<form name="log_in" action="<%=request.getContextPath()%>/LoginServlet" method="POST" onsubmit="return validateForm()">
-					<div class="container">
-						<div class="row text-center">
-							<div class="col-sm-12">
-								<input class="email1" type="text" placeholder="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
-								<p class="error-message" id="errorMessageEmail"></p>
-							</div>
-							<div class="col-sm-12">
-								<input type="password" placeholder="Password" name="pass"/>
-								<p class="error-message" id="errorMessagePassword"></p>
-							</div>
-							<div class="col-sm-12">
-								<br>
-								<input type="submit" value="Accedi" class="btn btn-danger btn-sm" />
-							</div>
-							<div class="col-sm">
-								<br>
-								<br>
-								<p class="lead">Non sei registrato? <a href="signin.jsp" target="_self">Registrati</a></p>
+		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
+	</header>
+			
+			<div id="loginBox">
+					<p class="lead text-center"><strong>ACCEDI</strong></p>
+					<hr>
+						<div class="container">
+							<div class="row text-center">
+								<div class="col-sm-12">
+									<input class="email1" type="text" placeholder="email" name="email" pattern="[a-zA-Z0-9._]+(@gmail\.com|@outlook\.com)$"/>			
+								</div>
+								<div class="col-sm-12">
+									<input type="password" placeholder="Password" name="pass"/>
+								</div>
+								<div class="col-sm-12">
+									<hr>
+									<br>									
+								<input type="submit" value="Accedi" class="btn" />
+								</div>
+								<div class="col-sm">
+									<br>
+									<p class="lead">Password dimenticata? <a href="signin.jsp" target="_self">Recupera password</a></p>
+								</div>
 							</div>
 						</div>
-					</div>
-				</form>
-				<br></br>
+					<br></br>
 			</div>
-		</div>
+			
+			<footer class="footer">
+				<div class="container">
+					<nav>
+						<p class="copyright">
+							(Copyright
+							<script>
+								document.write(new Date().getFullYear())
+							</script>
+							) <a href="">Focus Project.</a> Tutti i diritti sono riservati.
+						</p>
+					</nav>
+				</div>
+			</footer>
 		
-	
-	
-	
+			<script
+				src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+				integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+				crossorigin="anonymous"></script>
 </body>
 </html>
