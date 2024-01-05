@@ -19,8 +19,8 @@
 		</div>
 		
 		<div class="header-buttons">
-			<button id="login-button">Accedi</button>
-			<button id="register-button">Registra la tua Azienda</button>
+			<a id="login-button"  href="Account/login.jsp">Accedi</a>
+			<a id="register-button" href="Account/signin.jsp">Registra la tua Azienda</a>
 		</div>
 	</header>
 
