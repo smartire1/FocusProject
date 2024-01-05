@@ -1,0 +1,134 @@
+@charset "UTF-8";
+
+
+header {
+    background-color: #664d00;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#loginBox {
+    background-color: white;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 5px;
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.error-message {
+    color: #ff0000;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+#loginBox p strong {
+    font-weight: bold;
+}
+
+#loginBox p {
+    font-size: 100%;
+}
+
+.col-sm-12 {
+    margin-top: 10px;
+}
+
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif; /* Imposta il font principale */
+    background-color: #f2f2f2; /* Imposta il colore di sfondo */
+    margin: 0;
+    padding: 0;
+}
+
+
+/* CSS per il logo */
+#logo {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 320px;
+}
+
+#logo img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0px;
+    display: block;
+    margin: 0 ;
+}
+/* Form Styles */
+.container {
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* CSS per centrare gli input box */
+.row.text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.email1,
+input[type="password"] {
+    width: calc(100% - 10px); /* Sottrae lo spazio dai margini per mantenere la larghezza corretta */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Garantisce che il padding non aumenti la larghezza dell'elemento */
+}
+
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Media query per rendere la pagina responsive */
+@media (max-width: 768px) {
+    /* Aggiusta lo stile per schermi di dimensioni inferiori a 768px */
+    .container {
+        width: 95%;
+    }
+
+    #loginBox {
+        width: 95%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Aggiusta lo stile per schermi di dimensioni inferiori a 576px */
+    #loginBox {
+        padding: 20px;
+    }
+}
+
