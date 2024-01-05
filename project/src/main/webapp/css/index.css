@@ -16,7 +16,7 @@ body {
 }
 
 header {
-    background-color: #664d00;
+    background-color: #ffc448;
     text-align: center;
     color: white;
     padding: 10px;
@@ -25,86 +25,216 @@ header {
     align-items: center;
 }
 
-section {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 #logo {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 300px;
+	margin-left: 120px;
+    color: #404040;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 42px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    flex-grow: 1;
 }
 
-#logo img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    display: block;
-    margin: 0 auto;
-}
-
-.header-buttons {
-    display: flex;
-}
-
-a {
-    margin: 10px;
-    padding: 8px 12px;
+.buttons {
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    text-align: center;
+}
+
+.buttons a {
+	font-size: 16px;
+	color: white;
+    margin: 10px;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
+    background-color: #e6c84f;
+    transition: background-color 0.6s, color 0.6s;
     text-decoration: none;
 }
 
-#login-button {
-    background-color: #b38f00;
-    color: white;
-}
-
-#register-button {
-    background-color: #e67300;
-    color: white;
-}
-
-#login-button:hover,
-#register-button:hover {
+.buttons a:hover {
     background-color: white;
     color: #cc9900;
+    box-shadow: 1px 1px 21px 6px rgba(108,108,108,0.84);
+	-webkit-box-shadow: 1px 1px 21px 6px rgba(108,108,108,0.84);
+	-moz-box-shadow: 1px 1px 21px 6px rgba(108,108,108,0.84);
+}
+
+#loginButton {
+	background-color: #404040;
+	transition: background-color 0.6s, color 0.6s;
+}
+
+#loginButton:hover {
+	background-color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+.container.text-center {
+  margin-top: 50px;
+    width: 80%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.col-md-6 {
+  flex-basis: 48%;
 }
 
 h2 {
-    color: #cc9900;
+  color: #333;
+  font-size: 32px;
 }
 
 p {
-    line-height: 1.6;
-}
-
-.imgsContainer {
-    max-width: 400px;
-    margin: 0 auto;
-    overflow: hidden; /* Pulisce il float */
+  color: #666;
+  font-size: 20px;
 }
 
 .imgsContainer img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 20px;
-    float: right; /* Allinea l'immagine a destra */
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-footer {
+#contactsContainer {
+    margin-top: 75px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    padding: 1em;
-    background-color: #664d00;
-    color: white;
+    padding: 5px;
+    margin-bottom: 15px;
 }
+
+.contact-info {
+    margin-top: 5px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#contactsContainer a {
+	margin: 0;
+	padding: 0;
+}
+
+#contactsContainer h2 {
+	font-size: 20px;
+	margin: 0;
+}
+
+#contactsContainer p {
+	font-size: 16px;
+	margin: 0;
+}
+
+#contuctUs {
+	display: flex;
+	border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+form {
+    margin-top: 20px;
+    text-align: left;
+    padding: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 14px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#supportButton {
+	margin-top: 10px;
+    background-color: #ccc;
+    color: #555;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.6s, color 0.6s;
+}
+
+#supportButton:hover {
+    background-color: #c0b981;
+    color: #313131;
+}
+
+input,
+textarea {
+    border: 1px solid #ddd;
+}
+
+#contactImg {
+    text-align: center;
+}
+
+#contuctUs #contactImg img {
+    height: 90%;
+    width: 70%;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+    background-color: #ffc448;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer a {
+    color: #202020;
+    text-decoration: none;
+}
+
+.footer .copyright {
+    font-size: 14px;
+    margin: 0;
+}
+
