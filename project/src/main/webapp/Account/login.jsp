@@ -18,31 +18,32 @@
 	<header>
 		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
 	</header>
-			
-			<div id="loginBox">
-					<p class="lead text-center"><strong>ACCEDI</strong></p>
-					<hr>
-						<div class="container">
-							<div class="row text-center">
-								<div class="col-sm-12">
-									<input class="email1" type="text" placeholder="email" name="email" pattern="[a-zA-Z0-9._]+(@gmail\.com|@outlook\.com)$"/>			
-								</div>
-								<div class="col-sm-12">
-									<input type="password" placeholder="Password" name="pass"/>
-								</div>
-								<div class="col-sm-12">
-									<hr>
-									<br>									
-								<input type="submit" value="Accedi" class="btn" />
-								</div>
-								<div class="col-sm">
-									<br>
-									<p class="lead">Password dimenticata? <a href="signin.jsp" target="_self">Recupera password</a></p>
+			<form name="Login" action="Login" method="post" >
+				<div id="loginBox">
+						<p class="lead text-center"><strong>ACCEDI</strong></p>
+						<hr>
+							<div class="container">
+								<div class="row text-center">
+									<div class="col-sm-12">
+										<input class="email1" type="text" placeholder="email" name="email" pattern="[a-zA-Z0-9._]+(@gmail\.com|@outlook\.com)$"/>			
+									</div>
+									<div class="col-sm-12">
+										<input type="password" placeholder="Password" name="pass"/>
+									</div>
+									<div class="col-sm-12">
+										<hr>
+										<br>									
+									<input type="submit" value="Accedi" class="btn" />
+									</div>
+									<div class="col-sm">
+										<br>
+										<p class="lead">Password dimenticata? <a href="signin.jsp" target="_self">Recupera password</a></p>
+									</div>
 								</div>
 							</div>
-						</div>
-					<br></br>
-			</div>
+						<br></br>
+				</div>
+			</form>
 			
 			<footer class="footer">
 				<div class="container">

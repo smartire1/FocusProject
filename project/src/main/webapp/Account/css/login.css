@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+#logo {
+	margin-left: 0px;
+}
 
 #loginBox {
     position: static;
@@ -35,7 +38,7 @@
 @media (max-width: 768px) {
     #loginBox {
         margin-top:100px;
-		height: 370px;
+		height: 420px;
     	width: 350px;
     }
 }

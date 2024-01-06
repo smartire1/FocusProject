@@ -22,7 +22,7 @@
 		<div id="buttonsContainer">
 			<button class="button">Area Personale</button>
 	        <button class="button">Dashboard Dipendenti</button>
-	        <button class="button">Dashboard Dipendenti</button>
+	        <button class="button">Dashboard Progetti</button>	        
 	        <button class="button">Statistiche</button>
 	        <button class="button">Comunicazioni</button>
 		</div>

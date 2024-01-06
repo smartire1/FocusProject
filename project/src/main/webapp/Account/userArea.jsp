@@ -31,39 +31,23 @@
     </div>
 	
 	 <div class="form-container">
-    <form action="updateDetails.jsp" method="post">
-        <div class="form-group">
-            <input type="text" id="nome" name="nome" placeholder="Nome">
-        </div>
-        <div class="form-group">
-            <input type="text" id="cognome" name="cognome" placeholder="Cognome">
-        </div>
-        <div class="form-group">
-            <input type="text" id="email" name="email" placeholder="E-mail">
-            <input type="submit" value="Modifica E-mail">
-        </div>
-        <div class="form-group">
-            <input type="password" id="password" name="password" placeholder="Password">
-            <input type="submit" value="Modifica Password">
-        </div>
-    </form>
-</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	    <form action="updateDetails.jsp" method="post">
+	        <div class="form-group">
+	            <input type="text" id="nome" name="nome" placeholder="Nome">
+	        </div>
+	        <div class="form-group">
+	            <input type="text" id="cognome" name="cognome" placeholder="Cognome">
+	        </div>
+	        <div class="form-group">
+	            <input type="text" id="email" name="email" placeholder="E-mail">
+	            <input type="submit" value="Modifica E-mail">
+	        </div>
+	        <div class="form-group">
+	            <input type="password" id="password" name="password" placeholder="Password">
+	            <input type="submit" value="Modifica Password">
+	        </div>
+	    </form>
+	</div>
 	
 	<footer class="footer">
 		<div class="container">
