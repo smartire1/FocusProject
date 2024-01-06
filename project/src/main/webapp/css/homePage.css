@@ -1,0 +1,32 @@
+@charset "ISO-8859-1";
+
+#menuContainer {
+	margin: 30px auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#buttonsContainer {
+	text-align: center;
+}
+
+.button {
+	display: block;
+	width: 20em;
+	height: 60px;
+	background-color: #404040;
+	border-radius: 10px;
+	margin-bottom: 30px;
+	cursor: pointer;
+	color: white;
+	font-size: 22px;
+	font-weight: bold;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #595959;
+	transition: background-color 0.6s;
+}
+
+.button:hover {
+	background-color: #ffc448;
+}

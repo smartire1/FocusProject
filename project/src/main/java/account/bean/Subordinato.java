@@ -17,8 +17,6 @@ public class Subordinato {
         this.email = email;
     }
 
-    // Altri metodi se necessari
-
     @Override
     public String toString() {
         return "Subordinato{" +

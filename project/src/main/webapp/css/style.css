@@ -96,6 +96,17 @@ header {
 	background-color: white;
 }
 
+#logoutButton {
+	background-color: #c40000;
+	color: white;
+	transition: background-color 0.6s, color 0.6s;
+}
+
+#logoutButton:hover {
+	background-color: white;
+	color: #c40000;
+}
+
 .footer {
     background-color: #ffc448;
     text-align: center;
