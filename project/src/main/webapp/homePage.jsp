@@ -3,27 +3,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Home Page</title>
-<!-- CSS -->
-<link type="text/css" rel="stylesheet" href="css/style.css">
-<link type="text/css" rel="stylesheet" href="css/homePage.css">
-
-<!-- font -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
+	<meta charset="ISO-8859-1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Page</title>
+	
+	<!-- CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">
+	<link type="text/css" rel="stylesheet" href="css/style.css">
+	<link type="text/css" rel="stylesheet" href="css/homePage.css">
+	
+	<!-- font -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 </head>
 <body>
 	<header>
-		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
-		<div class="buttons">
-			<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
-		</div>
+		<a id="logo" href="homePage.jsp">FOCUS PROJECT</a>
+	
+			<a id="PareaBtn"href="Account/userArea.jsp" class="btns">Area Personale</a>			
+		
+			<div class="buttons">
+				<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
+			</div>
+		
 	</header>
 	
 	<div id="menuContainer">
 		<div id="buttonsContainer">
-			<a href="Account/userArea.jsp" class="button">Area Personale</a>
+
 			<a href="Dipendenti/employeeDashboard.jsp" class="button">Dashboard Dipendenti</a>
 			<a href="" class="button">Dashboard Progetti</a>
 			<a href="" class="button">Statistiche</a>

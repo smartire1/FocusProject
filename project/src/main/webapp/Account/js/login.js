@@ -37,9 +37,12 @@ function validateField(input, regex, errorMessageId, errorMessage) {
 
 function togglePasswordVisibility() {
     var passwordInput = document.getElementById("passwordInput");
+    var passwordButton = document.getElementById("showPass");
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
+        passwordButton.innerText = "Nascondi password"
     } else {
         passwordInput.type = "password";
+        passwordButton.innerText = "Mostra password"
     }
 }

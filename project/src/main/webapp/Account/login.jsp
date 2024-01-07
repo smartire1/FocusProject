@@ -64,7 +64,7 @@ if (error == null)
 					</div>
 					<div class="col-sm-12">
 						<hr>
-						<br> <input type="submit" value="Accedi" class="btn">
+						<br> <input type="submit" value="Accedi" class="btns">
 					</div>
 					<div class="col-sm">
 						<br>

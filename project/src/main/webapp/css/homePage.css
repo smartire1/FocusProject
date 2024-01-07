@@ -1,5 +1,10 @@
 @charset "ISO-8859-1";
 
+header {
+padding-left:297px;
+height:83px;
+}
+
 #menuContainer {
 	margin: 30px auto;
 	display: flex;
@@ -31,3 +36,6 @@
 .button:hover {
 	background-color: #ffc448;
 }
+
+
+	

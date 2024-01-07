@@ -1,29 +1,34 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.sql.*" import="account.bean.*" 
     pageEncoding="UTF-8"%>
     
 <!DOCTYPE html>
 
 <html>
-<head>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">	
+<head>	
 	<meta charset="ISO-8859-1">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Area</title>
-
-<link type="text/css" rel="stylesheet" href="../css/style.css">
-<link type="text/css" rel="stylesheet" href="css/userArea.css">
-
+	<title>User Area</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+		  rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+		  
+	<link type="text/css" rel="stylesheet" href="../css/style.css">
+	<link type="text/css" rel="stylesheet" href="css/userArea.css">
 </head>
 
 <body>
+
+	<%if(session.getAttribute("utente") != null){ 
+		Utente user = (Utente) session.getAttribute("utente");	
+	%>
+
 	<header>
-		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
-
-		<div class="buttons">
-			<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
-		</div>
-
+		<a id="logo" href="../homePage.jsp">FOCUS PROJECT</a>	
+		
+			<div class="buttons">
+				<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
+			</div>
+		
 	</header>
 	
 	 <div class="welcome-message">
@@ -33,18 +38,18 @@
 	 <div class="form-container">
 	    <form action="updateDetails.jsp" method="post">
 	        <div class="form-group">
-	            <input type="text" id="nome" name="nome" placeholder="Nome">
+	            <input type="text" id="nome" name="nome" placeholder="<%=user.getNome() %>" readonly>
 	        </div>
 	        <div class="form-group">
-	            <input type="text" id="cognome" name="cognome" placeholder="Cognome">
+	            <input type="text" id="cognome" name="cognome" placeholder="<%=user.getCognome() %>" readonly>
 	        </div>
 	        <div class="form-group">
-	            <input type="text" id="email" name="email" placeholder="E-mail">
-	            <input type="submit" value="Modifica E-mail">
+	            <input type="text" id="email" name="email" placeholder="<%=user.getEmail() %>" readonly>
+	            <input class="btns" type="submit" value="Modifica E-mail">
 	        </div>
 	        <div class="form-group">
-	            <input type="password" id="password" name="password" placeholder="Password">
-	            <input type="submit" value="Modifica Password">
+	            <input type="password" id="password" name="password" placeholder="<%=user.getPassword() %>" readonly>
+	            <input class="btns" type="submit" value="Modifica Password">
 	        </div>
 	    </form>
 	</div>
@@ -67,5 +72,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
+		
+	<% } else {%>
+		<script>
+        	window.location.href = '../index.jsp';
+    	</script>
+	<% }%>
 </body>
 </html>

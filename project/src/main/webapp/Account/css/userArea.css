@@ -1,8 +1,13 @@
 @charset "UTF-8";
 
+header {
+padding-left:138px;
+height:83px;
+}
+
 /* Stili per il form */
 .form-container {
-	height: 350px;
+	height: 380px;
     width: 450px; /* Larghezza massima del form */
     margin: 30px auto; /* Margine superiore e inferiore per centrare il form */
     padding: 30px;
