@@ -14,21 +14,19 @@
 	<header>
 		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
 		<div class="buttons">
-			<a id="logoutButton" href="Account/login.jsp">Esci</a>
+			<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
 		</div>
 	</header>
 	
 	<div id="menuContainer">
 		<div id="buttonsContainer">
-			<button class="button">Area Personale</button>
-	        <button class="button">Dashboard Dipendenti</button>
-	        <button class="button">Dashboard Progetti</button>	        
-	        <button class="button">Statistiche</button>
-	        <button class="button">Comunicazioni</button>
+			<a href="Account/userArea.jsp" class="button">Area Personale</a>
+			<a href="" class="button">Dashboard Dipendenti</a>
+			<a href="" class="button">Dashboard Progetti</a>
+			<a href="" class="button">Statistiche</a>
+			<a href="" class="button">Comunicazioni</a>
 		</div>
 	</div>
-	
-	
 	
 	<footer class="footer">
 		<div class="container">

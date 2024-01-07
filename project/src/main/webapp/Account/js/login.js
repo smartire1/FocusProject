@@ -1,26 +1,45 @@
 function validateForm() {
     var emailInput = document.forms["log_in"]["email"];
-    var passwordInput = document.forms["log_in"]["pass"];
+    var passwordInput = document.forms["log_in"]["password"];
 
-   
+	console.log("emailInput:", emailInput);
+	console.log("passwordInput:", passwordInput);
+
     var regexEmail = /\S+@\S+\.\S+/;
-    var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.\-_])[A-Za-z\d@$!%*?&.\-_]+$/;
 
+    var isEmailValid = validateField(emailInput, regexEmail, "errorMessageEmail", "Inserisci un indirizzo email valido.");
+    var isPasswordValid = validateField(passwordInput, regexPassword, "errorMessagePassword", "La password deve contenere almeno 8 caratteri, lettere maiuscole, minuscole, numeri e caratteri speciali.");
 
-    validateField(emailInput, regexEmail, "errorMessageEmail", "Inserisci un indirizzo email valido.");
-    validateField(passwordInput, regexPassword, "errorMessagePassword", "La password deve contenere almeno 8 caratteri, lettere maiuscole, minuscole, numeri e caratteri speciali.");
+	console.log("isEmailValid:", isEmailValid);
+	console.log("isPasswordValid:", isPasswordValid);
 
-    // Altri controlli se necessario...
-
-    return false; // Modulo non inviato in automatico per mostrare gli errori
+    return isEmailValid && isPasswordValid;
 }
 
+
+
 function validateField(input, regex, errorMessageId, errorMessage) {
+	
     var errorMessageElement = document.getElementById(errorMessageId);
 
     if (!regex.test(input.value)) {
         errorMessageElement.innerHTML = errorMessage;
-    } else {
+        return false;
+    }
+    else {
         errorMessageElement.innerHTML = "";
+        return true;
+    }
+}
+
+
+
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("passwordInput");
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+    } else {
+        passwordInput.type = "password";
     }
 }

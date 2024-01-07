@@ -14,7 +14,7 @@
     width: 550px;
     margin:auto;
     margin-bottom:208px;
-    margin-top: 180px; /* Puoi regolare il margine superiore a tuo piacimento */
+    margin-top: 180px;
 }
 
 
@@ -26,13 +26,27 @@
     font-size: 100%;
 }
 
-.email1, input[type="password"] {
-    width: calc(100% - 10px); /* Sottrae lo spazio dai margini per mantenere la larghezza corretta */
+.email1, input[type="password"], input[type="text"] {
+    width: calc(100% - 10px);
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    box-sizing: border-box; /* Garantisce che il padding non aumenti la larghezza dell'elemento */
+    box-sizing: border-box;
+}
+
+#showPass {
+	font-size: 8px;
+    cursor: pointer;
+    background-color: #adadad;
+    color: #535353;
+    border: none;
+    padding: 4px 6px;
+    margin-top: 10px;
+}
+
+#showPass:hover {
+    background-color: #93964b;
 }
 
 @media (max-width: 768px) {
@@ -43,6 +57,11 @@
     }
 }
 
-
+/* Stile per i messaggi di errore */
+.error-message {
+    color: #ff0000;
+    margin-top: 5px;
+    font-size: 14px;
+}
 
 

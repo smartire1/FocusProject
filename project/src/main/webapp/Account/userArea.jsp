@@ -21,7 +21,7 @@
 		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
 
 		<div class="buttons">
-			<a id="logoutButton" href="Account/logout.jsp">Esci</a>
+			<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
 		</div>
 
 	</header>
