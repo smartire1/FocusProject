@@ -2,25 +2,36 @@
 CREATE DATABASE IF NOT EXISTS focusproject;
 USE focusproject;
 
+DROP TABLE IF EXISTS Turno;
+DROP TABLE IF EXISTS Permesso;
+DROP TABLE IF EXISTS StatistichePersonale;
+DROP TABLE IF EXISTS StatisticheResponsabile;
+DROP TABLE IF EXISTS StatisticheSubordinato;
+DROP TABLE IF EXISTS Task;
+DROP TABLE IF EXISTS Comunicazione;
+DROP TABLE IF EXISTS Dirigente;
+DROP TABLE IF EXISTS Responsabile;
+DROP TABLE IF EXISTS Subordinato;
 DROP TABLE IF EXISTS Utente;
+DROP TABLE IF EXISTS Progetto;
+
 CREATE TABLE Utente (
-    nome VARCHAR(255),
-    cognome VARCHAR(255),
+    nome VARCHAR(255) NOT NULL,
+    cognome VARCHAR(255) NOT NULL,
     email VARCHAR(255) PRIMARY KEY,
-    password VARCHAR(255)
+    password VARCHAR(255) NOT NULL,
+    piva VARCHAR(11) NOT NULL,
+    INDEX idx_piva (piva)
 );
 
-DROP TABLE IF EXISTS Dirigente;
 CREATE TABLE Dirigente (
     email VARCHAR(255) PRIMARY KEY,
-    nomeAzienda VARCHAR(255),
-    piva VARCHAR(11),
+    nomeAzienda VARCHAR(255) NOT NULL,
     FOREIGN KEY (email) REFERENCES Utente(email)
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Responsabile;
 CREATE TABLE Responsabile (
     email VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (email) REFERENCES Utente(email)
@@ -28,7 +39,6 @@ CREATE TABLE Responsabile (
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Subordinato;
 CREATE TABLE Subordinato (
     email VARCHAR(255) PRIMARY KEY,
     FOREIGN KEY (email) REFERENCES Utente(email)
@@ -36,47 +46,49 @@ CREATE TABLE Subordinato (
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Progetto;
 CREATE TABLE Progetto (
-    id_progetto INT PRIMARY KEY,
-    nome VARCHAR(255),
-    descrizione VARCHAR(255),
-    obbiettivi VARCHAR(255),
-    stato BOOLEAN,
-    scadenza DATE,
-    budget DOUBLE,
+    id_progetto INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descrizione VARCHAR(255) NOT NULL,
+    obbiettivi VARCHAR(255) NOT NULL,
+    stato BOOLEAN DEFAULT FALSE,
+    scadenza DATE NOT NULL,
+    budget DOUBLE NOT NULL,
     avvisi VARCHAR(255),
-    numDipendenti INT
+    numDipendenti INT,
+    
+    piva VARCHAR(11) NOT NULL,
+    FOREIGN KEY (piva) REFERENCES Utente(piva)
+		ON UPDATE CASCADE
+		ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Task;
+
 CREATE TABLE Task (
-    id_task INT PRIMARY KEY,
-    id_progetto INT,
-    descrizione VARCHAR(255),
-    stato BOOLEAN,
+    id_task INT PRIMARY KEY AUTO_INCREMENT,
+    id_progetto INT NOT NULL,
+    descrizione VARCHAR(255) NOT NULL,
+    stato BOOLEAN DEFAULT FALSE,
+    assegnato_a_email VARCHAR(255) NOT NULL,
     FOREIGN KEY (id_progetto) REFERENCES Progetto(id_progetto)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    FOREIGN KEY (assegnato_a_email) REFERENCES Utente(email)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Turno;
 CREATE TABLE Turno (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    giorno DATE,
-    ora_inizio TIME,
-    ora_fine TIME,
-    responsabile_email VARCHAR(255),
-    subordinato_email VARCHAR(255),
-    FOREIGN KEY (responsabile_email) REFERENCES Utente(email)
-	ON UPDATE CASCADE
-	ON DELETE RESTRICT,
-    FOREIGN KEY (subordinato_email) REFERENCES Utente(email)
+    giorno DATE NOT NULL,
+    ora_inizio TIME NOT NULL,
+    ora_fine TIME NOT NULL,
+    assegnato_a_email VARCHAR(255) NOT NULL,
+    FOREIGN KEY (assegnato_a_email) REFERENCES Utente(email)
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Permesso;
 CREATE TABLE Permesso (
     id INT PRIMARY KEY AUTO_INCREMENT,
     giorno DATE,
@@ -88,7 +100,6 @@ CREATE TABLE Permesso (
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS Comunicazione;
 CREATE TABLE Comunicazione (
     id INT PRIMARY KEY AUTO_INCREMENT,
     titolo VARCHAR(255),
@@ -99,7 +110,6 @@ CREATE TABLE Comunicazione (
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS StatistichePersonale;
 CREATE TABLE StatistichePersonale (
     email VARCHAR(255) PRIMARY KEY,
     num_progetti_completati INT DEFAULT 0,
@@ -110,7 +120,6 @@ CREATE TABLE StatistichePersonale (
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS StatisticheResponsabile;
 CREATE TABLE StatisticheResponsabile (
     email VARCHAR(255) PRIMARY KEY,
     num_subordinati_gestiti INT DEFAULT 0,
@@ -120,7 +129,6 @@ CREATE TABLE StatisticheResponsabile (
 	ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS StatisticheSubordinato;
 CREATE TABLE StatisticheSubordinato (
     email VARCHAR(255) PRIMARY KEY,
     num_task_completati INT DEFAULT 0,
