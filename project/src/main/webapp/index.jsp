@@ -16,12 +16,9 @@
 <body>
 	<header>
 		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
-
-		<div class="buttons">
-			<a id="loginButton" href="Account/login.jsp">Accedi</a>
-		</div>
-
 	</header>
+	
+	<jsp:include page="navbar.jsp" />
 
 	<div class="container text-center">
 		<div class="row">

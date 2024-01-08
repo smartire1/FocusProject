@@ -18,15 +18,10 @@
 </head>
 <body>
 	<header>
-		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
-	
-			<a id="PareaBtn"href="Account/userArea.jsp" class="btns">Area Personale</a>			
-		
-			<div class="buttons">
-				<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
-			</div>
-		
+		<a id="logo" href="index.jsp">FOCUS PROJECT</a>					
 	</header>
+	
+	<jsp:include page="navbar.jsp" />
 	
 	<div id="menuContainer">
 		<div id="buttonsContainer">
