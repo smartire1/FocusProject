@@ -1,4 +1,5 @@
 -- Creazione del database
+drop database focusproject;
 CREATE DATABASE IF NOT EXISTS focusproject;
 USE focusproject;
 
@@ -19,9 +20,8 @@ CREATE TABLE Utente (
     nome VARCHAR(255) NOT NULL,
     cognome VARCHAR(255) NOT NULL,
     email VARCHAR(255) PRIMARY KEY,
-    password VARCHAR(255) NOT NULL,
-    piva VARCHAR(11) NOT NULL,
-    INDEX idx_piva (piva)
+    pwd VARCHAR(255) NOT NULL,
+    piva VARCHAR(11) NOT NULL
 );
 
 CREATE TABLE Dirigente (
@@ -56,11 +56,7 @@ CREATE TABLE Progetto (
     budget DOUBLE NOT NULL,
     avvisi VARCHAR(255),
     numDipendenti INT,
-    
-    piva VARCHAR(11) NOT NULL,
-    FOREIGN KEY (piva) REFERENCES Utente(piva)
-		ON UPDATE CASCADE
-		ON DELETE RESTRICT
+    piva VARCHAR(11) NOT NULL
 );
 
 

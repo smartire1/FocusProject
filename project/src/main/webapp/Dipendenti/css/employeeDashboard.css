@@ -1,8 +1,15 @@
 @charset "ISO-8859-1";
 
+header {
+padding-left:297px;
+height:83px;
+}
+
 .container-fluid {
+	margin-top:60px;
 	display: flex;
 	height: 100vh; /* Imposta l'altezza al 100% della viewport height */
+	
 }
 
 .sidebar {
@@ -40,7 +47,7 @@
     flex-direction: column;
     flex-grow: 1;
     padding: 20px;
-    width: 100%;
+    max-width:600px;
     min-height: 400px;
     background-color: #f2f2f2;
     border: 1px solid #ccc;

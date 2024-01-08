@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Permesso {
     private int id;
-    private Date giorno;
+    private String giorno;
     private String motivo;
     private boolean stato;
     private String richiedenteEmail;
 
     // Costruttore
-    public Permesso(int id, Date giorno, String motivo, boolean stato, String richiedenteEmail) {
+    public Permesso(int id, String giorno, String motivo, boolean stato, String richiedenteEmail) {
         this.id = id;
         this.giorno = giorno;
         this.motivo = motivo;
@@ -27,11 +27,11 @@ public class Permesso {
         this.id = id;
     }
 
-    public Date getGiorno() {
+    public String getGiorno() {
         return giorno;
     }
 
-    public void setGiorno(Date giorno) {
+    public void setGiorno(String giorno) {
         this.giorno = giorno;
     }
 

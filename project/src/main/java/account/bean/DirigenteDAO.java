@@ -21,7 +21,7 @@ private DataSource ds = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
     	
-        String query = "INSERT INTO Dirigente (email, nomeAzienda, piva) VALUES (?, ?)";
+        String query = "INSERT INTO Dirigente (email, nomeAzienda) VALUES (?, ?)";
         
         try {
         	connection = ds.getConnection();
