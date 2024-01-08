@@ -7,11 +7,11 @@
 <title>Dashboard Progetti</title>
 
 <!-- CSS -->
-<link type="text/css" rel="stylesheet" href="css/style.css">
-<link type="text/css" rel="stylesheet" href="projectDashboard.css">
+<link type="text/css" rel="stylesheet" href="../css/style.css">
+<link type="text/css" rel="stylesheet" href="css/projectDashboard.css">
 
 <!-- JavaScript -->
-<script type="text/javascript" src="projectDashboard.js"></script>
+<script type="text/javascript" src="js/projectDashboard.js"></script>
 
 <!-- Bootstrap -->
 <link
@@ -27,7 +27,7 @@
 </head>
 <body>
 	<header>
-		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
+		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
 		<div class="buttons">
 			<a id="logoutButton" href="<%=request.getContextPath()%>/Logout">Esci</a>
 		</div>

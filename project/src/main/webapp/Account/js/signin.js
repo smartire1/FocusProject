@@ -10,26 +10,44 @@ function validateForm() {
     var regexOnlyLetters = /^[A-Za-z]+$/;
     var regexPiva = /^\d{11}$/;
     var regexEmail = /\S+@\S+\.\S+/;
-    var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.\-_])[A-Za-z\d@$!%*?&.\-_]+$/;
 
-    validateField(nomeInput, regexOnlyLetters, "errorMessageNome", "Nome deve contenere solo lettere.");
-    validateField(cognomeInput, regexOnlyLetters, "errorMessageCognome", "Cognome deve contenere solo lettere.");
-    validateField(pivaInput, regexPiva, "errorMessagePiva", "La P.IVA deve contenere esattamente 11 cifre numeriche.");
-    validateField(nomeAziendaInput, regexOnlyLetters, "errorMessageNomeAzienda", "Nome Azienda deve contenere solo lettere.");
-    validateField(emailInput, regexEmail, "errorMessageEmail", "Inserisci un indirizzo email valido.");
-    validateField(passwordInput, regexPassword, "errorMessagePassword", "La password deve contenere almeno 8 caratteri, lettere maiuscole, minuscole, numeri e caratteri speciali.");
+    var isNomeValid = validateField(nomeInput, regexOnlyLetters, "errorMessageNome", "Nome deve contenere solo lettere.");
+    var isCognomeValid = validateField(cognomeInput, regexOnlyLetters, "errorMessageCognome", "Cognome deve contenere solo lettere.");
+    var isPIVAValid = validateField(pivaInput, regexPiva, "errorMessagePiva", "La P.IVA deve contenere esattamente 11 cifre numeriche.");
+    var isNomeAziendaValid = validateField(nomeAziendaInput, regexOnlyLetters, "errorMessageNomeAzienda", "Nome Azienda deve contenere solo lettere.");
+    var isEmailValid = validateField(emailInput, regexEmail, "errorMessageEmail", "Inserisci un indirizzo email valido.");
+    var isPasswordValid = validateField(passwordInput, regexPassword, "errorMessagePassword", "La password deve contenere almeno 8 caratteri, lettere maiuscole, minuscole, numeri e caratteri speciali.");
 
-    // Altri controlli se necessario...
-
-    return false; // Modulo non inviato in automatico per mostrare gli errori
+    return isNomeValid && isCognomeValid && isPIVAValid && isNomeAziendaValid && isEmailValid && isPasswordValid;
 }
 
+
+
 function validateField(input, regex, errorMessageId, errorMessage) {
+	
     var errorMessageElement = document.getElementById(errorMessageId);
 
     if (!regex.test(input.value)) {
         errorMessageElement.innerHTML = errorMessage;
-    } else {
+        return false;
+    }
+    else {
         errorMessageElement.innerHTML = "";
+        return true;
+    }
+}
+
+
+
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("passwordInput");
+    var passwordButton = document.getElementById("showPass");
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordButton.innerText = "Nascondi password"
+    } else {
+        passwordInput.type = "password";
+        passwordButton.innerText = "Mostra password"
     }
 }

@@ -18,7 +18,7 @@
 </head>
 <body>
 	<header>
-		<a id="logo" href="homePage.jsp">FOCUS PROJECT</a>
+		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
 	
 			<a id="PareaBtn"href="Account/userArea.jsp" class="btns">Area Personale</a>			
 		
@@ -32,7 +32,7 @@
 		<div id="buttonsContainer">
 
 			<a href="Dipendenti/employeeDashboard.jsp" class="button">Dashboard Dipendenti</a>
-			<a href="" class="button">Dashboard Progetti</a>
+			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
 			<a href="" class="button">Statistiche</a>
 			<a href="" class="button">Comunicazioni</a>
 		</div>
