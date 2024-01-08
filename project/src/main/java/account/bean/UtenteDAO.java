@@ -23,7 +23,7 @@ public class UtenteDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "INSERT INTO Utente (nome, cognome, email, password, piva) VALUES (?, ?, ?, ?, ?)";
+		String query = "INSERT INTO Utente (nome, cognome, email, pwd, piva) VALUES (?, ?, ?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -75,7 +75,7 @@ public class UtenteDAO {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
-	    String query = "UPDATE Utente SET email = ?, password = ? WHERE email = ?";
+	    String query = "UPDATE Utente SET email = ?, pwd = ? WHERE email = ?";
 
 	    try {
 	        connection = ds.getConnection();
@@ -110,7 +110,7 @@ public class UtenteDAO {
 			try (ResultSet rs = preparedStatement.executeQuery()) {
 				if (rs.next()) {
 					return new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"),
-							rs.getString("password"), rs.getString("piva"));
+							rs.getString("pwd"), rs.getString("piva"));
 				}
 			}
 		} finally {
@@ -144,7 +144,7 @@ public class UtenteDAO {
 			try (ResultSet rs = preparedStatement.executeQuery()) {
 				if (rs.next()) {
 					return new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"),
-							rs.getString("password"), rs.getString("piva"));
+							rs.getString("pwd"), rs.getString("piva"));
 				}
 			}
 		} finally {
@@ -179,7 +179,7 @@ public class UtenteDAO {
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				Utente utente = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"),
-						rs.getString("password"), rs.getString("piva"));
+						rs.getString("pwd"), rs.getString("piva"));
 				utenti.add(utente);
 			}
 		} finally {

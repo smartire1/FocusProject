@@ -1,17 +1,14 @@
 package dipendenti.bean;
 
-import java.sql.Date;
-import java.sql.Time;
-
 public class Turno {
 	private int id;
-	private Date giorno;
-	private Time oraInizio;
-	private Time oraFine;
+	private String giorno;
+	private String oraInizio;
+	private String oraFine;
 	private String assegnatoAEmail;
 
 	// Costruttore
-	public Turno(int id, Date giorno, Time oraInizio, Time oraFine, String assegnatoAEmail) {
+	public Turno(int id, String giorno, String oraInizio, String oraFine, String assegnatoAEmail) {
 		this.id = id;
 		this.giorno = giorno;
 		this.oraInizio = oraInizio;
@@ -28,27 +25,27 @@ public class Turno {
 		this.id = id;
 	}
 
-	public Date getGiorno() {
+	public String getGiorno() {
 		return giorno;
 	}
 
-	public void setGiorno(Date giorno) {
+	public void setGiorno(String giorno) {
 		this.giorno = giorno;
 	}
 
-	public Time getOraInizio() {
+	public String getOraInizio() {
 		return oraInizio;
 	}
 
-	public void setOraInizio(Time oraInizio) {
+	public void setOraInizio(String oraInizio) {
 		this.oraInizio = oraInizio;
 	}
 
-	public Time getOraFine() {
+	public String getOraFine() {
 		return oraFine;
 	}
 
-	public void setOraFine(Time oraFine) {
+	public void setOraFine(String oraFine) {
 		this.oraFine = oraFine;
 	}
 

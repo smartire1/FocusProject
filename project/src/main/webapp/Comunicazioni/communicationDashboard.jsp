@@ -7,11 +7,11 @@
 <title>Dashboard Comunicazioni</title>
 
 <!-- CSS -->
-<link type="text/css" rel="stylesheet" href="css/style.css">
-<link type="text/css" rel="stylesheet" href="communicationDashboard.css">
+<link type="text/css" rel="stylesheet" href="../css/style.css">
+<link type="text/css" rel="stylesheet" href="css/communicationDashboard.css">
 
 <!-- JavaScript -->
-<script type="text/javascript" src="communicationDashboard.js"></script>
+<script type="text/javascript" src="js/communicationDashboard.js"></script>
 
 <!-- Bootstrap -->
 <link
