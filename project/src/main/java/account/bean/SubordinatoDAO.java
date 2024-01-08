@@ -91,16 +91,20 @@ public class SubordinatoDAO {
 	}
 
 	// Metodo per recuperare un Subordinato dal database tramite la chiave primaria
-	public synchronized Subordinato doRetrieveByKey(String email) throws SQLException {
+	public synchronized Subordinato doRetrieveByKey(String email, String piva) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "SELECT * FROM Subordinato WHERE email = ?";
+		String query = "SELECT S.* " +
+                "FROM Subordinato S " +
+                "JOIN Utente U ON S.email = U.email " +
+                "WHERE U.email = ? AND U.piva = ?";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
+			preparedStatement.setString(2, piva);
 
 			try (ResultSet rs = preparedStatement.executeQuery()) {
 				if (rs.next()) {
@@ -123,22 +127,23 @@ public class SubordinatoDAO {
 	}
 
 	// Metodo per recuperare tutti i Subordinati dal database
-	public Collection<Subordinato> doRetrieveAll(String order) throws SQLException {
+	public Collection<Subordinato> doRetrieveAll(String piva) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<Subordinato> subordinati = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Subordinato";
-
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
+		
+		String selectSQL = "SELECT S.* " +
+                "FROM Subordinato S " +
+                "JOIN Utente U ON S.email = U.email " +
+                "WHERE U.piva = ?";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-
+			preparedStatement.setString(1, piva);
+			
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				Subordinato subordinato = new Subordinato(rs.getString("email"));

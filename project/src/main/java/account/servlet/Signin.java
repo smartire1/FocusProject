@@ -25,11 +25,11 @@ public class Signin extends HttpServlet
 		String password = request.getParameter("password");
 		String error = "";
 		
-		Utente utente = new Utente(nome, cognome, email, password);
-		Dirigente dirigente = new Dirigente(email, nome_azienda, piva);
+		Utente utente = new Utente(nome, cognome, email, password, piva);
+		Dirigente dirigente = new Dirigente(email, nome_azienda);
 		
 		// Controllo dati
-		if(!utente.isValidInput(nome, cognome, email, password) || !dirigente.isValidInput(piva, nome_azienda)) {
+		if(!utente.isValidInput(nome, cognome, email, password, piva) || !dirigente.isValidInput(nome_azienda)) {
 			if (error.equals(""))
 				error += "i dati inseriti non rispettano il formato";
 			System.out.println("I dati inseriti non rispettano il formato richiesto");
@@ -44,7 +44,7 @@ public class Signin extends HttpServlet
 		
 		// Controlliamo se l'utente è già registrato
 		try {
-			d = dirigenteDAO.doRetrieveByKey(email);
+			d = dirigenteDAO.doRetrieveByKey(email, piva);
 			if( d != null) {
 				if (error.equals(""))
 					error += "l'e-mail inserita risulta già registrata";

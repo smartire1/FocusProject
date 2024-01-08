@@ -12,10 +12,11 @@ public class Progetto {
 	private double budget;
 	private String avvisi;
 	private int numDipendenti;
+	private String piva;
 
 	// Costruttore
 	public Progetto(int idProgetto, String nome, String descrizione, String obbiettivi, boolean stato, Date scadenza,
-			double budget, String avvisi, int numDipendenti) {
+			double budget, String avvisi, int numDipendenti, String piva) {
 		this.idProgetto = idProgetto;
 		this.nome = nome;
 		this.descrizione = descrizione;
@@ -25,6 +26,7 @@ public class Progetto {
 		this.budget = budget;
 		this.avvisi = avvisi;
 		this.numDipendenti = numDipendenti;
+		this.piva = piva;
 	}
 
 	// Metodi di accesso (getter e setter)
@@ -100,12 +102,18 @@ public class Progetto {
 		this.numDipendenti = numDipendenti;
 	}
 
-	// Altri metodi se necessari
+	public String getPiva() {
+		return piva;
+	}
+
+	public void setPiva(String piva) {
+		this.piva = piva;
+	}
 
 	@Override
 	public String toString() {
-		return "Progetto{" + "idProgetto=" + idProgetto + ", nome='" + nome + '\'' + ", descrizione='" + descrizione
-				+ '\'' + ", obbiettivi='" + obbiettivi + '\'' + ", stato=" + stato + ", scadenza=" + scadenza
-				+ ", budget=" + budget + ", avvisi='" + avvisi + '\'' + ", numDipendenti=" + numDipendenti + '}';
+		return "Progetto [idProgetto=" + idProgetto + ", nome=" + nome + ", descrizione=" + descrizione
+				+ ", obbiettivi=" + obbiettivi + ", stato=" + stato + ", scadenza=" + scadenza + ", budget=" + budget
+				+ ", avvisi=" + avvisi + ", numDipendenti=" + numDipendenti + ", piva=" + piva + "]";
 	}
 }

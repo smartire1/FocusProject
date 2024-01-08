@@ -5,13 +5,15 @@ public class Utente {
 	private String cognome;
 	private String email;
 	private String password;
+	private String piva;
 
 	// Costruttore
-	public Utente(String nome, String cognome, String email, String password) {
+	public Utente(String nome, String cognome, String email, String password, String piva) {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.email = email;
 		this.password = password;
+		this.piva = piva;
 	}
 
 	// Metodi di accesso (getter e setter)
@@ -47,7 +49,15 @@ public class Utente {
 		this.password = password;
 	}
 
-	public boolean isValidInput(String nome, String cognome, String email, String password) {
+	public String getPiva() {
+		return piva;
+	}
+
+	public void setPiva(String piva) {
+		this.piva = piva;
+	}
+
+	public boolean isValidInput(String nome, String cognome, String email, String password, String piva) {
 		if (!isValidName(nome)) {
 			System.out.println("Il nome non è valido.");
 			return false;
@@ -68,6 +78,11 @@ public class Utente {
 			return false;
 		}
 
+		if (!isValidPiva(piva)) {
+			System.out.println("La partita IVA non è valida.");
+			return false;
+		}
+
 		return true;
 	}
 
@@ -83,9 +98,13 @@ public class Utente {
 		return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.\\-_])[A-Za-z\\d@$!%*?&.\\-_]+$");
 	}
 
+	private boolean isValidPiva(String piva) {
+		return piva.matches("^\\d{11}$");
+	}
+
 	@Override
 	public String toString() {
-		return "Utente{" + "nome='" + nome + '\'' + ", cognome='" + cognome + '\'' + ", email='" + email + '\''
-				+ ", password='" + password + '\'' + '}';
+		return "Utente [nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password=" + password
+				+ ", piva=" + piva + "]";
 	}
 }

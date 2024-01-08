@@ -43,6 +43,9 @@ public class Login extends HttpServlet {
 			// ricerchiamo l'utente nel db
 			UtenteDAO utenteDAO = new UtenteDAO(ds);
 			utente = utenteDAO.doRetrieveByKey(email);
+			
+			// Salviamo la piva per identificare l'azienda presso cui lavora l'utente
+			session.setAttribute("piva", utente.getPiva());
 
 			// se l'e-mail corrisponde
 			if (utente.getEmail().equals(email)) {

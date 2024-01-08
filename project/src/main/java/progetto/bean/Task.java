@@ -5,13 +5,15 @@ public class Task {
     private int idProgetto;
     private String descrizione;
     private boolean stato;
+    private String assegnatoAEmail;
 
     // Costruttore
-    public Task(int idTask, int idProgetto, String descrizione, boolean stato) {
+    public Task(int idTask, int idProgetto, String descrizione, boolean stato, String assegnatoAEmail) {
         this.idTask = idTask;
         this.idProgetto = idProgetto;
         this.descrizione = descrizione;
         this.stato = stato;
+        this.assegnatoAEmail = assegnatoAEmail;
     }
 
     // Metodi di accesso (getter e setter)
@@ -46,8 +48,14 @@ public class Task {
     public void setStato(boolean stato) {
         this.stato = stato;
     }
+    
+	public String getAssegnatoAEmail() {
+		return assegnatoAEmail;
+	}
 
-    // Altri metodi se necessari
+	public void setAssegnatoAEmail(String assegnatoAEmail) {
+		this.assegnatoAEmail = assegnatoAEmail;
+	}
 
     @Override
     public String toString() {
@@ -56,6 +64,7 @@ public class Task {
                 ", idProgetto=" + idProgetto +
                 ", descrizione='" + descrizione + '\'' +
                 ", stato=" + stato +
+                ", assegnatoAEmail=" + assegnatoAEmail +
                 '}';
     }
 }

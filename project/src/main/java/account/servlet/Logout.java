@@ -15,6 +15,7 @@ public class Logout extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		session.removeAttribute("utente");
+		session.removeAttribute("piva");
 		session.invalidate();
 		System.out.println("Log out effettuato con successo");
 		response.sendRedirect(request.getContextPath());

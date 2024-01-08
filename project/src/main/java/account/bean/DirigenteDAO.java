@@ -21,14 +21,13 @@ private DataSource ds = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
     	
-        String query = "INSERT INTO Dirigente (email, nomeAzienda, piva) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Dirigente (email, nomeAzienda, piva) VALUES (?, ?)";
         
         try {
         	connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, dirigente.getEmail());
             preparedStatement.setString(2, dirigente.getNomeAzienda());
-            preparedStatement.setString(3, dirigente.getPiva());
             preparedStatement.executeUpdate();
         } finally {
 			try {
@@ -75,14 +74,13 @@ private DataSource ds = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
     	
-        String query = "UPDATE Dirigente SET nomeAzienda = ?, piva = ?, email = ? WHERE email = ?";
+        String query = "UPDATE Dirigente SET nomeAzienda = ?, email = ? WHERE email = ?";
         
         try {
         	connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, dirigente.getEmail());
             preparedStatement.setString(2, dirigente.getNomeAzienda());
-            preparedStatement.setString(3, dirigente.getPiva());
             preparedStatement.executeUpdate();
         } finally {
 			try {
@@ -98,21 +96,24 @@ private DataSource ds = null;
     }
     
  // Metodo per recuperare un Dirigente dal database tramite la chiave primaria
- 	public synchronized Dirigente doRetrieveByKey(String email) throws SQLException {
+ 	public synchronized Dirigente doRetrieveByKey(String email, String piva) throws SQLException {
  		Connection connection = null;
  		PreparedStatement preparedStatement = null;
 
- 		String query = "SELECT * FROM Dirigente WHERE email = ?";
+ 		String query = "SELECT D.* " + 
+				   "FROM Dirigente D " + 
+				   "JOIN Utente U ON D.email = U.email " + 
+				   "WHERE D.email = ? AND U.piva = ?";
 
- 		try {
- 			connection = ds.getConnection();
- 			preparedStatement = connection.prepareStatement(query);
- 			preparedStatement.setString(1, email);
+	try {
+		connection = ds.getConnection();
+		preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, email);
+		preparedStatement.setString(2, piva);
 
  			try (ResultSet rs = preparedStatement.executeQuery()) {
  				if (rs.next()) {
- 					return new Dirigente(rs.getString("email"), rs.getString("nomeAzienda"),
- 							rs.getString("piva"));
+ 					return new Dirigente(rs.getString("email"), rs.getString("nomeAzienda"));
  				}
  			}
  		} finally {
