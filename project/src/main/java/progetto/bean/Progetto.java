@@ -1,6 +1,5 @@
 package progetto.bean;
 
-import java.util.Date;
 
 public class Progetto {
 	private int idProgetto;
@@ -8,14 +7,14 @@ public class Progetto {
 	private String descrizione;
 	private String obbiettivi;
 	private boolean stato;
-	private Date scadenza;
+	private String scadenza;
 	private double budget;
 	private String avvisi;
 	private int numDipendenti;
 	private String piva;
 
 	// Costruttore
-	public Progetto(int idProgetto, String nome, String descrizione, String obbiettivi, boolean stato, Date scadenza,
+	public Progetto(int idProgetto, String nome, String descrizione, String obbiettivi, boolean stato, String scadenza,
 			double budget, String avvisi, int numDipendenti, String piva) {
 		this.idProgetto = idProgetto;
 		this.nome = nome;
@@ -62,7 +61,7 @@ public class Progetto {
 		this.obbiettivi = obbiettivi;
 	}
 
-	public boolean isStato() {
+	public boolean getStato() {
 		return stato;
 	}
 
@@ -70,11 +69,11 @@ public class Progetto {
 		this.stato = stato;
 	}
 
-	public Date getScadenza() {
+	public String getScadenza() {
 		return scadenza;
 	}
 
-	public void setScadenza(Date scadenza) {
+	public void setScadenza(String scadenza) {
 		this.scadenza = scadenza;
 	}
 
