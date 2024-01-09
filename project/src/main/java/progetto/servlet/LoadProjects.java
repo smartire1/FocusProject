@@ -3,6 +3,7 @@ package progetto.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import account.bean.Utente;
+import account.bean.UtenteDAO;
 import progetto.bean.*;
 
 @WebServlet("/LoadProjects")
@@ -23,24 +27,35 @@ public class LoadProjects extends HttpServlet {
 			throws ServletException, IOException {
 
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+		LavoraDAO lavoraDAO = new LavoraDAO(ds);
 		ProgettoDAO progettoDAO = new ProgettoDAO(ds);
+		UtenteDAO utenteDAO = new UtenteDAO(ds);
 		
 		HttpSession session = request.getSession();
 		String piva = (String) session.getAttribute("piva");
-	
+		String progettoIdParam = request.getParameter("id");		
+		List<Utente> subordinati = new ArrayList<>();
 
-		String progettoIdParam = request.getParameter("id");
 		if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
 			int progettoId = Integer.parseInt(progettoIdParam);
 			
 			try {
+				Collection<Lavora> subo =  lavoraDAO.doRetriveByProject(progettoId);
+				for(Lavora l: subo) {
+					subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail()));
+				}
 				Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
+				Utente responsabile = utenteDAO.doRetrieveByKey(progetto.getResponsabile_email());
+				request.setAttribute("subordinati", subordinati);
 			    request.setAttribute("progetto", progetto);
+			    request.setAttribute("responsabile", responsabile);
+			    
+			    
 			} catch (SQLException e) {
 				System.out.println(e);
 			}
 			
-			request.getRequestDispatcher("/path/to/project.jsp").forward(request, response);
+			request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
 		}
 
 		else {

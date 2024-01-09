@@ -1,15 +1,6 @@
-header {
- padding-left: 297px;
- height: 80px;
-}
-	    
-body {
-	 font-family: 'Source Sans Pro', sans-serif;
-	  margin: 0;
-	   padding: 0;
-}
-	     
+
 .riquadro {
+height:30vh;
 margin-bottom: 20px;
 border-radius: 20px;
 margin-left:20px;
@@ -20,13 +11,21 @@ border-color: black;
 margin-top: 20px; /* Spinge il form degli avvisi in basso */
  }
 	    
-.container-fluid {
+.container-fluid1 {
 margin-top: 60px;
 display: flex; 
 height: 100vh; /* Imposta l'altezza al 100% della viewport height */
 }
-	    
-	      
+
+#testoAvviso {
+	min-height: 150px;
+	max-height: 205px
+}
+    
+#testoObiettivi {
+	min-height: 150px;
+	max-height: 205px
+}	      
 	    
 	      
 	    

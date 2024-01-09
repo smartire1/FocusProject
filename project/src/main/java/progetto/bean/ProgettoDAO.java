@@ -27,7 +27,7 @@ public class ProgettoDAO {
 		PreparedStatement preparedStatement = null;
 
 		String query = "INSERT INTO Progetto  (nome, descrizione, obbiettivi, "
-				+ "stato, scadenza, budget, avvisi, numDipendenti, piva) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "stato, scadenza, budget, avvisi, numDipendenti, piva, responsabile_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -41,7 +41,7 @@ public class ProgettoDAO {
 			preparedStatement.setString(7, progetto.getAvvisi());
 			preparedStatement.setInt(8, progetto.getNumDipendenti());
 			preparedStatement.setString(9, progetto.getPiva());
-			
+			preparedStatement.setString(10, progetto.getResponsabile_email());
 			
 			preparedStatement.executeUpdate();
 		} finally {
@@ -85,7 +85,7 @@ public class ProgettoDAO {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
-	    String query = "UPDATE Progetto SET nome = ?, descrizione = ? obbiettivi = ?, stato = ?, scadenza = ?, budget = ?, avvisi = ?, numDipendenti";
+	    String query = "UPDATE Progetto SET nome = ?, descrizione = ? obbiettivi = ?, stato = ?, scadenza = ?, budget = ?, avvisi = ?, numDipendenti = ?";
 
 	    try {
 	        connection = ds.getConnection();
@@ -126,7 +126,7 @@ public class ProgettoDAO {
 				if (rs.next()) {
 					return new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
 							rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
-							rs.getInt("numDipendenti"), rs.getString("piva"));
+							rs.getInt("numDipendenti"), rs.getString("piva"), rs.getString("responsabile_email"));
 				}
 			}
 		} finally {
@@ -163,8 +163,7 @@ public class ProgettoDAO {
 			while (rs.next()) {
 				Progetto progetto = new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
 						rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
-						rs.getInt("numDipendenti"), rs.getString("piva"));
-				progetti.add(progetto);
+						rs.getInt("numDipendenti"), rs.getString("piva"), rs.getString("responsabile_email"));
 			}
 		} finally {
 			try {
@@ -199,7 +198,7 @@ public class ProgettoDAO {
 				while (rs.next()) {
 					Progetto progetto = new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
 							rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
-							rs.getInt("numDipendenti"), rs.getString("piva"));
+							rs.getInt("numDipendenti"), rs.getString("piva"), rs.getString("responsabile_email"));
 					progetti.add(progetto);
 				}
 			} finally {
@@ -235,7 +234,7 @@ public class ProgettoDAO {
 					while (rs.next()) {
 						Progetto progetto = new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
 								rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
-								rs.getInt("numDipendenti"), rs.getString("piva"));
+								rs.getInt("numDipendenti"), rs.getString("piva"), rs.getString("responsabile_email"));
 						progetti.add(progetto);
 					}
 				} finally {

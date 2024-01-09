@@ -45,12 +45,12 @@ if (progettiAttivi == null || progettiConclusi == null) {
 </head>
 <body>
 	<header>
-		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
-		<div class="buttons">
-			<a id="logoutButton" href="<%=request.getContextPath()%>/Logout">Esci</a>
-		</div>
+		<a id="logo" href="homePage.jsp">FOCUS PROJECT</a>
 	</header>
-	<div class="container-fluid">
+
+	<jsp:include page="../navbar.jsp" />
+	
+	<div class="container-fluid1">
 		<div class="row">
 			<!-- Sidebar con pulsanti -->
 			<div class="col-md-12 text-center">
@@ -83,20 +83,20 @@ if (progettiAttivi == null || progettiConclusi == null) {
 						<h5>Progetti in corso</h5>
 						<%
 						try {
-							if (progettiAttivi != null) {
-								if (!progettiAttivi.isEmpty()) {
-							for (Object obj : progettiAttivi) {
-								Progetto progetto = (Progetto) obj;
+						    if (progettiAttivi != null) {
+						        if (!progettiAttivi.isEmpty()) {
+						            for (Object obj : progettiAttivi) {
+						                Progetto progetto = (Progetto) obj;
 						%>
-						<div class="currentProjectList">
-							<a href="<%=request.getContextPath()%>/project?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
-						</div>
+						                <div class="currentProjectList">
+						                    <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+						                </div>
 						<%
-						}
-						}
-						}
+						            }
+						        }
+						    }
 						} catch (Exception e) {
-						e.printStackTrace();
+						    e.printStackTrace();
 						}
 						%>
 					</div>

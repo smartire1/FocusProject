@@ -56,9 +56,20 @@ CREATE TABLE Progetto (
     budget DOUBLE NOT NULL,
     avvisi VARCHAR(255),
     numDipendenti INT,
-    piva VARCHAR(11) NOT NULL
+    piva VARCHAR(11) NOT NULL,
+    responsabile_email VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE Lavora (
+	email VARCHAR(255) NOT NULL,
+    id_progetto INT NOT NULL,
+    FOREIGN KEY (id_progetto) REFERENCES Progetto(id_progetto)
+	ON UPDATE CASCADE
+	ON DELETE RESTRICT,
+    FOREIGN KEY (email) REFERENCES Utente(email)
+	ON UPDATE CASCADE
+	ON DELETE RESTRICT 
+);
 
 CREATE TABLE Task (
     id_task INT PRIMARY KEY AUTO_INCREMENT,

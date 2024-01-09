@@ -12,10 +12,11 @@ public class Progetto {
 	private String avvisi;
 	private int numDipendenti;
 	private String piva;
+	private String responsabile_email;
 
 	// Costruttore
 	public Progetto(int idProgetto, String nome, String descrizione, String obbiettivi, boolean stato, String scadenza,
-			double budget, String avvisi, int numDipendenti, String piva) {
+			double budget, String avvisi, int numDipendenti, String piva, String responsabile_email) {
 		this.idProgetto = idProgetto;
 		this.nome = nome;
 		this.descrizione = descrizione;
@@ -26,6 +27,7 @@ public class Progetto {
 		this.avvisi = avvisi;
 		this.numDipendenti = numDipendenti;
 		this.piva = piva;
+		this.responsabile_email= responsabile_email;
 	}
 
 	// Metodi di accesso (getter e setter)
@@ -108,11 +110,22 @@ public class Progetto {
 	public void setPiva(String piva) {
 		this.piva = piva;
 	}
+	
+	public String getResponsabile_email() {
+		return responsabile_email;
+	}
+
+	public void setResponsabile_email(String responsabile_email) {
+		this.responsabile_email = responsabile_email;
+	}
 
 	@Override
 	public String toString() {
 		return "Progetto [idProgetto=" + idProgetto + ", nome=" + nome + ", descrizione=" + descrizione
 				+ ", obbiettivi=" + obbiettivi + ", stato=" + stato + ", scadenza=" + scadenza + ", budget=" + budget
-				+ ", avvisi=" + avvisi + ", numDipendenti=" + numDipendenti + ", piva=" + piva + "]";
+				+ ", avvisi=" + avvisi + ", numDipendenti=" + numDipendenti + ", piva=" + piva + ", responsabile_email="
+				+ responsabile_email + "]";
 	}
+
+	
 }

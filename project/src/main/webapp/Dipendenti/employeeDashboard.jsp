@@ -20,6 +20,8 @@ if (responsabili == null || subordinati == null) {
 <meta charset="ISO-8859-1">
 <title>Dashboard Dipendenti</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <!-- Bootstrap -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -28,10 +30,8 @@ if (responsabili == null || subordinati == null) {
 	crossorigin="anonymous">
 
 <!-- CSS -->
-<link type="text/css" rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/style.css">
-<link type="text/css" rel="stylesheet"
-	href="<%=request.getContextPath()%>/Dipendenti/css/employeeDashboard.css">
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Dipendenti/css/employeeDashboard.css">
 
 <!-- JavaScript -->
 <script type="text/javascript"
@@ -43,7 +43,7 @@ if (responsabili == null || subordinati == null) {
 </head>
 <body>
 	<header>
-		<a id="logo" href="../homePage.jsp">FOCUS PROJECT</a>
+		<a id="logo" href="<%=request.getContextPath()%>/homePage.jsp">FOCUS PROJECT</a>
 	</header>
 
 	<jsp:include page="../navbar.jsp" />
@@ -69,20 +69,32 @@ if (responsabili == null || subordinati == null) {
 						<!-- Contenuto dei div associati ai pulsanti -->
 						<div id="content1" class="active">
 							<form id="addEmployeeForm">
-								<label for="nome">Nome:</label> <input type="text" id="nome"
-									name="nome" required> <label for="cognome">Cognome:</label>
+								<label for="nome">Nome:</label> 
+								<input type="text" id="nome"name="nome" required>
+									 
+								<label for="cognome">Cognome:</label>
 								<input type="text" id="cognome" name="cognome" required>
 
-								<label for="email">Email:</label> <input type="email" id="email"
-									name="email" required> <label>Ruolo:</label> <label
-									for="responsabile"> <input type="radio"
-									id="responsabile" name="ruolo" value="responsabile">
-									Responsabile
-								</label> <label for="subordinato"> <input type="radio"
-									id="subordinato" name="ruolo" value="subordinato">
-									Subordinato
+								<label for="email">Email:</label> 
+									<input type="email" id="email" name="email" required> <label>Ruolo:
 								</label>
-
+								
+								<div class="row">
+									<div class="col-2">
+										<input type="radio" id="responsabile" name="ruolo" value="responsabile">										
+									</div>
+									<div class="col-4">			
+										<label for="responsabile">Responsabile</label>							 
+									</div>									
+								</div>
+								<div class="row">
+									<div class="col-2">	
+										<input type="radio" id="subordinato" name="ruolo" value="subordinato">										
+									</div>
+									<div class="col-4">		
+										<label for="subordinato">Subordinato</label>																 
+									</div>										
+								</div>															 
 								<button type="submit">Aggiungi Dipendente</button>
 							</form>
 						</div>
@@ -157,6 +169,7 @@ if (responsabili == null || subordinati == null) {
 			</div>
 		</div>
 	</div>
+
 	<footer class="footer">
 		<div class="container">
 			<nav>
@@ -164,8 +177,8 @@ if (responsabili == null || subordinati == null) {
 					(Copyright
 					<script>
 						document.write(new Date().getFullYear())
-					</script>
-					) <a href="">Focus Project.</a> Tutti i diritti sono riservati.
+					</script>) 
+					<a href="">Focus Project.</a> Tutti i diritti sono riservati.
 				</p>
 			</nav>
 		</div>
