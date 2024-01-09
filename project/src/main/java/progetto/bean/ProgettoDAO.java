@@ -85,7 +85,7 @@ public class ProgettoDAO {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
-	    String query = "UPDATE Progetto SET nome = ?, descrizione = ? obiettivi = ?, stato = ?, scadenza = ?, budget = ?, avvisi = ?, numDipendenti";
+	    String query = "UPDATE Progetto SET nome = ?, descrizione = ? obbiettivi = ?, stato = ?, scadenza = ?, budget = ?, avvisi = ?, numDipendenti";
 
 	    try {
 	        connection = ds.getConnection();
@@ -115,7 +115,7 @@ public class ProgettoDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "SELECT * FROM Progetto WHERE idProgetto = ? AND piva = ?";
+		String query = "SELECT * FROM Progetto WHERE id_progetto = ? AND piva = ?";
 
 		try {
 			connection = ds.getConnection();
@@ -124,8 +124,8 @@ public class ProgettoDAO {
 			preparedStatement.setString(2, piva);
 			try (ResultSet rs = preparedStatement.executeQuery()) {
 				if (rs.next()) {
-					return new Progetto(rs.getInt("idProgetto"), rs.getString("nome"), rs.getString("descriziones"), rs.getString("obiettivi"),
-							rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avviso"),
+					return new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
+							rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
 							rs.getInt("numDipendenti"), rs.getString("piva"));
 				}
 			}
@@ -161,8 +161,8 @@ public class ProgettoDAO {
 
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				Progetto progetto = new Progetto(rs.getInt("idProgetto"), rs.getString("nome"), rs.getString("descriziones"), rs.getString("obiettivi"),
-						rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avviso"),
+				Progetto progetto = new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
+						rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
 						rs.getInt("numDipendenti"), rs.getString("piva"));
 				progetti.add(progetto);
 			}
@@ -182,7 +182,7 @@ public class ProgettoDAO {
 	}
 	
 	// Metodo per recuperare tutti gli Progetti dal database
-		public Collection<Progetto> doRetrieveAllFinished(boolean stato, String piva) throws SQLException {
+		public Collection<Progetto> doRetrieveAllFinished(String piva) throws SQLException {
 
 			Connection connection = null;
 			PreparedStatement preparedStatement = null;
@@ -193,13 +193,12 @@ public class ProgettoDAO {
 			try {
 				connection = ds.getConnection();
 				preparedStatement = connection.prepareStatement(selectSQL);
-				preparedStatement.setBoolean(1, stato);
-				preparedStatement.setString(2, piva);
+				preparedStatement.setString(1, piva);
 
 				ResultSet rs = preparedStatement.executeQuery();
 				while (rs.next()) {
-					Progetto progetto = new Progetto(rs.getInt("idProgetto"), rs.getString("nome"), rs.getString("descriziones"), rs.getString("obiettivi"),
-							rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avviso"),
+					Progetto progetto = new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
+							rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
 							rs.getInt("numDipendenti"), rs.getString("piva"));
 					progetti.add(progetto);
 				}
@@ -234,8 +233,8 @@ public class ProgettoDAO {
 
 					ResultSet rs = preparedStatement.executeQuery();
 					while (rs.next()) {
-						Progetto progetto = new Progetto(rs.getInt("idProgetto"), rs.getString("nome"), rs.getString("descriziones"), rs.getString("obiettivi"),
-								rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avviso"),
+						Progetto progetto = new Progetto(rs.getInt("id_progetto"), rs.getString("nome"), rs.getString("descrizione"), rs.getString("obbiettivi"),
+								rs.getBoolean("stato"), rs.getString("scadenza") , rs.getDouble("budget"),  rs.getString("avvisi"),
 								rs.getInt("numDipendenti"), rs.getString("piva"));
 						progetti.add(progetto);
 					}

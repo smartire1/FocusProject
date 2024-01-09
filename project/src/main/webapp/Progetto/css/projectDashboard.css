@@ -2,30 +2,25 @@
 
 .container-fluid {
 	display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-   
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
 
 .col-md-12.text-center {
-    margin-top: 20px;
-    display: flex; /* Usiamo flexbox per allineare i bottoni */
-    justify-content: center; /* Allineamento al centro */
-    align-items: center; /* Allineamento verticale al centro */
+	margin-top: 20px;
+	display: flex; /* Usiamo flexbox per allineare i bottoni */
+	justify-content: center; /* Allineamento al centro */
+	align-items: center; /* Allineamento verticale al centro */
 }
-
-
-
 
 /* Aggiungi spazio tra i bottoni, tranne per l'ultimo */
 .col-md-12.text-center .button:not(:last-child) {
-    margin-right: 20px;
+	margin-right: 20px;
 }
 
 /* Stili per i pulsanti */
 .button {
-	
 	margin-bottom: 10px;
 	padding: 10px 20px;
 	font-size: 16px;
@@ -46,21 +41,19 @@
 	/* Colore oro pi� scuro al passaggio del mouse */
 }
 
-
 #contentContainer {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 20px;
-    width: 90%;
-    height: 80;
-    min-height: 400px;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    margin-top: 40px;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	padding: 20px;
+	width: 90%;
+	height: 80%;
+	min-height: 400px;
+	background-color: #f2f2f2;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	margin-top: 40px;
 }
-
 
 /* Stili per i contenuti */
 #contentContainer>div {
@@ -81,33 +74,61 @@
 }
 
 #content1 {
-    text-align: center;
+	text-align: center;
 }
+
 #content1 form {
-    max-width: 300px;
-    margin: 0 auto;
+	max-width: 300px;
+	margin: 0 auto;
 }
 
 #content1 label {
-    display: block;
-    margin-bottom: 5px;
+	display: block;
+	margin-bottom: 5px;
 }
 
 #content1 input, #content1 button {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    box-sizing: border-box;
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 10px;
+	box-sizing: border-box;
 }
+
 #content1 button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 #content1 button:hover {
-    background-color: #45a049;
+	background-color: #45a049;
 }
 
+.currentProjectList {
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: #fff;
+	text-align: center;
+	transition: background-color 0.6s, color 0.6s;
+	cursor: pointer;
+}
+
+.currentProjectList a {
+	display: block;
+	color: #bcb943;
+	text-decoration: none;
+	transition: background-color 0.6s, color 0.6s;
+}
+
+.currentProjectList:hover {
+	color: white;
+	background-color: #bcb943;
+}
+
+.currentProjectList:hover a {
+	color: white;
+}

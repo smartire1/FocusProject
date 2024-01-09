@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
+<%@ page import="progetto.bean.Progetto"%>
+<%@ page import="java.util.Collection"%>
+
+<%
+Collection<?> progettiAttivi = (Collection<?>) request.getAttribute("progetti_attivi");
+Collection<?> progettiConclusi = (Collection<?>) request.getAttribute("progetti_conclusi");
+
+if (progettiAttivi == null || progettiConclusi == null) {
+	response.sendRedirect(request.getContextPath() + "/LoadProjects");
+	return;
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +21,15 @@
 <title>Dashboard Progetti</title>
 
 <!-- CSS -->
-<link type="text/css" rel="stylesheet" href="../css/style.css">
-<link type="text/css" rel="stylesheet" href="css/projectDashboard.css">
+<link type="text/css" rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/style.css">
+<link type="text/css" rel="stylesheet"
+	href="<%=request.getContextPath()%>/Progetto/css/projectDashboard.css">
 
 <!-- JavaScript -->
-<script type="text/javascript" src="js/projectDashboard.js"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/Progetto/js/projectDashboard.js"></script>
+
 
 <!-- Bootstrap -->
 <link
@@ -32,7 +50,6 @@
 			<a id="logoutButton" href="<%=request.getContextPath()%>/Logout">Esci</a>
 		</div>
 	</header>
-
 	<div class="container-fluid">
 		<div class="row">
 			<!-- Sidebar con pulsanti -->
@@ -45,38 +62,74 @@
 					onclick="showContent('content3')">Progetti conclusi</button>
 			</div>
 
-			
+
 			<div class="col-md-12">
 				<div id="contentContainer">
 					<div id="content1" class="active">
-			   			<form id="addProjectForm">
-			   				<h5> Aggiungi un nuovo Progetto</h5>
-							<label for="nome">Nome Progetto:</label> 
-								<input type="text" id="nome" name="nome" required>
-							<label for="cognome">Responsabile:</label>
-								<input type="text" id="responsabile" name="responsabile" required>
-							<label for="email">Descrizione:</label> 
-								<input type="text" id="descrizione" name="descrizione" required>
-							<label for="email">Obiettivi:</label> 
-								<input type="text" id="obiettivi" name="obiettivi" required>
-								<button type="submit">Aggiungi Progetto</button>
+						<form id="addProjectForm">
+							<h5>Aggiungi un nuovo Progetto</h5>
+							<label for="nome">Nome Progetto:</label> <input type="text"
+								id="nome" name="nome" required> <label for="cognome">Responsabile:</label>
+							<input type="text" id="responsabile" name="responsabile" required>
+							<label for="email">Descrizione:</label> <input type="text"
+								id="descrizione" name="descrizione" required> <label
+								for="email">Obiettivi:</label> <input type="text" id="obiettivi"
+								name="obiettivi" required>
+							<button type="submit">Aggiungi Progetto</button>
 						</form>
 					</div>
-					
+
 					<div id="content2" class="hidden">
 						<h5>Progetti in corso</h5>
-				</div>
+						<%
+						try {
+							if (progettiAttivi != null) {
+								if (!progettiAttivi.isEmpty()) {
+							for (Object obj : progettiAttivi) {
+								Progetto progetto = (Progetto) obj;
+						%>
+						<div class="currentProjectList">
+							<a href="<%=request.getContextPath()%>/project?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+						</div>
+						<%
+						}
+						}
+						}
+						} catch (Exception e) {
+						e.printStackTrace();
+						}
+						%>
+					</div>
+					
 					<div id="content3" class="hidden">
 						<h5>Progetti conclusi</h5>
+						<%
+						try {
+							if (progettiConclusi != null) {
+								if (!progettiConclusi.isEmpty()) {
+							for (Object obj : progettiConclusi) {
+								Progetto progetto = (Progetto) obj;
+						%>
+						<div class="currentProjectList">
+							<a href="<%=request.getContextPath()%>/project?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+						</div>
+						<%
+						}
+						}
+						}
+						} catch (Exception e) {
+						e.printStackTrace();
+						}
+						%>
+					</div>
+
 				</div>
-					
 			</div>
 		</div>
 	</div>
-	</div>
 
-			
-		
+
+
 	<footer class="footer">
 		<div class="container">
 			<nav>
