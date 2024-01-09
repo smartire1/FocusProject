@@ -9,24 +9,9 @@
     justify-content: center;
 }
 
-#logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 300px;
-}
-
-#logo img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    display: block;
-    margin: 0 auto;
-}
-
 /* Stile generale per il form */
 form {
-    width: 450px;
+    max-width: auto;
     margin: 5% 5% 5% 10%;
     padding: 20px 40px 20px 20px;
     border: 1px solid #ccc;

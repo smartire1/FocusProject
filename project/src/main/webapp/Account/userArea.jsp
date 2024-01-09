@@ -14,6 +14,8 @@
 		  
 	<link type="text/css" rel="stylesheet" href="../css/style.css">
 	<link type="text/css" rel="stylesheet" href="css/userArea.css">
+	
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 </head>
 
 <body>
@@ -24,18 +26,15 @@
 
 	<header>
 		<a id="logo" href="../homePage.jsp">FOCUS PROJECT</a>	
-		
-			<div class="buttons">
-				<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
-			</div>
-		
 	</header>
+
+	<jsp:include page="../navbar.jsp" />
 	
 	 <div class="welcome-message">
         <h2>Benvenuto nella tua area personale</h2>
     </div>
 	
-	 <div class="form-container">
+	 <div class="form-container mx-auto">
 	    <form action="updateDetails.jsp" method="post">
 	        <div class="form-group">
 	            <input type="text" id="nome" name="nome" placeholder="<%=user.getNome() %>" readonly>

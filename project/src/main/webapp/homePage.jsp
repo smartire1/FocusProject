@@ -18,7 +18,7 @@
 </head>
 <body>
 	<header>
-		<a id="logo" href="index.jsp">FOCUS PROJECT</a>					
+		<a id="logo" href="homePage.jsp">FOCUS PROJECT</a>					
 	</header>
 	
 	<jsp:include page="navbar.jsp" />

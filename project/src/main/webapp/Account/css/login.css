@@ -1,8 +1,5 @@
 @charset "UTF-8";
 
-#logo {
-	margin-left: 0px;
-}
 
 #loginBox {
     position: static;
@@ -13,7 +10,7 @@
     height: 400px;
     width: 550px;
     margin:auto;
-    margin-bottom:208px;
+    margin-bottom:228px;
     margin-top: 180px;
 }
 
