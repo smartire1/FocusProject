@@ -15,7 +15,7 @@ public class Utente {
 		this.password = password;
 		this.piva = piva;
 	}
-
+	
 	// Metodi di accesso (getter e setter)
 	public String getNome() {
 		return nome;

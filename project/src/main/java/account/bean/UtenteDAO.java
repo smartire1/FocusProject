@@ -9,6 +9,8 @@ import java.util.LinkedList;
 
 import javax.sql.DataSource;
 
+import progetto.bean.Task;
+
 public class UtenteDAO {
 
 	private DataSource ds = null;
@@ -195,5 +197,81 @@ public class UtenteDAO {
 		}
 
 		return utenti;
+	}
+	
+	// Metodo per recuperare tutti gli Utenti dal database che sono Responsabili
+	public Collection<Utente> doRetrieveAllResponsabili(String piva) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<Utente> responsabili = new LinkedList<>();
+		String selectSQL = ""
+				+ "SELECT * "
+				+ "FROM Utente "
+				+ "JOIN Responsabile ON Utente.email = Responsabile.email "
+				+ "WHERE Utente.piva = ?";
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, piva);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Utente utente = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"),
+						rs.getString("pwd"), rs.getString("piva"));
+				responsabili.add(utente);
+			}
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		}
+		
+		return responsabili;
+	}
+	
+	// Metodo per recuperare tutti gli Utenti dal database che sono Subordinati
+	public Collection<Utente> doRetrieveAllSubordinati(String piva) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<Utente> subordinati = new LinkedList<>();
+		String selectSQL = ""
+				+ "SELECT * "
+				+ "FROM Utente "
+				+ "JOIN Subordinato ON Utente.email = Subordinato.email "
+				+ "WHERE Utente.piva = ?";
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, piva);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Utente utente = new Utente(rs.getString("nome"), rs.getString("cognome"), rs.getString("email"),
+						rs.getString("pwd"), rs.getString("piva"));
+				subordinati.add(utente);
+			}
+		} finally {
+			try {
+				if (preparedStatement != null) {
+					preparedStatement.close();
+				}
+			} finally {
+				if (connection != null) {
+					connection.close();
+				}
+			}
+		}
+		
+		return subordinati;
 	}
 }

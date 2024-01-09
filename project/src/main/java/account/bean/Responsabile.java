@@ -1,12 +1,12 @@
 package account.bean;
 
 public class Responsabile {
-    private String email;
-
-    // Costruttore
+	
     public Responsabile(String email) {
-        this.email = email;
-    }
+    	this.email = email;
+	}
+
+	private String email;
 
     // Metodi di accesso (getter e setter)
     public String getEmail() {
