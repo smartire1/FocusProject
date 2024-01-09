@@ -1,0 +1,36 @@
+header {
+ padding-left: 297px;
+ height: 80px;
+}
+	    
+body {
+	 font-family: 'Source Sans Pro', sans-serif;
+	  margin: 0;
+	   padding: 0;
+}
+	     
+.riquadro {
+margin-bottom: 20px;
+border-radius: 20px;
+margin-left:20px;
+border-color: black;
+	        }
+	    
+.avvisi {
+margin-top: 20px; /* Spinge il form degli avvisi in basso */
+ }
+	    
+.container-fluid {
+margin-top: 60px;
+display: flex; 
+height: 100vh; /* Imposta l'altezza al 100% della viewport height */
+}
+	    
+	      
+	    
+	      
+	    
+	    
+	      
+	     
+	        
