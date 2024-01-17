@@ -45,12 +45,19 @@ public class Login extends HttpServlet {
 			utente = utenteDAO.doRetrieveByKey(email);
 			
 			// Salviamo la piva per identificare l'azienda presso cui lavora l'utente
-			session.setAttribute("piva", utente.getPiva());
+			session.setAttribute("idAzienda", utente.getIdAzienda());
 
 			// se l'e-mail corrisponde
 			if (utente.getEmail().equals(email)) {
 				// se la password corrisponde
 				if (utente.getPassword().equals(password)) {
+					if(!utente.isStato()) {
+						System.out.println("Stato disattivo");
+						error += "Il tuo Account non è attivo";
+						request.setAttribute("error", error);
+						request.getRequestDispatcher("/Account/login.jsp").forward(request, response);
+						return;
+					}
 					System.out.println("Log in effettuato con successo");
 					session.setAttribute("utente", utente);
 					response.sendRedirect(request.getContextPath() + "/homePage.jsp");

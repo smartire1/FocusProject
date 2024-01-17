@@ -20,16 +20,16 @@ public class Signin extends HttpServlet
 		String nome = request.getParameter("nome");
 		String cognome = request.getParameter("cognome");
 		String piva = request.getParameter("piva");
-		String nome_azienda = request.getParameter("nome_azienda");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String nome_azienda = request.getParameter("nome_azienda");
 		String error = "";
 		
-		Utente utente = new Utente(nome, cognome, email, password, piva);
-		Dirigente dirigente = new Dirigente(email, nome_azienda);
+		Utente utente = new Utente(email, password, nome, cognome, piva, true, "dirigente");
+		Azienda azienda = new Azienda(piva, nome_azienda);
 		
 		// Controllo dati
-		if(!utente.isValidInput(nome, cognome, email, password, piva) || !dirigente.isValidInput(nome_azienda)) {
+		if(!utente.isValidInput(nome, cognome, email, password) || !azienda.isValidInput(piva, nome_azienda)) {
 			if (error.equals(""))
 				error += "i dati inseriti non rispettano il formato";
 			System.out.println("I dati inseriti non rispettano il formato richiesto");
@@ -37,14 +37,21 @@ public class Signin extends HttpServlet
 		}
 		
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-		UtenteDAO utenteDAO = new UtenteDAO(ds);
-		DirigenteDAO dirigenteDAO = new DirigenteDAO(ds);
-		
-		Dirigente d = null;
-		
+		UtenteDAO utenteDAO = new UtenteDAO(ds);		
+		Utente d = null;
+		AziendaDAO aziendaDAO = new AziendaDAO(ds);
+		Azienda a = null;
 		// Controlliamo se l'utente è già registrato
 		try {
-			d = dirigenteDAO.doRetrieveByKey(email, piva);
+			a = aziendaDAO.doRetrieveByKey(piva);
+			if( a != null) {
+				if (error.equals(""))
+					error += "l'azienda inserita risulta già registrata";
+				System.out.println("l'azienda inserita risulta già registrata");
+				request.getRequestDispatcher("/Account/signin.jsp").forward(request, response);
+				return;
+			}			
+			d = utenteDAO.doRetrieveByKey(email, piva);
 			if( d != null) {
 				if (error.equals(""))
 					error += "l'e-mail inserita risulta già registrata";
@@ -57,8 +64,10 @@ public class Signin extends HttpServlet
 		}
 		
 		try {
+			aziendaDAO.doSave(azienda);			
 			utenteDAO.doSave(utente);
-			dirigenteDAO.doSave(dirigente);
+
+			
 		} catch (SQLException e) {
 			System.err.println(e);
 			response.sendRedirect(request.getContextPath() + "/Account/signin.jsp");

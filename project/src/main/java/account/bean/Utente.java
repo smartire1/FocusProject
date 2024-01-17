@@ -1,36 +1,24 @@
 package account.bean;
 
 public class Utente {
+	private String email;
+	private String password;	
 	private String nome;
 	private String cognome;
-	private String email;
-	private String password;
-	private String piva;
-
-	// Costruttore
-	public Utente(String nome, String cognome, String email, String password, String piva) {
-		this.nome = nome;
-		this.cognome = cognome;
+	private String idAzienda;
+	private boolean stato;
+	private String ruolo;
+	
+	public Utente(String email, String password, String nome, String cognome, String idAzienda, boolean stato,
+			String ruolo) {
+		super();
 		this.email = email;
 		this.password = password;
-		this.piva = piva;
-	}
-	
-	// Metodi di accesso (getter e setter)
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
 		this.cognome = cognome;
+		this.idAzienda = idAzienda;
+		this.stato = stato;
+		this.ruolo = ruolo;
 	}
 
 	public String getEmail() {
@@ -49,15 +37,47 @@ public class Utente {
 		this.password = password;
 	}
 
-	public String getPiva() {
-		return piva;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setPiva(String piva) {
-		this.piva = piva;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public boolean isValidInput(String nome, String cognome, String email, String password, String piva) {
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public String getIdAzienda() {
+		return idAzienda;
+	}
+
+	public void setIdAzienda(String idAzienda) {
+		this.idAzienda = idAzienda;
+	}
+
+	public boolean isStato() {
+		return stato;
+	}
+
+	public void setStato(boolean stato) {
+		this.stato = stato;
+	}
+
+	public String getRuolo() {
+		return ruolo;
+	}
+
+	public void setRuolo(String ruolo) {
+		this.ruolo = ruolo;
+	}
+
+	public boolean isValidInput(String nome, String cognome, String email, String password) {
 		if (!isValidName(nome)) {
 			System.out.println("Il nome non è valido.");
 			return false;
@@ -78,11 +98,6 @@ public class Utente {
 			return false;
 		}
 
-		if (!isValidPiva(piva)) {
-			System.out.println("La partita IVA non è valida.");
-			return false;
-		}
-
 		return true;
 	}
 
@@ -96,15 +111,12 @@ public class Utente {
 
 	private boolean isValidPassword(String password) {
 		return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.\\-_])[A-Za-z\\d@$!%*?&.\\-_]+$");
-	}
-
-	private boolean isValidPiva(String piva) {
-		return piva.matches("^\\d{11}$");
-	}
+	}	
 
 	@Override
 	public String toString() {
-		return "Utente [nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password=" + password
-				+ ", piva=" + piva + "]";
+		return "Utente [email=" + email + ", password=" + password + ", nome=" + nome + ", cognome=" + cognome
+				+ ", idAzienda=" + idAzienda + ", stato=" + stato + ", ruolo=" + ruolo + "]";
 	}
+	
 }

@@ -6,10 +6,10 @@ INSERT INTO Azienda (piva, nome) VALUES
 ('11223344556', 'Azienda3');
 
 INSERT INTO Utente (email, pwd, nome, cognome, idAzienda, ruolo) VALUES
-('user1@example.com', 'password1', 'John', 'Doe', '12345678901', 'Dirigente'),
-('user2@example.com', 'password2', 'Jane', 'Smith', '12345678901', 'Responsabile'),
-('user3@example.com', 'password3', 'Bob', 'Johnson', '98765432101', 'Subordinatp'),
-('user4@example.com', 'password4', 'Alice', 'Brown', '11223344556', 'Dirigente');
+('user1@example.com', 'Password1_', 'John', 'Doe', '12345678901', 'dirigente'),
+('user2@example.com', 'Password1_', 'Jane', 'Smith', '12345678901', 'responsabile'),
+('user3@example.com', 'Password1_', 'Bob', 'Johnson', '98765432101', 'subordinato'),
+('user4@example.com', 'Password1_', 'Alice', 'Brown', '11223344556', 'dirigente');
 
 INSERT INTO Turno (giorno, ora_inizio, ora_fine) VALUES
 ('2024-01-16', '08:00', '12:00'),
