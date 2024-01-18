@@ -23,7 +23,7 @@ public class TurnoDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "INSERT INTO Turno (giorno, ora_inizio, ora_fine, assegnato_a_email) VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO Turno (giorno, ora_inizio, ora_fine) VALUES (?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -31,7 +31,6 @@ public class TurnoDAO {
 			preparedStatement.setString(1, turno.getGiorno());
 			preparedStatement.setString(2, turno.getOraInizio());
 			preparedStatement.setString(3, turno.getOraFine());
-			preparedStatement.setString(4, turno.getAssegnatoAEmail());
 			preparedStatement.executeUpdate();
 		} finally {
 			try {
@@ -70,23 +69,21 @@ public class TurnoDAO {
 	}
 
 	// Metodo per recuperare un Turno dal database tramite la chiave primaria e per un'azienda specifica dal database
-	public synchronized Turno doRetrieveByKey(int id, String piva) throws SQLException {
+	public synchronized Turno doRetrieveByKey(int id) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "SELECT T.* " + "FROM Turno T " + "JOIN Utente U ON T.assegnato_a_email = U.email "
-				+ "WHERE T.id = ? AND U.piva = ?;";
+		String query = "SELECT * FROM Turno WHERE id = ?";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setInt(1, id);
-			preparedStatement.setString(2, piva);
 
 			try (ResultSet rs = preparedStatement.executeQuery()) {
 				if (rs.next()) {
 					return new Turno(rs.getInt("id"), rs.getString("giorno"), rs.getString("ora_inizio"),
-							rs.getString("ora_fine"), rs.getString("assegnato_a_email"));
+							rs.getString("ora_fine"));
 				}
 			}
 		} finally {
@@ -107,76 +104,83 @@ public class TurnoDAO {
 	// Metodo per recuperare tutti i Turni per un'azienda specifica dal database
 	public Collection<Turno> doRetrieveAll(String piva) throws SQLException {
 
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
 
-		Collection<Turno> turni = new LinkedList<>();
+	    Collection<Turno> turni = new LinkedList<>();
 
-		String selectSQL = "SELECT T.* " + "FROM Turno T " + "JOIN Utente U ON T.assegnato_a_email = U.email "
-				+ "WHERE U.piva = ?;";
+	    String selectSQL = "SELECT T.* " +
+	            "FROM Turno T " +
+	            "JOIN AssegnatoA A ON T.id = A.id_turno " +
+	            "JOIN Utente U ON A.id_utente = U.email " +
+	            "WHERE U.idAzienda = (SELECT id FROM Azienda WHERE piva = ?);";
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, piva);
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, piva);
 
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				Turno turno = new Turno(rs.getInt("id"), rs.getString("giorno"), rs.getString("ora_inizio"),
-						rs.getString("ora_fine"), rs.getString("assegnato_a_email"));
-				turni.add(turno);
-			}
-		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
+	        ResultSet rs = preparedStatement.executeQuery();
+	        while (rs.next()) {
+	            Turno turno = new Turno(rs.getInt("id"), rs.getString("giorno"), rs.getString("ora_inizio"),
+	                    rs.getString("ora_fine"));
+	            turni.add(turno);
+	        }
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }
 
-		return turni;
+	    return turni;
 	}
+
 
 	// Metodo per recuperare tutti i Turni associati a un dipendente per un'azienda specifica dal database
 	public Collection<Turno> doRetrieveAllByUser(String piva, String email) throws SQLException {
 
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
 
-		Collection<Turno> turni = new LinkedList<>();
+	    Collection<Turno> turni = new LinkedList<>();
 
-		String selectSQL = "SELECT T.* " + "FROM Turno T " + "JOIN Utente U ON T.assegnato_a_email = U.email "
-				+ "WHERE U.piva = ? AND T.assegnato_a_email = ?;";
+	    String selectSQL = "SELECT T.* " +
+	            "FROM Turno T " +
+	            "JOIN AssegnatoA A ON T.id = A.id_turno " +
+	            "JOIN Utente U ON A.id_utente = U.email " +
+	            "WHERE U.idAzienda = ? AND A.id_utente = ?;";
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, piva);
-			preparedStatement.setString(2, email);
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, piva);
+	        preparedStatement.setString(2, email);
 
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				Turno turno = new Turno(rs.getInt("id"), rs.getString("giorno"), rs.getString("ora_inizio"),
-						rs.getString("ora_fine"), rs.getString("assegnato_a_email"));
-				turni.add(turno);
-			}
-		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
+	        ResultSet rs = preparedStatement.executeQuery();
+	        while (rs.next()) {
+	            Turno turno = new Turno(rs.getInt("id"), rs.getString("giorno"), rs.getString("ora_inizio"),
+	                    rs.getString("ora_fine"));
+	            turni.add(turno);
+	        }
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }
 
-		return turni;
+	    return turni;
 	}
 
 }

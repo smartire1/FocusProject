@@ -22,34 +22,15 @@ public class LoadEmployees extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-		SubordinatoDAO subordinatoDAO = new SubordinatoDAO(ds);
-		ResponsabileDAO responsabileDAO = new ResponsabileDAO(ds);
 		UtenteDAO utenteDAO = new UtenteDAO(ds);
 		
 		HttpSession session = request.getSession();
-		String piva = (String) session.getAttribute("piva");
+		String piva = (String) session.getAttribute("idAzienda");
 		
-		String employeeEmail = request.getParameter("id");
 		
 		// Caso in cui l'utente voglia visualizzare un dipendente specifico
-		if (employeeEmail != null && !employeeEmail.isEmpty()) {
-			try {
-				Subordinato subordinato;
-				subordinato = subordinatoDAO.doRetrieveByKey(employeeEmail, piva);
-				
-				if(subordinato != null)
-					request.setAttribute("impiegato", subordinato);
-				
-				else {
-					Responsabile responsabile;
-					responsabile = responsabileDAO.doRetrieveByKey(employeeEmail, piva);
-					request.setAttribute("impiegato", responsabile);
-				}
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-			
-			request.getRequestDispatcher("/Dipendenti/employeeDashboard.jsp").forward(request, response);
+		if (1) {
+
 		}
 
 		// Caso in cui l'utente voglia stampare la lista dei dipendenti
@@ -59,7 +40,7 @@ public class LoadEmployees extends HttpServlet {
 
 			try {
 				responsabili = utenteDAO.doRetrieveAllResponsabili(piva);
-				subordinati = utenteDAO.doRetrieveAllSubordinati(piva);
+				subordinati = utenteDAO.doRetrieveAllSubordinati(piva);				
 				
 				request.setAttribute("responsabili", responsabili);
 				request.setAttribute("subordinati", subordinati);

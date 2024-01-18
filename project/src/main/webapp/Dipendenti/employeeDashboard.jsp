@@ -4,42 +4,32 @@
 <%@ page import="account.bean.*"%>
 <%@ page import="java.util.Collection"%>
 
-<%
-Collection<?> responsabili = (Collection<?>) request.getAttribute("responsabili");
-Collection<?> subordinati = (Collection<?>) request.getAttribute("subordinati");
-
-if (responsabili == null || subordinati == null) {
-	response.sendRedirect(request.getContextPath() + "/LoadEmployees");
-	return;
-}
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Dashboard Dipendenti</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Bootstrap -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-	crossorigin="anonymous">
-
-<!-- CSS -->
-<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Dipendenti/css/employeeDashboard.css">
-
-<!-- JavaScript -->
-<script type="text/javascript"
-	src="<%=request.getContextPath()%>/Dipendenti/js/employeeDashboard.js"></script>
-
-<!-- font -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
+	<meta charset="ISO-8859-1">
+	<title>Dashboard Dipendenti</title>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- Bootstrap -->
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+		crossorigin="anonymous">
+	
+	<!-- CSS -->
+	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Dipendenti/css/employeeDashboard.css">
+	
+	<!-- JavaScript -->
+	<script type="text/javascript"
+		src="<%=request.getContextPath()%>/Dipendenti/js/employeeDashboard.js"></script>
+	
+	<!-- font -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 </head>
 <body>
 	<header>
@@ -101,61 +91,29 @@ if (responsabili == null || subordinati == null) {
 
 						<div id="content2" class="hidden">
 							<h3>Rimuovi dipendente</h3>
-							<%
-							try {
-								if (responsabili != null) {
-									if (!responsabili.isEmpty()) {
-								for (Object obj : responsabili) {
-									Utente responsabile = (Utente) obj;
-							%>
+
 
 							<form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
 								<input type="hidden" name="email"
-									value="<%=responsabile.getEmail()%>">
+									value="">
 								<p>
 									Responsabile:
-									<%=responsabile.getNome()%>
-									<%=responsabile.getCognome()%>
-									-
-									<%=responsabile.getEmail()%>
+
 									<button type="submit">Rimuovi</button>
 								</p>
 							</form>
 
-							<%
-							}
-							}
-							}
-							%>
-
-							<%
-							if (subordinati != null) {
-								if (!subordinati.isEmpty()) {
-									for (Object obj : subordinati) {
-								Utente subordinato = (Utente) obj;
-							%>
 
 							<form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
 								<input type="hidden" name="email"
-									value="<%=subordinato.getEmail()%>">
+									value="">
 								<p>
 									Subordinato:
-									<%=subordinato.getNome()%>
-									<%=subordinato.getCognome()%>
-									-
-									<%=subordinato.getEmail()%>
+
 									<button type="submit">Rimuovi</button>
 								</p>
 							</form>
 
-							<%
-							}
-							}
-							}
-							} catch (Exception e) {
-							e.printStackTrace();
-							}
-							%>
 						</div>
 						<div id="content3" class="hidden">
 							<h3>Aggiungi turno</h3>

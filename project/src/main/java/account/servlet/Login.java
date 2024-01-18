@@ -44,8 +44,7 @@ public class Login extends HttpServlet {
 			UtenteDAO utenteDAO = new UtenteDAO(ds);
 			utente = utenteDAO.doRetrieveByKey(email);
 			
-			// Salviamo la piva per identificare l'azienda presso cui lavora l'utente
-			session.setAttribute("idAzienda", utente.getIdAzienda());
+			// Salviamo la piva per identificare l'azienda presso cui lavora l'utente			
 
 			// se l'e-mail corrisponde
 			if (utente.getEmail().equals(email)) {
@@ -60,6 +59,7 @@ public class Login extends HttpServlet {
 					}
 					System.out.println("Log in effettuato con successo");
 					session.setAttribute("utente", utente);
+					session.setAttribute("idAzienda", utente.getIdAzienda());
 					response.sendRedirect(request.getContextPath() + "/homePage.jsp");
 				}
 				// se la password non corrisponde

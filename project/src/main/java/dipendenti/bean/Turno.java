@@ -5,15 +5,13 @@ public class Turno {
 	private String giorno;
 	private String oraInizio;
 	private String oraFine;
-	private String assegnatoAEmail;
 
 	// Costruttore
-	public Turno(int id, String giorno, String oraInizio, String oraFine, String assegnatoAEmail) {
+	public Turno(int id, String giorno, String oraInizio, String oraFine) {
 		this.id = id;
 		this.giorno = giorno;
 		this.oraInizio = oraInizio;
 		this.oraFine = oraFine;
-		this.assegnatoAEmail = assegnatoAEmail;
 	}
 
 	// Metodi di accesso (getter e setter)
@@ -49,17 +47,10 @@ public class Turno {
 		this.oraFine = oraFine;
 	}
 
-	public String getAssegnatoAEmail() {
-		return assegnatoAEmail;
-	}
-
-	public void setAssegnatoAEmail(String assegnatoAEmail) {
-		this.assegnatoAEmail = assegnatoAEmail;
-	}
 
 	@Override
 	public String toString() {
 		return "Turno{" + "id=" + id + ", giorno=" + giorno + ", oraInizio=" + oraInizio + ", oraFine=" + oraFine
-				+ ", assegnatoAEmail='" + assegnatoAEmail + '\'' + '}';
+				+ '\'' + '}';
 	}
 }
