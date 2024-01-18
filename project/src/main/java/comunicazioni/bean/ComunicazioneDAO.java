@@ -42,50 +42,65 @@ public class ComunicazioneDAO {
         }
     }
 
-    public List<Comunicazione> doRetrieveByKey(int id) throws SQLException {
+ // Metodo per recuperare una comunicazione specifica relativa a una data azienda dal database
+    public List<Comunicazione> doRetrieveByKey(int id, String idAzienda) throws SQLException {
         List<Comunicazione> comunicazioni = new ArrayList<>();
-        String query = "SELECT * FROM Comunicazione WHERE id = ?";
+        String query = "SELECT c.* FROM Comunicazione c " +
+                       "JOIN Utente u ON c.mittente_email = u.email " +
+                       "WHERE c.id = ? AND u.idAzienda = ?";
 
         try (
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery()
         ) {
-            while (resultSet.next()) {
-                Comunicazione comunicazione = new Comunicazione(
-                        resultSet.getInt("id"),
-                        resultSet.getString("titolo"),
-                        resultSet.getString("corpo"),
-                        resultSet.getString("mittente_email")
-                );
-                comunicazioni.add(comunicazione);
-            }
-        }
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, idAzienda);
 
-        return comunicazioni;
-    }    
-    
-    // Metodo per recuperare tutte le Comunicazioni dal database
-    public List<Comunicazione> doRetrieveAll() throws SQLException {
-        List<Comunicazione> comunicazioni = new ArrayList<>();
-        String query = "SELECT * FROM Comunicazione";
-
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery()
-        ) {
-            while (resultSet.next()) {
-                Comunicazione comunicazione = new Comunicazione(
-                        resultSet.getInt("id"),
-                        resultSet.getString("titolo"),
-                        resultSet.getString("corpo"),
-                        resultSet.getString("mittente_email")
-                );
-                comunicazioni.add(comunicazione);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Comunicazione comunicazione = new Comunicazione(
+                            resultSet.getInt("id"),
+                            resultSet.getString("titolo"),
+                            resultSet.getString("corpo"),
+                            resultSet.getString("mittente_email")
+                    );
+                    comunicazioni.add(comunicazione);
+                }
             }
         }
 
         return comunicazioni;
     }
+    
+    // Metodo per recuperare tutte le Comunicazioni relative a una data azienda dal database
+    public List<Comunicazione> doRetrieveAll(String idAzienda) throws SQLException {
+        List<Comunicazione> comunicazioni = new ArrayList<>();
+
+        String query = "SELECT c.* " +
+                       "FROM Comunicazione c " +
+                       "JOIN Utente u ON c.mittente_email = u.email " +
+                       "WHERE u.idAzienda = ?";
+
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
+            preparedStatement.setString(1, idAzienda);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Comunicazione comunicazione = new Comunicazione(
+                            resultSet.getInt("id"),
+                            resultSet.getString("titolo"),
+                            resultSet.getString("corpo"),
+                            resultSet.getString("mittente_email")
+                    );
+                    comunicazioni.add(comunicazione);
+                }
+            }
+        }
+
+        return comunicazioni;
+    }
+
 }

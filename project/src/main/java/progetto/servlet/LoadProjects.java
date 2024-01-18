@@ -24,76 +24,73 @@ public class LoadProjects extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	        throws ServletException, IOException {
 
-		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-		LavoraDAO lavoraDAO = new LavoraDAO(ds);
-		ProgettoDAO progettoDAO = new ProgettoDAO(ds);
-		UtenteDAO utenteDAO = new UtenteDAO(ds);
-		
-		HttpSession session = request.getSession();
-		String piva = (String) session.getAttribute("piva");
-		String progettoIdParam = request.getParameter("id");		
-		List<Utente> subordinati = new ArrayList<>();
+	    DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+	    LavoraDAO lavoraDAO = new LavoraDAO(ds);
+	    ProgettoDAO progettoDAO = new ProgettoDAO(ds);
+	    UtenteDAO utenteDAO = new UtenteDAO(ds);
+	    HttpSession session = request.getSession();
+	    String piva = (String) session.getAttribute("idAzienda");
+	    String progettoIdParam = request.getParameter("id");
+	    List<Utente> subordinati = new ArrayList<>();
 
-		if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
-			int progettoId = Integer.parseInt(progettoIdParam);
-			
-			try {
-				Collection<Lavora> subo =  lavoraDAO.doRetriveByProject(progettoId);
-				for(Lavora l: subo) {
-					subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail()));
-				}
-				Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
-				Utente responsabile = utenteDAO.doRetrieveByKey(progetto.getResponsabile_email());
-				request.setAttribute("subordinati", subordinati);
-			    request.setAttribute("progetto", progetto);
-			    request.setAttribute("responsabile", responsabile);
-			    
-			    
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-			
-			request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
-		}
+	    // L'utente ha chiesto informazioni su un Progetto specifico
+	    if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
+	        int progettoId = Integer.parseInt(progettoIdParam);
 
-		else {
+	        try {
+	        	// Otteniamo tutti i subordinati che lavorano a quel progetto
+	            Collection<Lavora> subordinatiLavora = lavoraDAO.doRetriveByProject(progettoId);
+	            for (Lavora l : subordinatiLavora) {
+	                subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail()));
+	            }
 
-			Collection<Progetto> progettiAttivi = null;
-			Collection<Progetto> progettiConclusi = null;
+	            // Otteniamo il progetto e il responsabile associato
+	            Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
+	            Utente responsabile = utenteDAO.doRetrieveByKey(progetto.getResponsabile_email());
 
-			try {
-				progettiAttivi = progettoDAO.doRetrieveAllCurrent(piva);
-				progettiConclusi = progettoDAO.doRetrieveAllFinished(piva);
+	            // Impostiamo gli attributi per la visualizzazione nella JSP
+	            request.setAttribute("subordinati", subordinati);
+	            request.setAttribute("progetto", progetto);
+	            request.setAttribute("responsabile", responsabile);
 
-				request.setAttribute("progetti_attivi", progettiAttivi);
-				request.setAttribute("progetti_conclusi", progettiConclusi);
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
 
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
+	        request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
+	        
+	    }
+	    
+	    // Se l'ID del progetto non è presente nella richiesta, gestire la visualizzazione della dashboard
+	    else {
+	        Collection<Progetto> progettiAttivi = null;
+	        Collection<Progetto> progettiConclusi = null;
 
-			if (progettiAttivi == null) {
-				System.out.println("progettiAttivi = null");
-				progettiAttivi = new ArrayList<>();
-			}
+	        try {
+	            // Ottenere la lista di progetti attivi e conclusi associati all'azienda
+	            progettiAttivi = progettoDAO.doRetrieveAllCurrent(piva);
+	            progettiConclusi = progettoDAO.doRetrieveAllFinished(piva);
 
-			if (progettiConclusi == null) {
-				System.out.println("progettiConclusi = null");
-				progettiConclusi = new ArrayList<>();
-			}
+	            // Impostare gli attributi per la visualizzazione nella JSP
+	            request.setAttribute("progetti_attivi", progettiAttivi);
+	            request.setAttribute("progetti_conclusi", progettiConclusi);
 
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/Progetto/projectDashboard.jsp");
-			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException e) {
-				System.err.println(e);
-			} catch (IOException e) {
-				System.err.println(e);
-			}
-		}
+	        } catch (SQLException e) {
+	            System.out.println(e);
+	        }
+
+	        // Inoltrare la richiesta alla JSP dedicata alla visualizzazione della dashboard
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("/Progetto/projectDashboard.jsp");
+	        try {
+	            dispatcher.forward(request, response);
+	        } catch (ServletException | IOException e) {
+	            System.err.println(e);
+	        }
+	    }
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

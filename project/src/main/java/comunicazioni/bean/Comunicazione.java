@@ -47,8 +47,6 @@ public class Comunicazione {
         this.mittenteEmail = mittenteEmail;
     }
 
-    // Altri metodi se necessari
-
     @Override
     public String toString() {
         return "Comunicazione{" +

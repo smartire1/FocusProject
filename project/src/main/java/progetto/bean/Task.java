@@ -2,35 +2,27 @@ package progetto.bean;
 
 public class Task {
     private int idTask;
-    private int idProgetto;
     private String descrizione;
     private boolean stato;
-    private String assegnatoAEmail;
+    private int idProgetto;
+    private String subordinatoEmail;
 
     // Costruttore
-    public Task(int idTask, int idProgetto, String descrizione, boolean stato, String assegnatoAEmail) {
+    public Task(int idTask, String descrizione, boolean stato, int idProgetto, String subordinatoEmail) {
         this.idTask = idTask;
-        this.idProgetto = idProgetto;
         this.descrizione = descrizione;
         this.stato = stato;
-        this.assegnatoAEmail = assegnatoAEmail;
+        this.idProgetto = idProgetto;
+        this.subordinatoEmail = subordinatoEmail;
     }
 
-    // Metodi di accesso (getter e setter)
+    // Metodi getter e setter
     public int getIdTask() {
         return idTask;
     }
 
     public void setIdTask(int idTask) {
         this.idTask = idTask;
-    }
-
-    public int getIdProgetto() {
-        return idProgetto;
-    }
-
-    public void setIdProgetto(int idProgetto) {
-        this.idProgetto = idProgetto;
     }
 
     public String getDescrizione() {
@@ -48,23 +40,27 @@ public class Task {
     public void setStato(boolean stato) {
         this.stato = stato;
     }
-    
-	public String getAssegnatoAEmail() {
-		return assegnatoAEmail;
-	}
 
-	public void setAssegnatoAEmail(String assegnatoAEmail) {
-		this.assegnatoAEmail = assegnatoAEmail;
-	}
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "idTask=" + idTask +
-                ", idProgetto=" + idProgetto +
-                ", descrizione='" + descrizione + '\'' +
-                ", stato=" + stato +
-                ", assegnatoAEmail=" + assegnatoAEmail +
-                '}';
+    public int getIdProgetto() {
+        return idProgetto;
     }
+
+    public void setIdProgetto(int idProgetto) {
+        this.idProgetto = idProgetto;
+    }
+
+    public String getSubordinatoEmail() {
+        return subordinatoEmail;
+    }
+
+    public void setSubordinatoEmail(String subordinatoEmail) {
+        this.subordinatoEmail = subordinatoEmail;
+    }
+
+	@Override
+	public String toString() {
+		return "Task [idTask=" + idTask + ", descrizione=" + descrizione + ", stato=" + stato + ", idProgetto="
+				+ idProgetto + ", subordinatoEmail=" + subordinatoEmail + "]";
+	}
+    
 }

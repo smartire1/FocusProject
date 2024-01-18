@@ -24,5 +24,10 @@ public class Lavora {
 	public void setId_progetto(int id_progetto) {
 		this.id_progetto = id_progetto;
 	}
+
+	@Override
+	public String toString() {
+		return "Lavora [email=" + email + ", id_progetto=" + id_progetto + "]";
+	}
 	
 }

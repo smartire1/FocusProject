@@ -1,24 +1,22 @@
 package comunicazioni.bean;
 
-import java.util.Date;
-
 public class Permesso {
     private int id;
-    private String giorno;
+    private String dalGiorno;
+    private String alGiorno;
     private String motivo;
     private boolean stato;
     private String richiedenteEmail;
 
-    // Costruttore
-    public Permesso(int id, String giorno, String motivo, boolean stato, String richiedenteEmail) {
+    public Permesso(int id, String dalGiorno, String alGiorno, String motivo, boolean stato, String richiedenteEmail) {
         this.id = id;
-        this.giorno = giorno;
+        this.dalGiorno = dalGiorno;
+        this.alGiorno = alGiorno;
         this.motivo = motivo;
         this.stato = stato;
         this.richiedenteEmail = richiedenteEmail;
     }
 
-    // Metodi di accesso (getter e setter)
     public int getId() {
         return id;
     }
@@ -27,12 +25,20 @@ public class Permesso {
         this.id = id;
     }
 
-    public String getGiorno() {
-        return giorno;
+    public String getDalGiorno() {
+        return dalGiorno;
     }
 
-    public void setGiorno(String giorno) {
-        this.giorno = giorno;
+    public void setDalGiorno(String dalGiorno) {
+        this.dalGiorno = dalGiorno;
+    }
+
+    public String getAlGiorno() {
+        return alGiorno;
+    }
+
+    public void setAlGiorno(String alGiorno) {
+        this.alGiorno = alGiorno;
     }
 
     public String getMotivo() {
@@ -59,16 +65,10 @@ public class Permesso {
         this.richiedenteEmail = richiedenteEmail;
     }
 
-    // Altri metodi se necessari
-
-    @Override
-    public String toString() {
-        return "Permesso{" +
-                "id=" + id +
-                ", giorno=" + giorno +
-                ", motivo='" + motivo + '\'' +
-                ", stato=" + stato +
-                ", richiedenteEmail='" + richiedenteEmail + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Permesso [id=" + id + ", dalGiorno=" + dalGiorno + ", alGiorno=" + alGiorno + ", motivo=" + motivo
+				+ ", stato=" + stato + ", richiedenteEmail=" + richiedenteEmail + "]";
+	}
+    
 }

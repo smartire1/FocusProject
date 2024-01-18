@@ -15,7 +15,7 @@ public class LavoraDAO {
 
     // Metodo per salvare le statistiche nel database
     public synchronized void doSave(Lavora lavora) throws SQLException {
-        String query = "INSERT INTO Lavora (email, id_progetto) VALUES (?, ?)";
+        String query = "INSERT INTO LavoraA (email, id_progetto) VALUES (?, ?)";
         
         try (
             Connection connection = dataSource.getConnection();
@@ -29,7 +29,7 @@ public class LavoraDAO {
 
     // Metodo per aggiornare le statistiche nel database
     public synchronized void doDelete(Lavora lavora) throws SQLException {
-        String query = "DELETE FROM Lavora WHERE email = ? AND id_progetto = ?";
+        String query = "DELETE FROM LavoraA WHERE email = ? AND id_progetto = ?";
         
         try (
             Connection connection = dataSource.getConnection();
@@ -42,7 +42,7 @@ public class LavoraDAO {
     }
     
     public synchronized Collection<Lavora> doRetriveByProject(int id_project) throws SQLException {
-        String query = "SELECT * FROM Lavora WHERE id_progetto = ?";
+        String query = "SELECT * FROM LavoraA WHERE id_progetto = ?";
         Collection<Lavora> subordinati = new ArrayList<>();
         try (
             Connection connection = dataSource.getConnection();
@@ -51,9 +51,7 @@ public class LavoraDAO {
             preparedStatement.setInt(1, id_project);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    // Recupera i dati dal ResultSet e crea un oggetto Lavora
                     Lavora lavora = new Lavora(resultSet.getString("email"), resultSet.getInt("id_progetto"));
-                    // Aggiungi l'oggetto alla collezione
                     subordinati.add(lavora);
                 }
             }
