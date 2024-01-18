@@ -1,4 +1,4 @@
-package comunicazioni;
+package comunicazioni.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;

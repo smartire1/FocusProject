@@ -66,17 +66,29 @@ if (progettiAttivi == null || progettiConclusi == null) {
 			<div class="col-md-12">
 				<div id="contentContainer">
 					<div id="content1" class="active">
-						<form id="addProjectForm">
-							<h5>Aggiungi un nuovo Progetto</h5>
-							<label for="nome">Nome Progetto:</label> <input type="text"
-								id="nome" name="nome" required> <label for="cognome">Responsabile:</label>
-							<input type="text" id="responsabile" name="responsabile" required>
-							<label for="email">Descrizione:</label> <input type="text"
-								id="descrizione" name="descrizione" required> <label
-								for="email">Obiettivi:</label> <input type="text" id="obiettivi"
-								name="obiettivi" required>
-							<button type="submit">Aggiungi Progetto</button>
+						<form id="addProjectForm" action="<%=request.getContextPath()%>/AddProject" method="POST">
+						    <h5>Aggiungi un nuovo Progetto</h5>
+						    <label for="nome">Nome Progetto:</label>
+						    <input type="text" id="nome" name="nome" required>
+						
+						    <label for="responsabile">Responsabile:</label>
+						    <input type="text" id="responsabile" name="responsabile" required>
+						
+						    <label for="descrizione">Descrizione:</label>
+						    <input type="text" id="descrizione" name="descrizione" required>
+						
+						    <label for="obiettivi">Obiettivi:</label>
+						    <input type="text" id="obiettivi" name="obiettivi" required>
+						
+						    <label for="scadenza">Scadenza:</label>
+						    <input type="text" id="scadenza" name="scadenza">
+						
+						    <label for="budget">Budget:</label>
+						    <input type="number" id="budget" name="budget" required>
+						
+						    <button type="submit">Aggiungi Progetto</button>
 						</form>
+
 					</div>
 
 					<div id="content2" class="hidden">
@@ -111,7 +123,7 @@ if (progettiAttivi == null || progettiConclusi == null) {
 								Progetto progetto = (Progetto) obj;
 						%>
 						<div class="currentProjectList">
-							<a href="<%=request.getContextPath()%>/project?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+							<a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
 						</div>
 						<%
 						}

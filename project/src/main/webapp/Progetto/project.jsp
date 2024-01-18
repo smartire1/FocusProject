@@ -13,7 +13,9 @@
 	<link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/css/style.css">	
 	<link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/Progetto/css/project.css">			  
 
-	<script type="text/javascript" src="js/project.js"></script>
+	<!-- JavaScript -->
+	<script type="text/javascript" src="<%= request.getContextPath()%>/Progetto/js/project.js"></script>
+	
 	<!-- font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 </head>
@@ -27,18 +29,20 @@
 	<br>
 
 	<%
-        Progetto progetto = (Progetto) request.getAttribute("progetto");
-        if (progetto == null) {
-			String projectId = request.getParameter("id");
-			response.sendRedirect(request.getContextPath() + "/LoadProjects?id=" + projectId);
-       
-        } else { 
-        	List<?> subordinati = (List<?>) request.getAttribute("subordinati");
-			Utente responsabile = (Utente) request.getAttribute("responsabile");%> 
-		<div class="container text-center">
+	Progetto progetto = (Progetto) request.getAttribute("progetto");
+	if (progetto == null) {
+		String projectId = request.getParameter("id");
+		response.sendRedirect(request.getContextPath() + "/LoadProjects?id=" + projectId);
+
+	} else {
+		List<?> subordinati = (List<?>) request.getAttribute("subordinati");
+		Utente responsabile = (Utente) request.getAttribute("responsabile");
+	%>
+	<div class="container text-center">
 		<h2><%= progetto.getNome() %></h2>
 			<br>
 			<br>
+			
 			<div class="row">
 		        <!-- Contenitore Obiettivi -->
 		        <div class="col-md-6">
@@ -46,9 +50,13 @@
 		                <h3>Obiettivi</h3>
 		            	<textarea id="testoObiettivi" class="form-control" readonly><%= progetto.getObbiettivi() %></textarea>
 		            	<br>		                		                
-		                <button class="btn btn-primary">Concludi</button>
+		                <form id="concludiProgettoForm" action="<%=request.getContextPath()%>/ConcludeProject" method="post">
+		                	<input type="hidden" id="idProgetto" name="id_progetto" value="<%=progetto.getIdProgetto()%>" />
+					    	<button class="btn btn-primary" type="submit">Concludi</button>
+					    </form>
 		            </div>
-		        </div>       	
+		        </div>
+		           	
 				<div class="col-md-6">
 		            <div class="riquadro dip">
 		                <h3>Responsabile</h3>
@@ -59,7 +67,9 @@
 		                	<p>nome: <%= u.getNome()%></p>
 		                <%} %>
 		                <div id="dipendentiFormContainer">
-		                    <!-- Qui verranno visualizzati i form dei dipendenti -->
+		                	<button class="btn btn-primary">Assegna subordinato</button>
+				        	<button class="btn btn-danger">Rimuovi subordinato</button>
+				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/Progetto/task.jsp">Gestione Task</a>
 		                </div>
 		            </div>
 				</div>
