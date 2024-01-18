@@ -4,6 +4,11 @@
 <%@ page import="account.bean.*"%>
 <%@ page import="java.util.Collection"%>
 
+<%
+	Collection<?> responsabili = null;
+	Collection<?> subordinati = null;
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,38 +94,127 @@
 							</form>
 						</div>
 
+
+
 						<div id="content2" class="hidden">
-							<h3>Rimuovi dipendente</h3>
-
-
-							<form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
-								<input type="hidden" name="email"
-									value="">
-								<p>
-									Responsabile:
-
-									<button type="submit">Rimuovi</button>
-								</p>
-							</form>
-
-
-							<form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
-								<input type="hidden" name="email"
-									value="">
-								<p>
-									Subordinato:
-
-									<button type="submit">Rimuovi</button>
-								</p>
-							</form>
-
+						    <h3>Rimuovi dipendente</h3>
+						
+						    <%-- Rimuovi Responsabili --%>
+						    <h4>Responsabili:</h4>
+						    <% 
+						    	responsabili = (Collection<?>) request.getAttribute("responsabili");
+						        for (Object utente : responsabili) {
+						        Utente responsabile = (Utente) utente;
+						        if(responsabile.isStato()) {
+						    %>
+						        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+						            <input type="hidden" name="email" value="<%=responsabile.getEmail()%>">
+						            <p><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:
+						                <button type="submit"><%if(!responsabile.isStato()) {%>Riaggiungi<%}else {%>Rimuovi<%} %></button>
+						            </p>
+						        </form>
+						    <%
+						        }}
+						    %>
+						
+						    <%-- Rimuovi Subordinati --%>
+						    <h4>Subordinati:</h4>
+						    <% 
+					    		subordinati = (Collection<?>) request.getAttribute("subordinati");						    
+						        for (Object utente : subordinati) {
+							        Utente subordinato = (Utente) utente;
+							    if(subordinato.isStato()) {    
+						    %>
+						        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+						            <input type="hidden" name="email" value="<%=subordinato.getEmail()%>">
+						            <p><%=subordinato.getNome()%> <%=subordinato.getCognome()%>:
+						                <button type="submit">Rimuovi</button>
+						            </p>
+						        </form>
+						    <%
+						        }}
+						    %>
 						</div>
+
+						
+									
 						<div id="content3" class="hidden">
 							<h3>Aggiungi turno</h3>
-
+						
+						    <%-- Rimuovi Responsabili --%>
+						    <h4>Responsabili:</h4>
+						    <% 
+						    	responsabili = (Collection<?>) request.getAttribute("responsabili");
+						        for (Object utente : responsabili) {
+						        Utente responsabile = (Utente) utente;
+						        if(responsabile.isStato()) {						        
+						    %>
+						        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+						            <input type="hidden" name="email" value="<%=responsabile.getEmail()%>">
+						            <p><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:
+						                <button type="submit">Aggiungi turno</button>
+						            </p>
+						        </form>
+						    <%
+						        }}
+						    %>
+						
+						    <%-- Rimuovi Subordinati --%>
+						    <h4>Subordinati:</h4>
+						    <% 
+					    		subordinati = (Collection<?>) request.getAttribute("subordinati");						    
+						        for (Object utente : subordinati) {
+							        Utente subordinato = (Utente) utente;
+							    if(subordinato.isStato()) {  
+						    %>
+						        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+						            <input type="hidden" name="email" value="<%=subordinato.getEmail()%>">
+						            <p><%=subordinato.getNome()%> <%=subordinato.getCognome()%>:
+						                <button type="submit">Aggiungi turno</button>
+						            </p>
+						        </form>
+						    <%
+						        }}
+						    %>
 						</div>
 						<div id="content4" class="hidden">
 							<h3>Rimuovi turno</h3>
+						
+						    <%-- Rimuovi Responsabili --%>
+						    <h4>Responsabili:</h4>
+						    <% 
+						    	responsabili = (Collection<?>) request.getAttribute("responsabili");
+						        for (Object utente : responsabili) {
+						        Utente responsabile = (Utente) utente;
+						        if(responsabile.isStato()) {						        
+						    %>
+						        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+						            <input type="hidden" name="email" value="<%=responsabile.getEmail()%>">
+						            <p><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:
+						                <button type="submit">Rimuovi turno</button>
+						            </p>
+						        </form>
+						    <%
+						        }}
+						    %>
+						
+						    <%-- Rimuovi Subordinati --%>
+						    <h4>Subordinati:</h4>
+						    <% 
+					    		subordinati = (Collection<?>) request.getAttribute("subordinati");						    
+						        for (Object utente : subordinati) {
+							        Utente subordinato = (Utente) utente;
+							        if(subordinato.isStato()) {							        
+						    %>
+						        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+						            <input type="hidden" name="email" value="<%=subordinato.getEmail()%>">
+						            <p><%=subordinato.getNome()%> <%=subordinato.getCognome()%>:
+						                <button type="submit">Rimuovi turno</button>
+						            </p>
+						        </form>
+						    <%
+						        }}
+						    %>							
 						</div>
 					</div>
 				</div>

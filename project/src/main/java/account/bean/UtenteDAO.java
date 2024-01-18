@@ -55,7 +55,7 @@ public class UtenteDAO {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "DELETE FROM Utente WHERE email = ?";
+		String query = "UPDATE Utente SET stato = false WHERE email = ?";
 
 		try {
 			connection = ds.getConnection();
@@ -186,6 +186,7 @@ public class UtenteDAO {
 				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
 						  				   rs.getString("cognome"), rs.getString("idAzienda"), 
 						  				   rs.getBoolean("stato"),rs.getString("ruolo"));
+				utenti.add(utente);
 			}
 		} finally {
 			try {
@@ -208,8 +209,7 @@ public class UtenteDAO {
 		PreparedStatement preparedStatement = null;
 
 		Collection<Utente> responsabili = new LinkedList<>();
-		String selectSQL = ""
-				+ "SELECT * FROM Utente WHERE ruolo = responsabile AND idAzienda = ?";
+		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'responsabile' AND u.idAzienda = ?";
 		
 		try {
 			connection = ds.getConnection();
@@ -221,6 +221,7 @@ public class UtenteDAO {
 				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
 						  				   rs.getString("cognome"), rs.getString("idAzienda"), 
 						  				   rs.getBoolean("stato"),rs.getString("ruolo"));
+				responsabili.add(utente);
 			}
 		} finally {
 			try {
@@ -243,8 +244,7 @@ public class UtenteDAO {
 		PreparedStatement preparedStatement = null;
 
 		Collection<Utente> subordinati = new LinkedList<>();
-		String selectSQL = ""
-				+ "SELECT * FROM Utente WHERE ruolo = subordinato AND idAzienda = ?";
+		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'subordinato' AND u.idAzienda = ?";
 		
 		try {
 			connection = ds.getConnection();
@@ -256,6 +256,7 @@ public class UtenteDAO {
 				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
 						  				   rs.getString("cognome"), rs.getString("idAzienda"), 
 						  				   rs.getBoolean("stato"),rs.getString("ruolo"));
+				subordinati.add(utente);
 			}
 		} finally {
 			try {

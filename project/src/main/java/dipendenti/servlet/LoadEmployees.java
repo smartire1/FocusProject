@@ -25,49 +25,30 @@ public class LoadEmployees extends HttpServlet {
 		UtenteDAO utenteDAO = new UtenteDAO(ds);
 		
 		HttpSession session = request.getSession();
-		String piva = (String) session.getAttribute("idAzienda");
+		String idAzienda = (String) session.getAttribute("idAzienda");
 		
-		
-		// Caso in cui l'utente voglia visualizzare un dipendente specifico
-		if (1) {
-
-		}
-
-		// Caso in cui l'utente voglia stampare la lista dei dipendenti
-		else {
 			Collection<Utente> responsabili = null;
 			Collection<Utente> subordinati = null;
-
+			System.out.println(idAzienda);
 			try {
-				responsabili = utenteDAO.doRetrieveAllResponsabili(piva);
-				subordinati = utenteDAO.doRetrieveAllSubordinati(piva);				
+				responsabili = utenteDAO.doRetrieveAllResponsabili(idAzienda);
+				subordinati = utenteDAO.doRetrieveAllSubordinati(idAzienda);								
 				
 				request.setAttribute("responsabili", responsabili);
-				request.setAttribute("subordinati", subordinati);
-
+				request.setAttribute("subordinati", subordinati);				
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Dipendenti/employeeDashboard.jsp");
+				try {
+					dispatcher.forward(request, response);
+				} catch (ServletException e) {
+					System.err.println(e);
+				} catch (IOException e) {
+					System.err.println(e);
+				}				
 			} catch (SQLException e) {
 				System.out.println(e);
 			}
-
-			if (responsabili == null) {
-				System.out.println("progettiAttivi = null");
-				responsabili = new ArrayList<>();
-			}
-
-			if (subordinati == null) {
-				System.out.println("progettiConclusi = null");
-				subordinati = new ArrayList<>();
-			}
-
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/Dipendenti/employeeDashboard.jsp");
-			try {
-				dispatcher.forward(request, response);
-			} catch (ServletException e) {
-				System.err.println(e);
-			} catch (IOException e) {
-				System.err.println(e);
-			}
-		}
+			
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

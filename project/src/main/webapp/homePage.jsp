@@ -26,7 +26,7 @@
 	<div id="menuContainer">
 		<div id="buttonsContainer">
 
-			<a href="Dipendenti/employeeDashboard.jsp" class="button">Dashboard Dipendenti</a>
+			<a href="<%=request.getContextPath()%>/LoadEmployees" class="button">Dashboard Dipendenti</a>
 			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
 			<a href="" class="button">Statistiche</a>
 			<a href="Comunicazioni/communicationDashboard.jsp" class="button">Comunicazioni</a>
