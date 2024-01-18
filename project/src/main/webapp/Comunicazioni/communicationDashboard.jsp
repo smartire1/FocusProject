@@ -27,16 +27,17 @@
 </head>
 <body>
 	<header>
-		<a id="logo" href="index.jsp">FOCUS PROJECT</a>
-		<div class="buttons">
-			<a id="logoutButton" href="<%=request.getContextPath()%>/Logout">Esci</a>
-		</div>
+		<a id="logo" href="<%=request.getContextPath()%>/homePage.jsp">FOCUS PROJECT</a>
+		
 	</header>
+	
 
-	<div class="container-fluid">
+
+		<div class="container">
 		<div class="row">
+			<div class="container-fluid1">
 			<!-- Sidebar con pulsanti -->
-			<div class="col-md-3 sidebar">
+		<div class="col-md-3 col-lg-2 sidebar">
 				<button id="showAddNews" class="button"
 					onclick="showContent('content1')">Inserire News</button>
 				<button id="showPermissionManagement" class="button"
@@ -44,15 +45,15 @@
 			</div>
 
 			<!-- Contenitore del testo dinamico -->
-			<div class="col-md-9">
+			<div class="col-md-9 col-lg-10">
 				<div id="contentContainer">
 					<!-- Contenuto dei div associati ai pulsanti -->
 					<div id="content1" class="active">
-						<form id="addNewsForm">
-							<label for="nome">Titolo:</label> 
-							<input type="text" id="nome" name="nome" required>
-							 <label for="cognome">Testo:</label>
-							<input type="text" id="cognome" name="cognome" required>
+						<form id="addNewsForm" action="<%=request.getContextPath()%>/AddNews">
+							<label for="titolo">Titolo:</label> 
+							<input type="text" id="titolo" name="titolo" required>
+							 <label for="testo">Testo:</label>
+							<input type="text" id="testo" name="testo" required>
 
 							<button type="submit">Invia</button>
 						</form>
@@ -65,6 +66,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 
