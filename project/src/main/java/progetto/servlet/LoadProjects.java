@@ -34,9 +34,13 @@ public class LoadProjects extends HttpServlet {
 	    String piva = (String) session.getAttribute("idAzienda");
 	    String progettoIdParam = request.getParameter("id");
 	    List<Utente> subordinati = new ArrayList<>();
-
-	    // L'utente ha chiesto informazioni su un Progetto specifico
-	    if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
+	    
+	    String operazione = request.getParameter("operazione");
+	    System.out.println(operazione);
+	    
+		// L'utente ha chiesto informazioni su un Progetto specifico O l'utente vuole visualizzare i task relativi a un progetto
+		if ((operazione != null && operazione.equals("task")) || (progettoIdParam != null && !progettoIdParam.isEmpty())) {
+			
 	        int progettoId = Integer.parseInt(progettoIdParam);
 
 	        try {
@@ -58,9 +62,18 @@ public class LoadProjects extends HttpServlet {
 	        } catch (SQLException e) {
 	            System.out.println(e);
 	        }
-
-	        request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
+			
+	        // l'utente vuole visualizzare i task relativi a un progetto
+	        if(operazione != null && operazione.equals("task")) {
+				System.out.println("Carica task.jsp");
+				request.getRequestDispatcher("/Progetto/task.jsp").forward(request, response);
+				return;
+	        }
 	        
+	        else {
+	        	request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
+	        }
+
 	    }
 	    
 	    // Se l'ID del progetto non è presente nella richiesta, gestire la visualizzazione della dashboard

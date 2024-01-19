@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
+<%@ page import="java.util.List" import="progetto.bean.*" import="account.bean.*"  %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,10 +30,33 @@
 
 	<br>
 	
-	
 	<!-- codice qui ... -->
-	
-	
+	<%
+	Progetto progetto = (Progetto) request.getAttribute("progetto");
+	List<?> subordinati = (List<?>) request.getAttribute("subordinati");
+
+	for (Object o : subordinati) {
+	    Utente u = (Utente) o;
+	%>
+	    <div>
+	        <p>Nome: <%=u.getNome()%></p>
+	        
+	        <!-- Pulsante Aggiungi Task -->
+	        <form action="<%=request.getContextPath()%>/AddTask" method="post" style="display: inline;">
+	            <input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
+	            <button type="submit">Aggiungi Task</button>
+	        </form>
+	        
+	        <!-- Pulsante Rimuovi Task -->
+	        <form action="<%=request.getContextPath()%>/RemoveTask" method="post" style="display: inline;">
+	            <input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
+	            <button type="submit">Rimuovi Task</button>
+	        </form>
+	    </div>
+	<%
+	}
+	%>
+
 	<br>
 	<br>	
 	<br>

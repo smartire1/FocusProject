@@ -69,7 +69,7 @@
 		                <div id="dipendentiFormContainer">
 		                	<button class="btn btn-primary">Assegna subordinato</button>
 				        	<button class="btn btn-danger">Rimuovi subordinato</button>
-				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/Progetto/task.jsp">Gestione Task</a>
+				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadProjects?operazione=task&id=<%=progetto.getIdProgetto()%>">Gestione Task</a>
 		                </div>
 		            </div>
 				</div>
