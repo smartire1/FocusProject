@@ -20,7 +20,7 @@ import account.bean.UtenteDAO;
 import progetto.bean.*;
 
 @WebServlet("/LoadProjects")
-public class LoadProjects extends HttpServlet {
+public class LoadProjects extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

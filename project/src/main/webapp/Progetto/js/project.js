@@ -20,3 +20,24 @@ function mostraFormDipendente(formId) {
 	formContainer.innerHTML = nuovoForm;
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    const openBtns = document.querySelectorAll(".open-popup-btn");
+    const closeBtn = document.getElementById("closeBtn");
+    const popup = document.getElementById("Popup");
+    const overlay = document.getElementById("Overlay");
+
+    openBtns.forEach(function(btn) {
+        btn.addEventListener("click", () => {
+            popup.style.display = "block";
+            overlay.style.display = "block";
+        });
+    });
+
+    closeBtn.addEventListener("click", () => {
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    });
+});
+
+
+
