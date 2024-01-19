@@ -35,7 +35,7 @@ public class LoadTask extends HttpServlet {
 	        
 	        Object idAttribute = request.getAttribute("id");
 	        if (idAttribute == null || idAttribute.toString().equals("")) {
-	            // System.out.println("LOAD_TASK: Id Progetto is NULL or is EMPTY");
+	            System.out.println("LOAD_TASK: Id Progetto is NULL or is EMPTY");
 	            request.getRequestDispatcher("/Progetto/projectDashboard.jsp").forward(request, response);
 	            return;
 	        }
@@ -44,7 +44,6 @@ public class LoadTask extends HttpServlet {
 	    }
 
 	    int progettoId = Integer.parseInt(progettoIdParam);
-
 	    /* ---------------------------------------------- */
 	    
 	    UtenteDAO utenteDAO = new UtenteDAO(ds);

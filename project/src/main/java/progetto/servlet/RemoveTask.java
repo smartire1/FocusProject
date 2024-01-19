@@ -62,7 +62,8 @@ public class RemoveTask extends HttpServlet {
             System.out.println("Error rimozione task");
         }
 
-        response.sendRedirect(request.getContextPath() + "/LoadTask");
+        request.getRequestDispatcher("/LoadTask").forward(request, response);
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
