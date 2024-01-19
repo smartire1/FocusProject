@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const overlay = document.getElementById("Overlay");
 
     openBtns.forEach(function(btn) {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", () => {			
             popup.style.display = "block";
             overlay.style.display = "block";
         });
@@ -37,7 +37,28 @@ document.addEventListener("DOMContentLoaded", function() {
         popup.style.display = "none";
         overlay.style.display = "none";
     });
+    
 });
 
+function toggleButtonDisplay(classNameToShow, classNameToHide) {
+    const buttonsToShow = document.querySelectorAll('.' + classNameToShow);
+    const buttonsToHide = document.querySelectorAll('.' + classNameToHide);
+
+    buttonsToShow.forEach(function(button) {
+        button.style.display = "block";
+    });
+
+    buttonsToHide.forEach(function(button) {
+        button.style.display = "none";
+    });
+}
+
+function addButton() {
+    toggleButtonDisplay('addButton', 'removeButton');
+}
+
+function removeButton() {
+    toggleButtonDisplay('removeButton', 'addButton');
+}
 
 

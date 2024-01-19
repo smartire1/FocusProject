@@ -39,11 +39,12 @@
 
 	if(subordinati != null && !subordinati.isEmpty()) {
 		for (Object o : subordinati) {
+			if (o != null && o instanceof Utente) {
 			Utente u = (Utente) o;
-		%>
+	%>
 		<div class="subordinato-container">
 			<p class="subordinato-nome">
-				Nome: <%=u.getNome()%></p>
+				Nome: <%= u.getNome()%></p>
 	
 			<!-- Pulsante Apri Form -->
 			<div class="form-buttons">
@@ -77,14 +78,15 @@
 						<button id="rimuovi-task" type="submit">Rimuovi Task</button>
 					</form></li>
 				<%
-				}
+					}
 				}
 				%>
 			</ul>
 		</div>
 	<%
-	}
+			}
 		}
+	}
 		
 		else {
 		%>

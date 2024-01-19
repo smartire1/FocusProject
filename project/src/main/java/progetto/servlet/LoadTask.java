@@ -64,7 +64,7 @@ public class LoadTask extends HttpServlet {
 	    		subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail(), piva));
 	    		
 	    		// Reperiamo la lista dei task associati a quel subordinato
-	    		List<Task> task = (List<Task>) taskDAO.doRetrieveAllByProjectAndUser(progettoId, l.getEmail(), piva);
+	    		List<Task> task = (List<Task>) taskDAO.doRetrieveAllByProjectAndUser(progettoId, l.getEmail());
 	    		
 	    		// ... e la salviamo in un hashMap
 	    		taskProgetto.put(l.getEmail(), task);
@@ -73,12 +73,11 @@ public class LoadTask extends HttpServlet {
 	    	request.setAttribute("progettoId", progettoId);
 	    	request.setAttribute("subordinati", subordinati);
 	    	request.setAttribute("taskProgetto", taskProgetto);
+		    request.getRequestDispatcher("/Progetto/task.jsp").forward(request, response);	    	
 	    }
 	    catch(SQLException e) {
 	    	e.printStackTrace();
-	    }
-	    
-	    request.getRequestDispatcher("/Progetto/task.jsp").forward(request, response);
+	    }	    
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

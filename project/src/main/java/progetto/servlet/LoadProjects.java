@@ -30,27 +30,43 @@ public class LoadProjects extends HttpServlet {
 	    UtenteDAO utenteDAO = new UtenteDAO(ds);
 	    HttpSession session = request.getSession();
 	    String piva = (String) session.getAttribute("idAzienda");
+	    
 	    String progettoIdParam = request.getParameter("id");
+	    String progettoIdAtt = (String) request.getAttribute("id");
+
+	    int progettoId = -1;
+
+	    if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
+	        progettoId = Integer.parseInt(progettoIdParam);
+	    } 
+
+	    else if (progettoIdAtt != null && !progettoIdAtt.isEmpty()) {
+	        progettoId = Integer.parseInt(progettoIdAtt);
+	    } 
 	    
 	    List<Utente> subordinati = new ArrayList<>();
+	    List<Utente> subordinatiProj = new ArrayList<>();
 	    
 	    // L'utente ha chiesto informazioni su un Progetto specifico
-	    if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
+	    if (progettoId != -1) {
 			
-	        int progettoId = Integer.parseInt(progettoIdParam);
-
 	        try {
 	        	// Otteniamo tutti i subordinati che lavorano a quel progetto
 	            Collection<Lavora> subordinatiLavora = lavoraDAO.doRetriveByProject(progettoId);
+	            Collection<Lavora> subordinatiNotLavora = lavoraDAO.doRetriveByNotProject(progettoId);	            
 	            for (Lavora l : subordinatiLavora) {
-	                subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail()));
+	            	subordinatiProj.add(utenteDAO.doRetrieveByKey(l.getEmail()));
 	            }
+	            for (Lavora l : subordinatiNotLavora) {
+	            	subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail()));
+	            }	            
 
 	            // Otteniamo il progetto e il responsabile associato
 	            Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
 	            Utente responsabile = utenteDAO.doRetrieveByKey(progetto.getResponsabile_email());
 
 	            // Impostiamo gli attributi per la visualizzazione nella JSP
+	            request.setAttribute("subordinatiProj", subordinatiProj);
 	            request.setAttribute("subordinati", subordinati);
 	            request.setAttribute("progetto", progetto);
 	            request.setAttribute("responsabile", responsabile);

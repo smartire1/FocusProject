@@ -58,5 +58,62 @@ public class LavoraDAO {
         }
         return subordinati;
     }
+    
+    public synchronized Collection<Lavora> doRetriveByNotProject(int id_project) throws SQLException {
+        String query = "SELECT * FROM LavoraA WHERE id_progetto <> ?";
+        Collection<Lavora> subordinati = new ArrayList<>();
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setInt(1, id_project);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Lavora lavora = new Lavora(resultSet.getString("email"), resultSet.getInt("id_progetto"));
+                    subordinati.add(lavora);
+                }
+            }
+        }
+        return subordinati;
+    }    
  
+    public synchronized Lavora doRetriveByUser(String email) throws SQLException {
+        String query = "SELECT * FROM LavoraA WHERE email = ?";
+        Lavora lavora = null;
+
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    lavora = new Lavora(resultSet.getString("email"), resultSet.getInt("id_progetto"));
+                }
+            }
+        }
+
+        return lavora;
+    }
+    
+    public synchronized Collection<Lavora> doRetriveByCompany(String idAzienda) throws SQLException {
+        String query = "SELECT * FROM LavoraA "
+        		+ "JOIN Progetto p ON p.id_progetto = LavoraA.id_progetto "
+        		+ "WHERE p.idAzienda = ?";
+        Collection<Lavora> subordinati = new ArrayList<>();
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, idAzienda);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Lavora lavora = new Lavora(resultSet.getString("email"), resultSet.getInt("id_progetto"));
+                    subordinati.add(lavora);
+                }
+            }
+        }
+        return subordinati;
+    }
 }

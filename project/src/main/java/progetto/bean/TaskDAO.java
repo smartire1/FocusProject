@@ -259,22 +259,20 @@ public class TaskDAO {
 	}
 
 	// Metodo per recuperare tutti i Task associati a uno specifico progetto, utente e azienda dal database
-	public Collection<Task> doRetrieveAllByProjectAndUser(int idProgetto, String emailUtente, String idAzienda) throws SQLException {
+	public Collection<Task> doRetrieveAllByProjectAndUser(int idProgetto, String emailUtente) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
 	    Collection<Task> tasks = new LinkedList<>();
 
 	    String selectSQL = "SELECT * FROM Task " +
-	                       "WHERE id_progetto = ? AND subordinato_email = ? " +
-	                       "AND id_progetto IN (SELECT id_progetto FROM Progetto WHERE idAzienda = ?)";
+	                       "WHERE id_progetto = ? AND subordinato_email = ? ";
 
 	    try {
 	        connection = ds.getConnection();
 	        preparedStatement = connection.prepareStatement(selectSQL);
 	        preparedStatement.setInt(1, idProgetto);
 	        preparedStatement.setString(2, emailUtente);
-	        preparedStatement.setString(3, idAzienda);
 
 	        ResultSet rs = preparedStatement.executeQuery();
 	        while (rs.next()) {

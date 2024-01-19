@@ -37,6 +37,7 @@
 
 	} else {
 		List<?> subordinati = (List<?>) request.getAttribute("subordinati");
+		List<?> subordinatiProj = (List<?>) request.getAttribute("subordinatiProj");		
 		Utente responsabile = (Utente) request.getAttribute("responsabile");
 	%>
 
@@ -45,16 +46,27 @@
 	    <button id="closeBtn" class="close-btn"><i class="fas fa-times"></i></button>
 	    <div class="container">
 	        <h3 id="Operation" class="title">Seleziona subordinato</h3>
-	        <form action="<%= request.getContextPath()%>/AddSubProject" method="post">
+	        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
 	            <%for(Object o: subordinati) {
 	                Utente u = (Utente) o;%>
 	                <div>
 	                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
 	                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
-	                    <p>Nome: <%= u.getNome()%> <button type="submit" class="btn btn-outline-danger" name="action" value="insert">Aggiungi</button></p>
+	                    <p class="addButton">Nome: <%= u.getNome()%> <button  type="submit" class="btn btn-outline-danger" name="action" value="insert">Aggiungi</button></p>                    
 	                </div>
 	            <%} %>
 	        </form>
+
+	        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
+	            <%for(Object o: subordinatiProj) {
+	                Utente u = (Utente) o;%>
+	                <div>
+	                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
+	                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
+	                    <p class="removeButton">Nome: <%= u.getNome()%> <button  type="submit" class="btn btn-outline-danger" name="action" value="remove">Rimuovi</button></p>	                    
+	                </div>
+	            <%} %>
+	        </form>	        
 	    </div>
 	</div>
 
@@ -83,13 +95,13 @@
 		                <h3>Responsabile</h3>
 		                <p>Nome: <%=responsabile.getNome() %></p>
 		                <h4>Subordinati</h4>
-		                <%for(Object o: subordinati) {
+		                <%for(Object o: subordinatiProj) {
 		                	Utente u = (Utente) o;%>
 		                	<p>nome: <%= u.getNome()%></p>
 		                <%} %>
 		                <div id="dipendentiFormContainer">
-		                	<button  class="btn btn-primary open-popup-btn">Assegna subordinato</button>
-				        	<button class="btn btn-danger open-popup-btn">Rimuovi subordinato</button>
+		                	<button onclick="addButton()" class="btn btn-primary open-popup-btn">Assegna subordinato</button>
+				        	<button onclick="removeButton()" class="btn btn-danger open-popup-btn">Rimuovi subordinato</button>
 				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadTask?id=<%=progetto.getIdProgetto()%>">Gestione Task</a>
 		                </div>
 		            </div>
