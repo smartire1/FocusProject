@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ page import="comunicazioni.bean.Permesso" %>
+	
+	<%@ page import= "java.util.List" %>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,8 +63,26 @@
 						</form>
 					</div>
 
-					<div id="content2" class="hidden">
-						<p>Gestione Permessi</p>
+					 <div id="content2" class="hidden">
+                            <p>Gestione Permessi</p>
+                            <%-- Permessi Responsabili --%>
+									<h4>Dipendenti:</h4>
+									<%
+									List<Permesso> permessi = (List<Permesso>) request.getAttribute("permessi");
+								    if (permessi != null) {
+								        for (Permesso permesso : permessi) {
+									%>
+									        <form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
+									            <input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
+									            <p><%=permesso.getDalGiorno()%> <%=permesso.getAlGiorno()%>:
+									                <button type="submit"><%=!permesso.isStato() ? "Accetta" : "Rifiuta" %></button>
+									            </p>
+									        </form>
+									<%
+									        }
+									    }
+									%>
+
 
 				</div>
 				</div>
