@@ -18,37 +18,31 @@ import account.bean.Utente;
 public class AddNews extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	
+		
 		HttpSession session = request.getSession();
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-		Comunicazione com1;
+		Comunicazione com;
 		ComunicazioneDAO comDao = new ComunicazioneDAO(ds);
 		String titolo = request.getParameter("titolo");
 		String testo = request.getParameter("testo");
 		Utente dirigente = (Utente) session.getAttribute("utente");
 		
-		com1 = new Comunicazione(0, titolo, testo, dirigente.getEmail());
+		com = new Comunicazione(0, titolo, testo, dirigente.getEmail());
 		
 		try{
-			comDao.doSave(com1);
-			System.out.println("Erroe 1");
-			response.sendRedirect(request.getContextPath() + "/Comunicazioni/communicationDashbord.jsp");
+			comDao.doSave(com);
+			System.out.println("Comunicazione effettuata con successo!");
 		}
 		catch(SQLException e){
 			e.printStackTrace();
-			System.out.println("Erroe 2");
-			response.sendRedirect(request.getContextPath() + "/Comunicazioni/communicationDashbord.jsp");
-			 
+			System.out.println("Comunicazione fallita");
 		}
+
+		response.sendRedirect(request.getContextPath() + "/LoadNews");
 	}
 	
-
-	DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

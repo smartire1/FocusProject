@@ -18,9 +18,6 @@ import javax.sql.DataSource;
 import comunicazioni.bean.Permesso;
 import comunicazioni.bean.PermessoDAO;
 
-/**
- * Servlet implementation class PermissionManagement
- */
 @WebServlet("/PermissionManagement")
 public class PermissionManagement extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,25 +27,32 @@ public class PermissionManagement extends HttpServlet {
 	        HttpSession session = request.getSession();
 	        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 	        PermessoDAO permessoDAO = new PermessoDAO(ds);
-
 	        String idAzienda = (String) session.getAttribute("idAzienda");
+	        
 	        String richiedenteEmail = (String) request.getParameter("richiedenteEmail");
+	        
 	        List<Permesso> permessi = null;
-	       
 	       
 	        try {
 	            permessi = permessoDAO.doRetrieveAll(idAzienda);
-	        
+	            
+	            /*
+	             * Da finire
+	             * 
+	             * ...
+	             * ...
+	             * ...
+	             * 
+	             * */
 
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/Comunicazioni/communicationDashboard.jsp");
 	            dispatcher.forward(request, response);
 	        } catch (SQLException e) {
-	            e.printStackTrace(); // Handle the exception properly
+	            e.printStackTrace();
 	        }
 	    }
 
-	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
+	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        doGet(request, response);
 	    }
 	}

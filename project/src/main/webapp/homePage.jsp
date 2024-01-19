@@ -8,8 +8,7 @@
 	<title>Home Page</title>
 	
 	<!-- CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-		  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous">
 	<link type="text/css" rel="stylesheet" href="css/style.css">
 	<link type="text/css" rel="stylesheet" href="css/homePage.css">
 	
@@ -29,7 +28,7 @@
 			<a href="<%=request.getContextPath()%>/LoadEmployees" class="button">Dashboard Dipendenti</a>
 			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
 			<a href="" class="button">Statistiche</a>
-			<a href="Comunicazioni/communicationDashboard.jsp" class="button">Comunicazioni</a>
+			<a href="<%=request.getContextPath()%>/LoadNews" class="button">Comunicazioni</a>
 		</div>
 	</div>
 	
