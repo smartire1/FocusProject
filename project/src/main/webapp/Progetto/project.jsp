@@ -90,7 +90,7 @@
 		                <div id="dipendentiFormContainer">
 		                	<button  class="btn btn-primary open-popup-btn">Assegna subordinato</button>
 				        	<button class="btn btn-danger open-popup-btn">Rimuovi subordinato</button>
-				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadProjects?operazione=task&id=<%=progetto.getIdProgetto()%>">Gestione Task</a>
+				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadTask?id=<%=progetto.getIdProgetto()%>">Gestione Task</a>
 		                </div>
 		            </div>
 				</div>

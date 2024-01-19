@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-
 import account.bean.Utente;
 import account.bean.UtenteDAO;
 import progetto.bean.*;
 
 @WebServlet("/LoadProjects")
-public class LoadProjects extends HttpServlet{
+public class LoadProjects extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -33,13 +31,11 @@ public class LoadProjects extends HttpServlet{
 	    HttpSession session = request.getSession();
 	    String piva = (String) session.getAttribute("idAzienda");
 	    String progettoIdParam = request.getParameter("id");
+	    
 	    List<Utente> subordinati = new ArrayList<>();
 	    
-	    String operazione = request.getParameter("operazione");
-	    System.out.println(operazione);
-	    
-		// L'utente ha chiesto informazioni su un Progetto specifico O l'utente vuole visualizzare i task relativi a un progetto
-		if ((operazione != null && operazione.equals("task")) || (progettoIdParam != null && !progettoIdParam.isEmpty())) {
+	    // L'utente ha chiesto informazioni su un Progetto specifico
+	    if (progettoIdParam != null && !progettoIdParam.isEmpty()) {
 			
 	        int progettoId = Integer.parseInt(progettoIdParam);
 
@@ -63,16 +59,7 @@ public class LoadProjects extends HttpServlet{
 	            System.out.println(e);
 	        }
 			
-	        // l'utente vuole visualizzare i task relativi a un progetto
-	        if(operazione != null && operazione.equals("task")) {
-				System.out.println("Carica task.jsp");
-				request.getRequestDispatcher("/Progetto/task.jsp").forward(request, response);
-				return;
-	        }
-	        
-	        else {
-	        	request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
-	        }
+	        request.getRequestDispatcher("/Progetto/project.jsp").forward(request, response);
 
 	    }
 	    

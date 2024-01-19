@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.util.List" import="progetto.bean.*" import="account.bean.*"  %>
+<%@ page import="java.util.List" import="progetto.bean.*" import="account.bean.*"  import="java.util.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -18,6 +18,7 @@
 
 	<!-- JavaScript -->
 	<script type="text/javascript" src="<%= request.getContextPath()%>/Progetto/js/task.js"></script>
+	
 	<!-- font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 </head>
@@ -29,31 +30,66 @@
 	<jsp:include page="../navbar.jsp" />
 
 	<br>
-	
+
 	<!-- codice qui ... -->
 	<%
-	Progetto progetto = (Progetto) request.getAttribute("progetto");
+	int progettoId = (int) request.getAttribute("progettoId");
 	List<?> subordinati = (List<?>) request.getAttribute("subordinati");
+	Map<String, List<Task>> taskProgetto = (Map<String, List<Task>>) request.getAttribute("taskProgetto");
 
-	for (Object o : subordinati) {
-	    Utente u = (Utente) o;
-	%>
-	    <div>
-	        <p>Nome: <%=u.getNome()%></p>
-	        
-	        <!-- Pulsante Aggiungi Task -->
-	        <form action="<%=request.getContextPath()%>/AddTask" method="post" style="display: inline;">
-	            <input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
-	            <button type="submit">Aggiungi Task</button>
-	        </form>
-	        
-	        <!-- Pulsante Rimuovi Task -->
-	        <form action="<%=request.getContextPath()%>/RemoveTask" method="post" style="display: inline;">
-	            <input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
-	            <button type="submit">Rimuovi Task</button>
-	        </form>
-	    </div>
+	if(subordinati != null && !subordinati.isEmpty()) {
+		for (Object o : subordinati) {
+			Utente u = (Utente) o;
+		%>
+		<div class="subordinato-container">
+			<p class="subordinato-nome">
+				Nome: <%=u.getNome()%></p>
+	
+			<!-- Pulsante Apri Form -->
+			<div class="form-buttons">
+				<button class="apri-form" type="button" onclick="mostraForm('<%=u.getEmail()%>_form')">Apri Form</button>
+			</div>
+	
+			<!-- Form per Aggiungere Task (inizialmente nascosto) -->
+			<form id="<%=u.getEmail()%>_form"
+				action="<%=request.getContextPath()%>/AddTask" method="post" style="display: none;">
+				<input type="hidden" name="progettoId" value="<%=progettoId%>">
+				<input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
+				<label for="<%=u.getEmail()%>_descrizione">Descrizione:</label>
+				<input type="text" id="<%=u.getEmail()%>_descrizione" name="descrizione" required>
+				<div class="form-buttons">
+					<button class="aggiungi-task" type="submit">Aggiungi Task</button>
+				</div>
+			</form>
+	
+			<!-- Visualizzazione dei task associati a questo subordinato -->
+			<ul class="task-list">
+				<%
+				List<Task> taskUtente = taskProgetto.get(u.getEmail());
+				if (taskUtente != null) {
+					for (Task task : taskUtente) {
+				%>
+				<li><%=task.getDescrizione()%> <!-- Pulsante Rimuovi Task -->
+					<form class="form-buttons" action="<%=request.getContextPath()%>/RemoveTask" method="post" style="display: inline;">
+						<input type="hidden" name="progettoId" value="<%=progettoId%>">
+						<input type="hidden" name="taskId" value="<%=task.getIdTask()%>">
+						<input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
+						<button id="rimuovi-task" type="submit">Rimuovi Task</button>
+					</form></li>
+				<%
+				}
+				}
+				%>
+			</ul>
+		</div>
 	<%
+	}
+		}
+		
+		else {
+		%>
+		<p>Il progetto non ha subordinati assegnati</p>
+		<%
 	}
 	%>
 

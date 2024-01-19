@@ -1,0 +1,68 @@
+@charset "ISO-8859-1";
+
+.subordinato-container {
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-radius: 10px;
+}
+
+.subordinato-container p {
+	font-weight: bold;
+	margin: 0 0 10px;
+}
+
+.form-buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.form-buttons button {
+	padding: 5px 10px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.form-buttons #apri-form {
+	background-color: #4CAF50;
+	color: white;
+}
+
+.form-buttons #rimuovi-task {
+	background-color: #FF4500;
+	color: white;
+	border-radius: 50%;
+	padding: 5px;
+	margin-left: 10px;
+}
+
+.form-buttons #aggiungi-task {
+	background-color: #4CAF50;
+	color: white;
+	border-radius: 5px;
+	margin-left: 10px;
+}
+
+.task-list {
+	list-style-type: none;
+	padding: 0;
+}
+
+.task-list li {
+	margin-bottom: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.task-list #rimuovi-task {
+	background-color: #FF4500;
+	color: white;
+	border: none;
+	border-radius: 50%;
+	padding: 5px;
+	cursor: pointer;
+}
