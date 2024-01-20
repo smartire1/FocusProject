@@ -26,6 +26,7 @@ public class LoadTask extends HttpServlet {
 	    HttpSession session = request.getSession();
 	    String piva = (String) session.getAttribute("idAzienda");
 	    
+	    
 	    /* ---------------------------------------------- */
 	    
 	    String progettoIdParam = request.getParameter("id");
@@ -49,6 +50,7 @@ public class LoadTask extends HttpServlet {
 	    UtenteDAO utenteDAO = new UtenteDAO(ds);
 	    TaskDAO taskDAO = new TaskDAO(ds);
 	    LavoraDAO lavoraDAO = new LavoraDAO(ds);
+	    ProgettoDAO progettoDAO = new ProgettoDAO(ds);
 	    
 	    try {
 	    	Collection<Lavora> dipendenti = lavoraDAO.doRetriveByProject(progettoId);
@@ -67,9 +69,13 @@ public class LoadTask extends HttpServlet {
 	    		List<Task> task = (List<Task>) taskDAO.doRetrieveAllByProjectAndUser(progettoId, l.getEmail());
 	    		
 	    		// ... e la salviamo in un hashMap
-	    		taskProgetto.put(l.getEmail(), task);
+	    		taskProgetto.put(l.getEmail(), task);   		
+	    		
 	    	}
+	    	Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
+	    	boolean isFinish = progetto.isStato();
 	    	
+	    	request.setAttribute("isFinish", isFinish);	    	
 	    	request.setAttribute("progettoId", progettoId);
 	    	request.setAttribute("subordinati", subordinati);
 	    	request.setAttribute("taskProgetto", taskProgetto);

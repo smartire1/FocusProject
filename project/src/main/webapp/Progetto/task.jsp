@@ -34,6 +34,7 @@
 	<!-- codice qui ... -->
 	<%
 	int progettoId = (int) request.getAttribute("progettoId");
+	boolean isFinish = (boolean) request.getAttribute("isFinish");
 	List<?> subordinati = (List<?>) request.getAttribute("subordinati");
 	Map<String, List<Task>> taskProgetto = (Map<String, List<Task>>) request.getAttribute("taskProgetto");
 
@@ -46,10 +47,12 @@
 			<p class="subordinato-nome">
 				Nome: <%= u.getNome()%></p>
 	
-			<!-- Pulsante Apri Form -->
+			<!-- Pulsante Apri Form -->	
+			<%if(!isFinish) {%>
 			<div class="form-buttons">
 				<button class="apri-form" type="button" onclick="mostraForm('<%=u.getEmail()%>_form')">Apri Form</button>
 			</div>
+			<%} %>
 	
 			<!-- Form per Aggiungere Task (inizialmente nascosto) -->
 			<form id="<%=u.getEmail()%>_form"
@@ -75,7 +78,11 @@
 						<input type="hidden" name="progettoId" value="<%=progettoId%>">
 						<input type="hidden" name="taskId" value="<%=task.getIdTask()%>">
 						<input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
-						<button id="rimuovi-task" type="submit">Rimuovi Task</button>
+						<%if(!task.isStato()) {%>
+							<button id="rimuovi-task" type="submit">Rimuovi Task</button>
+						<%}	else {%>		
+							<h4>Task Completato</h4>
+						<%}	%>				
 					</form></li>
 				<%
 					}

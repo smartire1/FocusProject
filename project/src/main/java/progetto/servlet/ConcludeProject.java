@@ -2,6 +2,7 @@ package progetto.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,8 +37,15 @@ public class ConcludeProject extends HttpServlet {
 		
 		try {
 			// Ci sono task associati?
-			if(taskDAO.doRetrieveAllByProject(progettoId, idAzienda) != null) {
+			Collection<Task> tasks = taskDAO.doRetrieveAllByProject(progettoId, idAzienda);
+			for(Task t: tasks) {
+				System.out.println(t.getIdTask() + t.getSubordinatoEmail());
+			}
+			if(!tasks.isEmpty()) {
 				System.out.println("Non è possibile concludere il progetto perché ci sono task associati ancora da completare");
+				request.setAttribute("id", String.valueOf(progettoId));				
+				request.setAttribute("Error", "Impossibile concludere il progetto, task da completare");
+				request.getRequestDispatcher("/LoadTask").forward(request, response);				
 			}
 			
 			else {
@@ -45,11 +53,10 @@ public class ConcludeProject extends HttpServlet {
 				progetto.setStato(true);
 				progettoDAO.doUpdate(progetto);
 				
-				/* Cancellare il progetto dalla lista di sessione "progetti in corso" e spostarlo in "progetti conclusi"
-				 * ...
-				 * ...
-				 * ...
-				 */
+				System.out.println("Progetto Spostato nella sezione progetti conclusi");				
+				request.setAttribute("id", String.valueOf(progettoId));				
+				request.setAttribute("Success", "Progetto Spostato nella sezione progetti conclusi");
+				request.getRequestDispatcher("/LoadProjects").forward(request, response);	
 				
 			}
 		} catch(SQLException e) {

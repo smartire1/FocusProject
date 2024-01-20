@@ -31,6 +31,8 @@
 
 	<%
 	Progetto progetto = (Progetto) request.getAttribute("progetto");
+	Utente user = (Utente) session.getAttribute("utente");
+	String ruolo = user.getRuolo();
 	if (progetto == null) {
 		String projectId = request.getParameter("id");
 		response.sendRedirect(request.getContextPath() + "/LoadProjects?id=" + projectId);
@@ -92,11 +94,20 @@
 		            <div class="riquadro">
 		                <h3>Obiettivi</h3>
 		            	<textarea id="testoObiettivi" class="form-control" readonly><%= progetto.getObbiettivi() %></textarea>
-		            	<br>		                		                
-		                <form id="concludiProgettoForm" action="<%=request.getContextPath()%>/ConcludeProject" method="post">
-		                	<input type="hidden" id="idProgetto" name="id_progetto" value="<%=progetto.getIdProgetto()%>" />
-					    	<button class="btn btn-primary" type="submit">Concludi</button>
-					    </form>
+		            	<br>
+		            		
+		            	<%if(!progetto.isStato()) {%>	                		                
+			                <form id="concludiProgettoForm" action="<%=request.getContextPath()%>/ConcludeProject" method="post">
+			                	<input type="hidden" id="idProgetto" name="id_progetto" value="<%=progetto.getIdProgetto()%>" />
+			                	<%if(ruolo.compareTo("responsabile")==0) {%>
+						    		<button class="btn btn-primary" name="action" value="concludi" type="submit">Concludi</button>
+						    	<% } else if(ruolo.compareTo("dirigente")==0) {%>
+						    		<button class="btn btn-primary" name="action" value="elimina" type="submit">Elimina</button>
+						    	<% }%>
+						    </form>
+					    <%} else { %>
+					    	<h3>Progetto Concluso!</h3>
+					    <% }%>
 		            </div>
 		        </div>
 		           	
@@ -109,23 +120,35 @@
 		                	Utente u = (Utente) o;%>
 		                	<p>nome: <%= u.getNome()%></p>
 		                <%} %>
-		                <div id="dipendentiFormContainer">
-		                	<button onclick="addButton()" class="btn btn-primary open-popup-btn">Assegna subordinato</button>
-				        	<button onclick="removeButton()" class="btn btn-danger open-popup-btn">Rimuovi subordinato</button>
-				        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadTask?id=<%=progetto.getIdProgetto()%>">Gestione Task</a>
-		                </div>
+		                
+		            	<%if(!progetto.isStato()) {%>
+			            	<%if(ruolo.compareTo("responsabile")==0) {%>	                		                
+				                <div id="dipendentiFormContainer">
+				                	<button onclick="addButton()" class="btn btn-primary open-popup-btn">Assegna subordinato</button>
+						        	<button onclick="removeButton()" class="btn btn-danger open-popup-btn">Rimuovi subordinato</button>
+						        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadTask?id=<%=progetto.getIdProgetto()%>">Gestione Task</a>
+						    		<%}else {%>
+						    			<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadTask?id=<%=progetto.getIdProgetto()%>">Visualizza Task</a>
+						    		<%} %>
+				                </div>
+ 
+					    <%} else { %>
+					        	<a class="btn btn-info" href="<%=request.getContextPath()%>/LoadTask?id=<%=progetto.getIdProgetto()%>">Visualizza Task</a>
+					    <% }%>
 		            </div>
 				</div>
 	    	</div> 
    
-		 <div class="avvisi">
+		 <div class="avvisi container">
 			<h3>Avvisi</h3>
 		        <div class="mb-3">
 		            <textarea class="form-control" id="testoAvviso" readonly><%= progetto.getAvvisi() %></textarea>
 		        </div>
-		        <div class="text-end">
-		        	<button type="submit" class="btn btn-primary">Invia Avviso</button>
-		        </div>
+		        <%if(!progetto.isStato()) {%>			        
+			        <div class="text-end">
+			        	<button type="submit" class="btn btn-primary">Invia Avviso</button>
+			        </div>
+		        <% } %>
 		</div>	
 	</div>
         <% } %>	 	

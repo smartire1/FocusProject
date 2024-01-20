@@ -19,11 +19,17 @@
         <li class="nav-item btnNav">
           <a href="Account/login.jsp">Accedi</a>
         </li>
-        <%} else if(request.getRequestURL().toString().contains("Account/userArea.jsp")){%>        
+        <%} else if(request.getRequestURL().toString().contains("Account/userArea.jsp")){%>  
+	    <li class="nav-item ">
+	      	<a class="nav-link" href="<%= request.getContextPath()%>/homePage.jsp" >Home</a>
+	    </li>               
 	    <li class="nav-item btnNav">
 			<a id="logoutButton" href="<%= request.getContextPath()%>/Logout">Esci</a>
 		</li>        	        
         <% } else {%>
+	    <li class="nav-item ">
+	      	<a class="nav-link" href="<%= request.getContextPath()%>/homePage.jsp" >Home</a>
+	    </li>        
 	    <li class="nav-item ">
 	      	<a class="nav-link" href="<%= request.getContextPath()%>/Account/userArea.jsp" >Area Utente</a>
 	    </li>  
