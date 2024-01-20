@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="comunicazioni.bean.*" import="java.util.*"%>
+<%@ page import="comunicazioni.bean.*" import="java.util.*" import="account.bean.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -29,6 +29,7 @@
 	
 	<%
 	List<Comunicazione> news = (List<Comunicazione>) request.getAttribute("news");
+	Utente u = (Utente) session.getAttribute("utente");
 
 	%>
 	
@@ -45,6 +46,8 @@
 					<div id="contentContainer">
 						<!-- Contenuto dei div associati ai pulsanti -->
 						<div id="content1" class="active">
+						
+						<% if(u.getRuolo().equals("dirigente") || u.getRuolo().equals("responsabile")) {%>
 							<!-- Pubblica news -->
 							<form id="addNewsForm" action="<%=request.getContextPath()%>/AddNews" method="POST">
 								<label for="titolo">Titolo:</label> <input type="text" id="titolo" name="titolo" required> <label for="testo">Testo:</label>
@@ -54,11 +57,13 @@
 							</form>
 							
 							<hr/>
-							
+						<% }%>
+						
 							<!-- News pubblicate -->
 							<%
 							if (news != null && !news.isEmpty()) {
-								for (int i = 0; i < 5; i++) {
+								int loopCount = Math.min(5, news.size());
+								for (int i = 0; i < loopCount; i++) {
 									Comunicazione c = news.get(i);
 							%>
 							<p>
@@ -69,8 +74,8 @@
 							</p>
 							<%
 							}
-							}
-							else { %>
+							} else {
+							%>
 							<p>Nessuna news pubblicata.</p>
 							<%
 							}
