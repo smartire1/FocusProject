@@ -51,16 +51,14 @@ public class LoadProjects extends HttpServlet {
 	    if (progettoId != -1) {
 			
 	        try {
+
 	        	// Otteniamo tutti i subordinati che lavorano a quel progetto
 	            Collection<Lavora> subordinatiLavora = lavoraDAO.doRetriveByProject(progettoId);
-	            Collection<Lavora> subordinatiNotLavora = lavoraDAO.doRetriveByNotProject(progettoId);	            
+
 	            for (Lavora l : subordinatiLavora) {
 	            	subordinatiProj.add(utenteDAO.doRetrieveByKey(l.getEmail()));
-	            }
-	            for (Lavora l : subordinatiNotLavora) {
-	            	subordinati.add(utenteDAO.doRetrieveByKey(l.getEmail()));
 	            }	            
-
+	            subordinati = utenteDAO.doRetriveByNotProject(progettoId, piva);
 	            // Otteniamo il progetto e il responsabile associato
 	            Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
 	            Utente responsabile = utenteDAO.doRetrieveByKey(progetto.getResponsabile_email());

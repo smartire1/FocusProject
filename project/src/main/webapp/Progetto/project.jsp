@@ -46,29 +46,39 @@
 	    <button id="closeBtn" class="close-btn"><i class="fas fa-times"></i></button>
 	    <div class="container">
 	        <h3 id="Operation" class="title">Seleziona subordinato</h3>
-	        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
-	            <%for(Object o: subordinati) {
-	                Utente u = (Utente) o;%>
-	                <div>
-	                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
-	                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
-	                    <p class="addButton">Nome: <%= u.getNome()%> <button  type="submit" class="btn btn-outline-danger" name="action" value="insert">Aggiungi</button></p>                    
-	                </div>
-	            <%} %>
-	        </form>
-
-	        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
-	            <%for(Object o: subordinatiProj) {
-	                Utente u = (Utente) o;%>
-	                <div>
-	                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
-	                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
-	                    <p class="removeButton">Nome: <%= u.getNome()%> <button  type="submit" class="btn btn-outline-danger" name="action" value="remove">Rimuovi</button></p>	                    
-	                </div>
-	            <%} %>
-	        </form>	        
+	
+	        <!-- Form per l'aggiunta di subordinati -->
+	        <% for(Object o: subordinati) {
+	            Utente u = (Utente) o; %>
+		        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
+	
+		                <div>
+		                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
+		                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
+		                    <p class="addButton">Nome: <%= u.getNome()%> <%= u.getEmail()%>
+		                        <button type="submit" class="btn btn-outline-danger" name="action" value="insert">Aggiungi</button>
+		                    </p>
+		                </div>
+		        </form>
+			<% } %>
+			
+	        <% for(Object o: subordinatiProj) {
+	            Utente u = (Utente) o; %>			
+	        <!-- Form per la rimozione di subordinati -->
+		        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
+	
+		                <div>
+		                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
+		                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
+		                    <p class="removeButton">Nome: <%= u.getNome()%> <%= u.getEmail()%>
+		                        <button type="submit" class="btn btn-outline-danger" name="action" value="remove">Rimuovi</button>
+		                    </p>
+		                </div>
+		        </form>
+	        <% } %>	        
 	    </div>
 	</div>
+
 
 	
 	<div class="container text-center">

@@ -57,24 +57,6 @@ public class LavoraDAO {
             }
         }
         return subordinati;
-    }
-    
-    public synchronized Collection<Lavora> doRetriveByNotProject(int id_project) throws SQLException {
-        String query = "SELECT * FROM LavoraA WHERE id_progetto <> ?";
-        Collection<Lavora> subordinati = new ArrayList<>();
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setInt(1, id_project);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Lavora lavora = new Lavora(resultSet.getString("email"), resultSet.getInt("id_progetto"));
-                    subordinati.add(lavora);
-                }
-            }
-        }
-        return subordinati;
     }    
  
     public synchronized Lavora doRetriveByUser(String email) throws SQLException {

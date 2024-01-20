@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
+import progetto.bean.Lavora;
 import progetto.bean.Task;
 
 public class UtenteDAO {
@@ -272,4 +275,32 @@ public class UtenteDAO {
 		
 		return subordinati;
 	}
+	
+    public synchronized List<Utente> doRetriveByNotProject(int id_project, String idAzienda) throws SQLException {
+    	String query = "SELECT Utente.* "
+    	        + "FROM Utente "
+    	        + "JOIN Azienda ON Utente.idAzienda = Azienda.piva "
+    	        + "LEFT JOIN LavoraA ON Utente.email = LavoraA.email AND LavoraA.id_progetto = ? "
+    	        + "WHERE Utente.idAzienda = ? "
+    	        + "    AND LavoraA.id_progetto IS NULL "
+    	        + "    AND Utente.ruolo = 'subordinato'";
+
+    	List<Utente> subordinati = new ArrayList<>();
+        try (
+            Connection connection = ds.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setInt(1, id_project);
+            preparedStatement.setString(2, idAzienda);            
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+    				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
+			  				   rs.getString("cognome"), rs.getString("idAzienda"), 
+			  				   rs.getBoolean("stato"),rs.getString("ruolo"));
+    				subordinati.add(utente);
+                }
+            }
+        }
+        return subordinati;
+    }	
 }

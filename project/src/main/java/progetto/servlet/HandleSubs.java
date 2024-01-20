@@ -61,7 +61,13 @@ public class HandleSubs extends HttpServlet{
 		    System.out.println("\nRimuovi");	    	
 	    	try {
 				Collection<Task> tasks = taskDAO.doRetrieveAllByProjectAndUser(idProjectInt, email);
-				if(tasks.isEmpty()) {
+				System.out.println(idProject + email);
+				for(Task t: tasks) {
+					
+					System.out.println(t.getIdTask());
+					System.out.println(t.getSubordinatoEmail());
+				}
+				if(tasks.isEmpty() || tasks == null) {
 					LavoraDAO lavoraDAO = new LavoraDAO(ds);
 					Lavora lavora = lavoraDAO.doRetriveByUser(email);
 					lavoraDAO.doDelete(lavora);
