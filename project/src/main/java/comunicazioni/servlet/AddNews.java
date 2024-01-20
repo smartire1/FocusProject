@@ -28,6 +28,12 @@ public class AddNews extends HttpServlet {
 		String testo = request.getParameter("testo");
 		Utente dirigente = (Utente) session.getAttribute("utente");
 		
+		// Se l'utente non è il dirigente, allora OUTTTT!!
+		if(!dirigente.getRuolo().equals("dirigente") && !dirigente.getRuolo().equals("responsabile")) {
+			System.out.println("Non hai i permessi per effettuare una comunicazione!");
+			response.sendRedirect(request.getContextPath() + "/LoadNews");
+		}
+		
 		com = new Comunicazione(0, titolo, testo, dirigente.getEmail());
 		
 		try{
