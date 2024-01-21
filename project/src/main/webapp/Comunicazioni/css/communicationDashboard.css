@@ -1,12 +1,23 @@
 @charset "UTF-8";@charset "ISO-8859-1";
 
+/* TEMP: per non far accavallare le news pubblicate con il footer */
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 200vh;
+}
+/* ------ */
+
+.container {
+	flex: 1;
+}
+
 .container-fluid1{
 	margin-top: 220px;
     display: flex;
     height: 100vh;
     margin-bottom: 100px;
 }
-	
 
 .sidebar {
 	margin: 30px;
@@ -38,7 +49,6 @@
 	background-color: #e5bd00;
 	/* Colore oro pi� scuro al passaggio del mouse */
 }
-
 
 
 #contentContainer {
@@ -91,13 +101,147 @@
 }
 
 #content1 button {
-    background-color: #4CAF50;
+    background-color: #ffc448;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 #content1 button:hover {
-    background-color: #45a049;
+    background-color: #cc9900;
+}
+
+#publishedNews {
+	background-color: white;
+    padding: 10px; /* Spaziatura interna */
+    border: 1px solid #e0e0e0; /* Bordo sottile */
+    border-radius: 8px; /* Bordi arrotondati */
+    margin-bottom: 10px; /* Spazio in basso tra questa sezione e le altre */
+}
+
+#publishedNews .news {
+    border-bottom: 1px solid #e0e0e0; /* Bordo sottile tra le singole news */
+    padding: 15px 0; /* Spaziatura interna sopra e sotto */
+    margin-bottom: 10px; /* Spazio in basso tra le news */
+}
+
+#publishedNews .news h3 {
+    margin-bottom: 10px; /* Spazio in basso tra il titolo e il corpo della news */
+}
+
+/* Stile per il colore del testo basato sulla recente delle news */
+#publishedNews .news:nth-child(1) h5 {
+    color: #333333; /* Testo più scuro per la news più recente */
+}
+
+#publishedNews .news:nth-child(2) h5 {
+    color: #555555; /* Testo più scuro per la seconda news più recente */
+}
+
+#publishedNews .news:nth-child(3) h5 {
+    color: #777777; /* Testo più scuro per la terza news più recente */
+}
+
+#publishedNews .news:nth-child(4) h5 {
+    color: #999999; /* Testo più scuro per la quarta news più recente */
+}
+
+#publishedNews .news:nth-child(5) h5 {
+    color: #bbbbbb; /* Testo più scuro per la quinta news più recente */
+}
+
+#content3 form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#content3 form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#content3 form input,
+#content3 form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+#content3 form input[type="submit"] {
+    background-color: #ffc448;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#content3 form input[type="submit"]:hover {
+    background-color: #cc9900;
+}
+
+#content3 form textarea {
+    resize: vertical;
+}
+
+@media (max-width: 767px) {
+    #content3 form {
+        width: 100%;
+    }
+}
+
+/* --- Stile per il datepicker --- */
+
+.ui-datepicker {
+	background-color: #fff;
+	border-radius: 4px;
+	border: 2px solid #ddd;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* giorni */
+.ui-datepicker-calendar a {
+	text-decoration: none;
+	display: block;
+	padding: 5px;
+	margin: 2px;
+	border-radius: 5px;
+}
+
+.ui-datepicker-calendar a:hover {
+	background-color: #e0e0e0;
+}
+
+.ui-datepicker-calendar td a.ui-state-active {
+	background-color: #eabb00;
+}
+
+/* Stile per i pulsanti "Prev" e "Next" */
+.ui-datepicker-prev, .ui-datepicker-next {
+	margin: 0;
+	text-align: center;
+	margin-right: 15px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
+	color: #eabb00;
+}
+
+/* Stili per la notifica */
+.notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #c0c0c0;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 1;
 }

@@ -11,3 +11,13 @@ function showContent(contentId) {
 	// Aggiungi la classe 'active' al div corrispondente
 	contentDiv.classList.add('active');
 }
+
+// Funzione per chiudere la notifica
+function closeNotification() {
+	document.getElementById("notification").style.display = "none";
+}
+
+// Limite di tempo visualizzazione notifica
+setTimeout(function() {
+	closeNotification();
+}, 5000);

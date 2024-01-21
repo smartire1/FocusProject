@@ -21,6 +21,15 @@
 <!-- font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 
+<!-- jQuery e jQuery UI Datepicker -->
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+	$(function() {
+		$(".datepicker").datepicker();
+	});
+</script>
+
 </head>
 <body>
 	<header>
@@ -30,7 +39,20 @@
 	<%
 	List<Comunicazione> news = (List<Comunicazione>) request.getAttribute("news");
 	Utente u = (Utente) session.getAttribute("utente");
-
+	
+	List<Permesso> permessiResponsabili = (List<Permesso>) request.getAttribute("permessiResponsabili");
+	List<Permesso> permessiSubordinati = (List<Permesso>) request.getAttribute("permessiSubordinati");
+	
+	String notification = (String) request.getAttribute("notification");
+	if (notification != null && !notification.isEmpty()) {
+	%>
+	<div id="notification" class="notification">
+		<span><%=notification%></span>
+		<!-- Aggiungi un pulsante o chiudi automaticamente dopo un certo periodo -->
+		<button onclick="closeNotification()">Chiudi</button>
+	</div>
+	<%
+	}
 	%>
 	
 	<div class="container">
@@ -40,6 +62,13 @@
 				<div class="col-md-3 col-lg-2 sidebar">
 					<button id="showAddNews" class="button" onclick="showContent('content1')">News</button>
 					<button id="showPermissionManagement" class="button" onclick="showContent('content2')">Gestione Permessi</button>
+					
+					<%	if(u.getRuolo().equals("subordinato") || u.getRuolo().equals("responsabile")) {%>
+							<button id="showRequestPermission" class="button" onclick="showContent('content3')">Richiedi Permesso</button>
+					<%
+						}
+					%>
+					
 				</div>
 
 				<div class="col-md-9 col-lg-10">
@@ -49,6 +78,7 @@
 						
 						<% if(u.getRuolo().equals("dirigente") || u.getRuolo().equals("responsabile")) {%>
 							<!-- Pubblica news -->
+							<h4>Pubblica news</h4>
 							<form id="addNewsForm" action="<%=request.getContextPath()%>/AddNews" method="POST">
 								<label for="titolo">Titolo:</label> <input type="text" id="titolo" name="titolo" required> <label for="testo">Testo:</label>
 								<input type="text" id="testo" name="testo" required>
@@ -60,50 +90,95 @@
 						<% }%>
 						
 							<!-- News pubblicate -->
-							<%
-							if (news != null && !news.isEmpty()) {
-								int loopCount = Math.min(5, news.size());
-								for (int i = 0; i < loopCount; i++) {
-									Comunicazione c = news.get(i);
-							%>
-							<p>
-								Titolo:
-								<%=c.getTitolo()%>
-								<br /> Corpo:
-								<%=c.getCorpo()%>
-							</p>
-							<%
-							}
-							} else {
-							%>
-							<p>Nessuna news pubblicata.</p>
-							<%
-							}
-							%>
-
+							<h4>News pubblicate</h4>
+							<div id="publishedNews">
+								<%
+								if (news != null && !news.isEmpty()) {
+									int loopCount = Math.min(5, news.size());
+									for (int i = 0; i < loopCount; i++) {
+										Comunicazione c = news.get(i);
+								%>
+								<div class="news">
+									<!-- Aggiungi la classe "news" qui -->
+									<h5><%=c.getTitolo()%></h5>
+									<p><%=c.getCorpo()%></p>
+								</div>
+								<%
+								}
+								} else {
+								%>
+								<p>Nessuna news pubblicata.</p>
+								<%
+    							}
+    							%>
+							</div>
 						</div>
 
 						<div id="content2" class="hidden">
-							<p>Gestione Permessi</p>
-							<%-- Permessi Responsabili --%>
-							<h4>Dipendenti:</h4>
-							<%
-								List<Permesso> permessi = (List<Permesso>) request.getAttribute("permessi");
-								if (permessi != null) {
-									for (Permesso permesso : permessi) {
-							%>
-							<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
-								<input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
-								<p>
-									<%=permesso.getDalGiorno()%>
-									<%=permesso.getAlGiorno()%>:
-									<button type="submit"><%=!permesso.isStato() ? "Accetta" : "Rifiuta" %></button>
-								</p>
-							</form>
-							<%
+							<h4>Gestione Permessi</h4>
+							<!-- Permessi richiesti dai Responasbili (Vista Dirigente) -->
+							<%	if(u.getRuolo().equals("dirigente")) {%>
+								<p>Responsabili:</p>
+								
+								<!-- ... -->
+								<%
+								if (permessiResponsabili != null) {
+									for (Permesso permesso : permessiResponsabili) {
+								%>
+										<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
+											<input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
+											<p>
+												<%=permesso.getDalGiorno()%>
+												<%=permesso.getAlGiorno()%>:
+												<%=permesso.getMotivo()%>:
+												<button type="submit"><%=!permesso.isStato() ? "Accetta" : "Rifiuta" %></button>
+											</p>
+										</form>
+								<%
 									}
-								}
+								} else { %> <p>Nessuna richiesta di permesso. </p> <% }
+							}
 							%>
+							
+							<!-- Permessi richiesti dai Subordinati (Vista Responsabile) -->
+							<%	if(u.getRuolo().equals("responsabile")) {%>
+								<p>Subordinati:</p>
+								
+								<%
+								if (permessiSubordinati != null) {
+									for (Permesso permesso : permessiSubordinati) {
+								%>
+										<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
+											<input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
+											<p>
+												<%=permesso.getDalGiorno()%>
+												<%=permesso.getAlGiorno()%>
+												<%=permesso.getMotivo()%>:
+												<button type="submit"><%=!permesso.isStato() ? "Accetta" : "Rifiuta" %></button>
+											</p>
+										</form>
+								<%
+									}
+								} else { %> <p>Nessuna richiesta di permesso. </p> <% }
+							}
+							%>
+							
+						</div>
+						
+						<div id="content3" class="hidden">
+							<h4>Richiedi permesso</h4>
+							<form action="<%=request.getContextPath()%>/RequestPermission" method="post">
+								<label for="dalGiorno">Dal giorno:</label> <input type="text"
+									id="dalGiorno" name="dalGiorno" class="datepicker" required>
+
+								<label for="alGiorno">Al giorno:</label> <input type="text"
+									id="alGiorno" name="alGiorno" class="datepicker" required>
+
+								<label for="motivazione">Motivazione:</label>
+								<textarea id="motivazione" name="motivazione" required></textarea>
+
+								<input type="submit" value="Richiedi">
+							</form>
 						</div>
 					</div>
 				</div>
