@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="account.bean.*"%>
 <!DOCTYPE html>
+
+<% Utente u = (Utente) session.getAttribute("utente"); %>
+
 <html>
 <head>
 	<meta charset="ISO-8859-1">
@@ -24,10 +26,11 @@
 	
 	<div id="menuContainer">
 		<div id="buttonsContainer">
-
+			<% if(!u.getRuolo().equals("subordinato")) { %>
 			<a href="<%=request.getContextPath()%>/LoadEmployees" class="button">Dashboard Dipendenti</a>
+			<% } %>
 			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
-			<a href="" class="button">Statistiche</a>
+			<a href="Dipendenti/Stats.jsp" class="button">Statistiche</a>
 			<a href="<%=request.getContextPath()%>/LoadNews" class="button">Comunicazioni</a>
 		</div>
 	</div>
