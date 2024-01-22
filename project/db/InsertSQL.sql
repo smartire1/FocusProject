@@ -53,13 +53,21 @@ INSERT INTO Permesso (dal_giorno, al_giorno, motivo, stato, richiedente_email) V
 ('2024-01-20', '2024-01-22', 'Vacanza', true, 'responsabile1@example.com'),
 ('2024-02-05', '2024-02-08', 'Formazione', null, 'subordinato6@example.com'),
 ('2024-03-10', '2024-03-12', 'Malattia', false, 'subordinato12@example.com'),
-('2024-04-15', '2024-04-17', 'Conferenza', null, 'subordinato4@example.com');
+('2024-04-15', '2024-04-17', 'Conferenza', null, 'subordinato4@example.com'),
+('2024-03-01', '2024-03-05', 'Vacanza', null, 'responsabile1@example.com'),
+('2024-04-10', '2024-04-15', 'Formazione', null, 'responsabile1@example.com');
+
 
 -- Inserisci Progetti per Azienda1
 INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, numDipendenti, responsabile_email, stato, idAzienda) VALUES
 ('Progetto1Azienda1', 'Descrizione del Progetto1Azienda1', 'Obiettivi del Progetto1Azienda1', '2024-05-31', 'Avvisi Progetto1Azienda1', 50000.00, 5, 'responsabile1@example.com', false, '12345678901'),
-('Progetto2Azienda1', 'Descrizione del Progetto2Azienda1', 'Obiettivi del Progetto2Azienda1', '2024-06-30', 'Avvisi Progetto2Azienda1', 75000.00, 8, 'responsabile2@example.com', true, '12345678901'),
-('Progetto3Azienda1', 'Descrizione del Progetto3Azienda1', 'Obiettivi del Progetto3Azienda1', '2024-07-15', 'Avvisi Progetto3Azienda1', 100000.00, 10, 'subordinato1@example.com', false, '12345678901');
+('ProgettoInCorso1', 'Descrizione del ProgettoInCorso1', 'Obiettivi del ProgettoInCorso1', '2024-05-30', 'Avvisi ProgettoInCorso1', 60000.00, 6, 'responsabile1@example.com', false, '12345678901'),
+('ProgettoInCorso2', 'Descrizione del ProgettoInCorso2', 'Obiettivi del ProgettoInCorso2', '2024-06-25', 'Avvisi ProgettoInCorso2', 80000.00, 8, 'responsabile1@example.com', false, '12345678901'),
+('Progetto2Azienda1', 'Descrizione del Progetto2Azienda1', 'Obiettivi del Progetto2Azienda1', '2024-06-30', 'Avvisi Progetto2Azienda1', 75000.00, 8, 'responsabile2@example.com', false, '12345678901'),
+('Progetto3Azienda1', 'Descrizione del Progetto3Azienda1', 'Obiettivi del Progetto3Azienda1', '2024-07-15', 'Avvisi Progetto3Azienda1', 100000.00, 10, 'subordinato1@example.com', false, '12345678901'),
+('ProgettoCompletato1', 'Descrizione del ProgettoCompletato1', 'Obiettivi del ProgettoCompletato1', '2024-03-15', 'Avvisi ProgettoCompletato1', 30000.00, 3, 'responsabile1@example.com', true, '12345678901'),
+('ProgettoCompletato2', 'Descrizione del ProgettoCompletato2', 'Obiettivi del ProgettoCompletato2', '2024-04-20', 'Avvisi ProgettoCompletato2', 45000.00, 5, 'responsabile1@example.com', true, '12345678901');
+
 
 -- Inserisci Progetti per Azienda2
 INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, numDipendenti, responsabile_email, stato, idAzienda) VALUES
@@ -75,32 +83,56 @@ INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, n
 
 -- LavoraA per azienda 1
 INSERT INTO LavoraA (email, id_progetto) VALUES
+('subordinato1@example.com', 1),
 ('subordinato2@example.com', 1),
-('subordinato2@example.com', 2),
-('subordinato3@example.com', 3),
-('subordinato4@example.com', 1),
-('subordinato5@example.com', 2),
+('subordinato3@example.com', 2),
+('subordinato4@example.com', 2),
 ('subordinato5@example.com', 3),
+('subordinato6@example.com', 3),
+('subordinato2@example.com', 4),
+('subordinato3@example.com', 5),
+('subordinato4@example.com', 5),
+('subordinato5@example.com', 6),
+('subordinato5@example.com', 7),
+('subordinato1@example.com', 7),
 
 -- LavoraA per azienda 2
-('subordinato6@example.com', 4),
-('subordinato7@example.com', 5),
-('subordinato8@example.com', 6),
-('subordinato7@example.com', 4),
-('subordinato7@example.com', 5),
-('subordinato6@example.com', 6),
+('subordinato6@example.com', 8),
+('subordinato7@example.com', 8),
+('subordinato8@example.com', 8),
+('subordinato7@example.com', 9),
+('subordinato7@example.com', 9),
+('subordinato6@example.com', 10),
 
 -- LavoraA per azienda 3
-('subordinato11@example.com', 7),
-('subordinato12@example.com', 8),
-('subordinato13@example.com', 7),
-('subordinato14@example.com', 7),
-('subordinato15@example.com', 8),
-('subordinato11@example.com', 8);
+('subordinato11@example.com', 11),
+('subordinato12@example.com', 11),
+('subordinato13@example.com', 12),
+('subordinato14@example.com', 13),
+('subordinato15@example.com', 13),
+('subordinato11@example.com', 13);
 
 INSERT INTO Task (descrizione, stato, id_progetto, subordinato_email) VALUES
-('Task1 del Progetto1', false, 1, 'subordinato3@example.com'),
-('Task2 del Progetto2', true, 2, 'subordinato9@example.com'),
-('Task3 del Progetto3', false, 3, 'subordinato15@example.com'),
-('Task4 del Progetto1', true, 1, 'subordinato2@example.com'),
-('Task5 del Progetto2', false, 2, 'subordinato14@example.com');
+-- LavoraA per azienda 1
+('Task1', false, 1, 'subordinato2@example.com'),
+('Task2', true, 2, 'subordinato2@example.com'),
+('Task3', false, 3, 'subordinato3@example.com'),
+('Task4', true, 1, 'subordinato4@example.com'),
+('Task5', false, 2, 'subordinato5@example.com'),
+('Task6', true, 2, 'subordinato1@example.com'),
+('Task7', true, 2, 'subordinato1@example.com'),
+('Task8', false, 2, 'subordinato1@example.com'),
+
+-- LavoraA per azienda 2
+('Task1 del Progetto1', false, 8, 'subordinato6@example.com'),
+('Task2 del Progetto2', true, 8, 'subordinato7@example.com'),
+('Task3 del Progetto3', false, 9, 'subordinato8@example.com'),
+('Task4 del Progetto1', true, 10, 'subordinato8@example.com'),
+('Task5 del Progetto2', false, 10, 'subordinato6@example.com'),
+
+-- Tasks per azienda 3
+('Task1 del Progetto1', false, 11, 'subordinato11@example.com'),
+('Task2 del Progetto2', true, 11, 'subordinato12@example.com'),
+('Task3 del Progetto3', false, 12, 'subordinato13@example.com'),
+('Task4 del Progetto1', true, 12, 'subordinato14@example.com'),
+('Task5 del Progetto2', false, 13, 'subordinato15@example.com');

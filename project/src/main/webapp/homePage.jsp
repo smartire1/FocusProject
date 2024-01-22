@@ -30,7 +30,7 @@
 			<a href="<%=request.getContextPath()%>/LoadEmployees" class="button">Dashboard Dipendenti</a>
 			<% } %>
 			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
-			<a href="Dipendenti/Stats.jsp" class="button">Statistiche</a>
+			<a href="<%=request.getContextPath()%>/GenerateStats" class="button">Statistiche</a>
 			<a href="<%=request.getContextPath()%>/LoadData" class="button">Comunicazioni</a>
 		</div>
 	</div>

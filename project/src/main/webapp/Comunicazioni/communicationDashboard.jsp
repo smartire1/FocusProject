@@ -64,9 +64,12 @@
 				<!-- Sidebar con pulsanti -->
 				<div class="col-md-3 col-lg-2 sidebar">
 					<button id="showAddNews" class="button" onclick="showContent('content1')">News</button>
-					<button id="showPermissionManagement" class="button" onclick="showContent('content2')">Gestione Permessi</button>
 					
-					<%	if(u.getRuolo().equals("subordinato") || u.getRuolo().equals("responsabile")) {%>
+					<%	if(u.getRuolo().equals("dirigente") || u.getRuolo().equals("responsabile")) {%>
+					<button id="showPermissionManagement" class="button" onclick="showContent('content2')">Gestione Permessi</button>
+					<%}
+					
+					if(u.getRuolo().equals("subordinato") || u.getRuolo().equals("responsabile")) {%>
 							<button id="showRequestPermission" class="button" onclick="showContent('content3')">Richiedi Permesso</button>
 					<%
 						}

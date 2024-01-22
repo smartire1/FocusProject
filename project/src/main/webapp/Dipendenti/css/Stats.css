@@ -1,0 +1,40 @@
+@charset "ISO-8859-1";
+
+#stats {
+	width: 80%;
+	max-width: 600px;
+	background-color: #fff;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	padding: 20px;
+	text-align: center;
+}
+
+#stats h5 {
+	color: #333;
+	font-size: 20px;
+	margin-top: 20px;
+}
+
+#stats button {
+	background-color: #007bff;
+	color: #fff;
+	padding: 10px 20px;
+	border: none;
+	cursor: pointer;
+	margin-top: 10px;
+	border-radius: 5px;
+}
+
+#stats div {
+	background-color: #f8f9fa;
+	padding: 20px;
+	border: 1px solid #ccc;
+	margin-top: 20px;
+	border-radius: 10px;
+	display: none;
+}
+
+#stats p {
+	margin: 10px 0;
+}

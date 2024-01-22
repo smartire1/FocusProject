@@ -60,7 +60,7 @@ CREATE TABLE Permesso (
     dal_giorno VARCHAR(255) NOT NULL,
     al_giorno VARCHAR(255) NOT NULL,
     motivo VARCHAR(255) NOT NULL,
-    stato BOOLEAN,
+    stato BOOLEAN DEFAULT NULL,
     richiedente_email VARCHAR(255) NOT NULL,
     FOREIGN KEY (richiedente_email) REFERENCES Utente(email)
 	ON UPDATE CASCADE
@@ -120,7 +120,6 @@ CREATE TABLE StatsResponsabile (
     num_progetti_in_corso INT DEFAULT 0,
     num_permessi_richiesti INT DEFAULT 0,
     num_subordinati_gestiti INT DEFAULT 0,
-    num_scadenze_rispettate INT DEFAULT 0,
     FOREIGN KEY (email) REFERENCES Utente(email)
 	ON UPDATE CASCADE
 	ON DELETE RESTRICT

@@ -302,5 +302,63 @@ public class UtenteDAO {
             }
         }
         return subordinati;
-    }	
+    }
+    
+    public List<Utente> doRetrieveAllSubMngdByResp(String idAzienda, String email) throws SQLException {
+        List<Utente> userList = new ArrayList<>();
+        String query = "SELECT U.* " +
+                       "FROM Utente U " +
+                       "JOIN LavoraA LA ON U.email = LA.email " +
+                       "JOIN Progetto P ON LA.id_progetto = P.id_progetto " +
+                       "WHERE U.stato = TRUE AND U.idAzienda = ? AND P.responsabile_email = ?";
+
+        try (Connection connection = ds.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, idAzienda);
+            preparedStatement.setString(2, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Utente utente = new Utente(
+                            resultSet.getString("email"),
+                            resultSet.getString("pwd"),
+                            resultSet.getString("nome"),
+                            resultSet.getString("cognome"),
+                            resultSet.getString("idAzienda"),
+                            resultSet.getBoolean("stato"),
+                            resultSet.getString("ruolo")
+                    );
+                    userList.add(utente);
+                }
+            }
+        }
+
+        return userList;
+    }
+    
+    public synchronized List<Utente> doRetriveByNotProjectResp(String responsabile_email, String idAzienda) throws SQLException {
+        String query = "SELECT Utente.* "
+                + "FROM Utente "
+                + "JOIN Azienda ON Utente.idAzienda = Azienda.piva "
+                + "LEFT JOIN Progetto ON Utente.email = Progetto.responsabile_email AND Progetto.responsabile_email <> ? "
+                + "WHERE Utente.idAzienda = ? AND Utente.ruolo = 'responsabile'";
+
+        List<Utente> responsabili = new ArrayList<>();
+        try (
+            Connection connection = ds.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, responsabile_email);
+            preparedStatement.setString(2, idAzienda);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
+                                 rs.getString("cognome"), rs.getString("idAzienda"), 
+                                 rs.getBoolean("stato"),rs.getString("ruolo"));
+                    responsabili.add(utente);
+                }
+            }
+        }
+        return responsabili;
+    }
 }

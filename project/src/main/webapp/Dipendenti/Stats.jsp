@@ -1,7 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="account.bean.*"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="java.util.*" import="account.bean.*" import="dipendenti.bean.*"%>
 
 <%
 	Utente u = (Utente) session.getAttribute("utente");
+
+	// Dirigente
+	List<StatisticheResponsabile> statsResponsabili = (List<StatisticheResponsabile>) request.getAttribute("statsResponsabili");
+	List<StatisticheSubordinato> statsSubordinati = (List<StatisticheSubordinato>) request.getAttribute("statsSubordinati");
+	
+	// Responsabile
+	StatisticheResponsabile myStatsResponsabile = (StatisticheResponsabile) request.getAttribute("myStatsResponsabile");
+	List<StatisticheSubordinato> statsMySubordinati = (List<StatisticheSubordinato>) request.getAttribute("statsMySubordinati");
+	
+	// Subordinato
+	StatisticheSubordinato myStatsSubordinato = (StatisticheSubordinato) request.getAttribute("myStatsSubordinato");
+	
 %>
 
 <!DOCTYPE html>
@@ -18,11 +30,11 @@
 	
 	<!-- CSS -->
 	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Dipendenti/css/employeeDashboard.css">
+	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Dipendenti/css/Stats.css">
 	
 	<!-- JavaScript -->
 	<script type="text/javascript"
-		src="<%=request.getContextPath()%>/Dipendenti/js/employeeDashboard.js"></script>
+		src="<%=request.getContextPath()%>/Dipendenti/js/Stats.js"></script>
 	
 	<!-- font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
@@ -36,57 +48,86 @@
 
 	<jsp:include page="../navbar.jsp"/>
 	
+	<div id="stats">
+	
 	<% if(u.getRuolo().equals("dirigente")) { %>
-		<!-- Caricare lista responsabili e subordinati -->
-		
-		
-		<!-- Statistiche comuni a ogni dipendente -->
-		<ul>
-		    <li>Numero Progetti Completati: </li>
-		    <li>Numero Progetti in Corso: </li>
-		    <li>Numero Permessi Richiesti: </li>
-		</ul>
-		
-		<!-- Statistiche dei soli repsonsabili -->
-		<ul>
-	        <li>Numero Subordinati Gestiti: </li>
-	        <li>Numero Scadenze Rispettate: </li>
-	    </ul>
-	    
+	    <!-- Statistiche dei soli repsonsabili -->
+	    <h5>Responsabili</h5>
+	    <%
+	        for(StatisticheResponsabile sr : statsResponsabili) { %>
+	        	<p><%=sr.getEmail()%></p>
+	            <button onclick="toggleStats('<%= sr.getEmail() %>')">Mostra/Chiudi Statistiche</button>
+	            <div id="<%= sr.getEmail() %>_stats" style="display: none;">
+	                <p>Numero permessi richiesti: <%= sr.getNum_permessi_richiesti() %></p>
+	                <p>Numero progetti completati: <%= sr.getNum_progetti_completati() %></p>
+	                <p>Numero progetti in corso: <%= sr.getNum_progetti_in_corso() %></p>
+	                <p>Numero subordinati gestiti: <%= sr.getNum_subordinati_gestiti() %></p>
+	            </div>
+	        <%
+	        }
+	    %>
+	
 	    <!-- Statistiche dei soli subordinati -->
-	    <ul>
-	        <li>Numero Task Completati: </li>
-	        <li>Numero Task in Corso: </li>
-	    </ul>
-	    
+	    <h5>Subordinati</h5>
+	    <%
+	        for(StatisticheSubordinato ss : statsSubordinati) { %>
+	        	<p><%=ss.getEmail()%></p>
+	            <button onclick="toggleStats('<%= ss.getEmail() %>')">Mostra/Chiudi Statistiche</button>
+	            <div id="<%= ss.getEmail() %>_stats" style="display: none;">
+	                <p>Numero permessi richiesti: <%= ss.getNum_permessi_richiesti() %></p>
+	                <p>Numero progetti completati: <%= ss.getNum_progetti_completati() %></p>
+	                <p>Numero progetti in corso: <%= ss.getNum_progetti_in_corso() %></p>
+	                <p>Numero task completati: <%= ss.getNum_task_completati() %></p>
+	                <p>Numero task in corso: <%= ss.getNum_task_in_corso() %></p>
+	            </div>
+	        <%
+	        }
+	    %>
 	<% } %>
 	
 	
 	
 	<% if(u.getRuolo().equals("responsabile")) { %>
-	    <h2>Le mie statistiche</h2>
-		<ul>
-		    <li>Numero Progetti Completati: </li>
-		    <li>Numero Progetti in Corso: </li>
-		    <li>Numero Permessi Richiesti: </li>
-			<li>Numero Subordinati Gestiti: </li>
-	        <li>Numero Scadenze Rispettate: </li>
-		</ul>
+	    <h3>Le mie statistiche</h3>
+		<div id="<%= myStatsResponsabile.getEmail() %>_stats" style="display: block;">
+			<p>Numero permessi richiesti: <%= myStatsResponsabile.getNum_permessi_richiesti() %></p>
+			<p>Numero progetti completati: <%= myStatsResponsabile.getNum_progetti_completati() %></p>
+			<p>Numero progetti in corso: <%= myStatsResponsabile.getNum_progetti_in_corso() %></p>
+			<p>Numero task completati: <%= myStatsResponsabile.getNum_subordinati_gestiti() %></p>
+	    </div>
+
+	    <!-- Statistiche dei soli subordinati -->
+	    <h5>Subordinati</h5>
+	    <%
+	        for(StatisticheSubordinato ss : statsMySubordinati) { %>
+	        	<p><%=ss.getEmail()%></p>
+	            <button onclick="toggleStats('<%= ss.getEmail() %>')">Mostra/Chiudi Statistiche</button>
+	            <div id="<%= ss.getEmail() %>_stats" style="display: none;">
+	                <p>Numero permessi richiesti: <%= ss.getNum_permessi_richiesti() %></p>
+	                <p>Numero progetti completati: <%= ss.getNum_progetti_completati() %></p>
+	                <p>Numero progetti in corso: <%= ss.getNum_progetti_in_corso() %></p>
+	                <p>Numero task completati: <%= ss.getNum_task_completati() %></p>
+	                <p>Numero task in corso: <%= ss.getNum_task_in_corso() %></p>
+	            </div>
+	        <%
+	        }
+	    %>
 	<% } %>
 	
 	
 	
 	<% if(u.getRuolo().equals("subordinato")) { %>
-	    <h2>Le mie statistiche</h2>
-		<ul>
-		    <li>Numero Progetti Completati: </li>
-		    <li>Numero Progetti in Corso: </li>
-		    <li>Numero Permessi Richiesti: </li>
-		    <li>Numero Task Completati: </li>
-	        <li>Numero Task in Corso: </li>
-		</ul>
+	    <h3>Le mie statistiche</h3>
+		<div id="<%= myStatsSubordinato.getEmail() %>_stats" style="display: block;">
+			<p>Numero permessi richiesti: <%= myStatsSubordinato.getNum_permessi_richiesti() %></p>
+			<p>Numero progetti completati: <%= myStatsSubordinato.getNum_progetti_completati() %></p>
+			<p>Numero progetti in corso: <%= myStatsSubordinato.getNum_progetti_in_corso() %></p>
+			<p>Numero task completati: <%= myStatsSubordinato.getNum_task_completati() %></p>
+	        <p>Numero task in corso: <%= myStatsSubordinato.getNum_task_in_corso() %></p>
+	    </div>
 	<% } %>
 	
+	</div>
 	
 	<footer class="footer">
 		<div class="container">
