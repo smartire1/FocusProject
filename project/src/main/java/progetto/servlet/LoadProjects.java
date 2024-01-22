@@ -46,6 +46,7 @@ public class LoadProjects extends HttpServlet {
 	    
 	    List<Utente> subordinati = new ArrayList<>();
 	    List<Utente> subordinatiProj = new ArrayList<>();
+	    List<Utente> responsabili = new ArrayList<>();
 	    
 	    // L'utente ha chiesto informazioni su un Progetto specifico
 	    if (progettoId != -1) {
@@ -59,11 +60,13 @@ public class LoadProjects extends HttpServlet {
 	            	subordinatiProj.add(utenteDAO.doRetrieveByKey(l.getEmail()));
 	            }	            
 	            subordinati = utenteDAO.doRetriveByNotProject(progettoId, piva);
+	            
 	            // Otteniamo il progetto e il responsabile associato
 	            Progetto progetto = progettoDAO.doRetrieveByKey(progettoId, piva);
 	            Utente responsabile = utenteDAO.doRetrieveByKey(progetto.getResponsabile_email());
-
+	            responsabili = utenteDAO.doRetriveByNotProjectResp(progetto.getResponsabile_email(), piva);
 	            // Impostiamo gli attributi per la visualizzazione nella JSP
+	            request.setAttribute("responsabili", responsabili);
 	            request.setAttribute("subordinatiProj", subordinatiProj);
 	            request.setAttribute("subordinati", subordinati);
 	            request.setAttribute("progetto", progetto);

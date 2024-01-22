@@ -39,7 +39,8 @@
 
 	} else {
 		List<?> subordinati = (List<?>) request.getAttribute("subordinati");
-		List<?> subordinatiProj = (List<?>) request.getAttribute("subordinatiProj");		
+		List<?> subordinatiProj = (List<?>) request.getAttribute("subordinatiProj");
+		List<?> responsabili = (List<?>) request.getAttribute("responsabili");
 		Utente responsabile = (Utente) request.getAttribute("responsabile");
 	%>
 
@@ -79,11 +80,36 @@
 	        <% } %>	        
 	    </div>
 	</div>
+	
+	<div class="overlay1" id="Overlay1"></div>
+	<div class="container text-center" id="Popup1">
+	    <button id="closeBtn1" class="close-btn close-popup-btn1"><i class="fas fa-times"></i></button>
+	    <div class="container">
+	        <h3 id="Operation" class="title">Seleziona responsabile</h3>
+	
+	        <!-- Form per l'aggiunta di subordinati -->
+			<% for(Object o: responsabili) {
+			    Utente u = (Utente) o; %>
+			    <div>
+			        <input type="hidden" class="responsabileProgetto" name="email" value="<%= u.getEmail()%>">
+			        <p class="addButton">Nome: <%= u.getNome()%> <%= u.getEmail()%>
+			            <button id="closeBtn2" type="button" class="btn btn-outline-danger replaceResp close-popup-btn1" name="action" value="insert" onclick="updateInputValueResponsabile('<%=u.getEmail() %>', 'newresponsabile')">Sostituisci</button>
+			        </p>
+			    </div>
+			<% } %> 
+
+       
+	    </div>
+	</div>	
 
 
 	
 	<div class="container text-center">
-		<h2><%= progetto.getNome() %></h2>			
+		<div class="col text-center d-flex flex-column align-items-center">
+			<input id="nomeProgetto" style="display:none;" type="text" name="idProject" value="<%= progetto.getNome()%>" required>
+		</div>	
+		<h2 id="headerProgetto" style="display:block;"><%= progetto.getNome() %></h2>
+					
 			<hr>		
 			<div class="container text-center">
 			  <div class="row">
@@ -158,9 +184,9 @@
 		                <input type="hidden" id="responsabileProgetto" value="<%=progetto.getResponsabile_email()%>">
 		                <div class="row">
 			                <div class="col text-center d-flex flex-column align-items-center">
-			                	<p>Nome: <%=responsabile.getNome() %></p>
+			                	<p id="nomeresp">Nome: <%=responsabile.getNome() %></p>
 
-			                	<button onclick="addButton()" class="btn btn-danger open-popup-btn" id="responsabileProgettoBtn" style="display:none;">Modifica responsabile</button>
+			                	<button onclick="addButton()" class="btn btn-danger open-popup-btn1" id="responsabileProgettoBtn" style="display:none;">Modifica responsabile</button>
 			                </div>
 		                </div>
 		                <hr>

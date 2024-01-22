@@ -11,8 +11,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import progetto.bean.Lavora;
-import progetto.bean.Task;
 
 public class UtenteDAO {
 
@@ -337,11 +335,11 @@ public class UtenteDAO {
     }
     
     public synchronized List<Utente> doRetriveByNotProjectResp(String responsabile_email, String idAzienda) throws SQLException {
-        String query = "SELECT Utente.* "
+        String query = "SELECT DISTINCT Utente.* "
                 + "FROM Utente "
                 + "JOIN Azienda ON Utente.idAzienda = Azienda.piva "
-                + "LEFT JOIN Progetto ON Utente.email = Progetto.responsabile_email AND Progetto.responsabile_email <> ? "
-                + "WHERE Utente.idAzienda = ? AND Utente.ruolo = 'responsabile'";
+                + "LEFT JOIN Progetto ON Utente.email <> ? "
+                + "WHERE Utente.idAzienda = ? AND Utente.email <> ? AND Utente.ruolo = 'responsabile'";
 
         List<Utente> responsabili = new ArrayList<>();
         try (
@@ -350,6 +348,7 @@ public class UtenteDAO {
         ) {
             preparedStatement.setString(1, responsabile_email);
             preparedStatement.setString(2, idAzienda);
+            preparedStatement.setString(3, responsabile_email);            
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
