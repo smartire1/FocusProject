@@ -194,6 +194,36 @@ body {
     }
 }
 
+#singlePermesso {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+#singlePermesso h5 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+#singlePermesso p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+#singlePermesso button {
+  margin-top: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#singlePermesso button:hover {
+  background-color: #0056b3;
+}
+
 /* --- Stile per il datepicker --- */
 
 .ui-datepicker {

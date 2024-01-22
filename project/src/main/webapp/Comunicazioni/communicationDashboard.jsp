@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="comunicazioni.bean.*" import="java.util.*" import="account.bean.*"%>
 
 <!DOCTYPE html>
@@ -24,6 +23,7 @@
 <!-- jQuery e jQuery UI Datepicker -->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <script>
 	$(function() {
 		$(".datepicker").datepicker();
@@ -37,12 +37,15 @@
 	</header>
 	
 	<%
-	List<Comunicazione> news = (List<Comunicazione>) request.getAttribute("news");
 	Utente u = (Utente) session.getAttribute("utente");
-	
+	// Comunicazioni
+	List<Comunicazione> news = (List<Comunicazione>) request.getAttribute("news");
+	// Permessi
 	List<Permesso> permessiResponsabili = (List<Permesso>) request.getAttribute("permessiResponsabili");
 	List<Permesso> permessiSubordinati = (List<Permesso>) request.getAttribute("permessiSubordinati");
+	%>
 	
+	<%
 	String notification = (String) request.getAttribute("notification");
 	if (notification != null && !notification.isEmpty()) {
 	%>
@@ -119,21 +122,26 @@
 							<!-- Permessi richiesti dai Responasbili (Vista Dirigente) -->
 							<%	if(u.getRuolo().equals("dirigente")) {%>
 								<p>Responsabili:</p>
-								
-								<!-- ... -->
 								<%
-								if (permessiResponsabili != null) {
+								if (permessiResponsabili != null && !permessiResponsabili.isEmpty()) {
 									for (Permesso permesso : permessiResponsabili) {
 								%>
-										<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
-											<input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
-											<p>
-												<%=permesso.getDalGiorno()%>
-												<%=permesso.getAlGiorno()%>:
-												<%=permesso.getMotivo()%>:
-												<button type="submit"><%=!permesso.isStato() ? "Accetta" : "Rifiuta" %></button>
-											</p>
-										</form>
+									<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
+										<input type="hidden" name="permitId" value="<%=permesso.getId()%>">
+									    <input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
+									    <div id ="singlePermesso">
+									        <h5> <%=permesso.getRichiedenteEmail()%> </h5>
+									
+									        <p>
+									            Dal giorno: <%=permesso.getDalGiorno()%> <br/>
+									            Al giorno: <%=permesso.getAlGiorno()%> <br/>
+									            Motivo: <%=permesso.getMotivo()%> <br/>
+									        </p>
+									
+									        <button type="submit" name="action" value="accetta">Accetta</button>
+									        <button type="submit" name="action" value="rifiuta">Rifiuta</button>
+									    </div>
+									</form>
 								<%
 									}
 								} else { %> <p>Nessuna richiesta di permesso. </p> <% }
@@ -143,20 +151,26 @@
 							<!-- Permessi richiesti dai Subordinati (Vista Responsabile) -->
 							<%	if(u.getRuolo().equals("responsabile")) {%>
 								<p>Subordinati:</p>
-								
 								<%
-								if (permessiSubordinati != null) {
+								if (permessiSubordinati != null && !permessiSubordinati.isEmpty()) {
 									for (Permesso permesso : permessiSubordinati) {
 								%>
-										<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
-											<input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
-											<p>
-												<%=permesso.getDalGiorno()%>
-												<%=permesso.getAlGiorno()%>
-												<%=permesso.getMotivo()%>:
-												<button type="submit"><%=!permesso.isStato() ? "Accetta" : "Rifiuta" %></button>
-											</p>
-										</form>
+									<form action="<%=request.getContextPath()%>/PermissionManagement" method="post">
+										<input type="hidden" name="permitId" value="<%=permesso.getId()%>">
+									    <input type="hidden" name="email" value="<%=permesso.getRichiedenteEmail()%>">
+									    <div id ="singlePermesso">
+									        <h5> <%=permesso.getRichiedenteEmail()%> </h5>
+									
+									        <p>
+									            Dal giorno: <%=permesso.getDalGiorno()%> <br/>
+									            Al giorno: <%=permesso.getAlGiorno()%> <br/>
+									            Motivo: <%=permesso.getMotivo()%> <br/>
+									        </p>
+									
+									        <button type="submit" name="action" value="accetta">Accetta</button>
+									        <button type="submit" name="action" value="rifiuta">Rifiuta</button>
+									    </div>
+									</form>
 								<%
 									}
 								} else { %> <p>Nessuna richiesta di permesso. </p> <% }

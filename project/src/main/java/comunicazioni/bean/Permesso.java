@@ -5,10 +5,10 @@ public class Permesso {
     private String dalGiorno;
     private String alGiorno;
     private String motivo;
-    private boolean stato;
+    private Boolean stato;
     private String richiedenteEmail;
 
-    public Permesso(int id, String dalGiorno, String alGiorno, String motivo, boolean stato, String richiedenteEmail) {
+    public Permesso(int id, String dalGiorno, String alGiorno, String motivo, Boolean stato, String richiedenteEmail) {
         this.id = id;
         this.dalGiorno = dalGiorno;
         this.alGiorno = alGiorno;
@@ -49,11 +49,11 @@ public class Permesso {
         this.motivo = motivo;
     }
 
-    public boolean isStato() {
+    public Boolean isStato() {
         return stato;
     }
 
-    public void setStato(boolean stato) {
+    public void setStato(Boolean stato) {
         this.stato = stato;
     }
 

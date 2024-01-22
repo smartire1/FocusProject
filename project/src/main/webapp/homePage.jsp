@@ -31,7 +31,7 @@
 			<% } %>
 			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
 			<a href="Dipendenti/Stats.jsp" class="button">Statistiche</a>
-			<a href="<%=request.getContextPath()%>/LoadNews" class="button">Comunicazioni</a>
+			<a href="<%=request.getContextPath()%>/LoadData" class="button">Comunicazioni</a>
 		</div>
 	</div>
 	

@@ -45,7 +45,7 @@ public class AddNews extends HttpServlet {
 			System.out.println("Comunicazione fallita");
 		}
 
-		response.sendRedirect(request.getContextPath() + "/LoadNews");
+		response.sendRedirect(request.getContextPath() + "/LoadData");
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -53,7 +53,7 @@ public class RequestPermission extends HttpServlet {
         }
         
         else {
-	        Permesso permesso = new Permesso(0, dalGiorno, alGiorno, motivazione, false, utente.getEmail());
+	        Permesso permesso = new Permesso(0, dalGiorno, alGiorno, motivazione, null, utente.getEmail());
 	        PermessoDAO permessoDAO = new PermessoDAO(ds);
 	        
 	        try {
@@ -70,8 +70,7 @@ public class RequestPermission extends HttpServlet {
         
         request.setAttribute("notification", notification);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Comunicazioni/communicationDashboard.jsp");
-        dispatcher.forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/LoadData");
         
 	}
 	
