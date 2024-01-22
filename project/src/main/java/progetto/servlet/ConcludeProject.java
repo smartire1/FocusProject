@@ -25,6 +25,7 @@ public class ConcludeProject extends HttpServlet {
 		
 		// Ottieni i parametri necessari dalla richiesta
 		String progettoIdParam = request.getParameter("id_progetto");
+		String op = request.getParameter("action");
 		int progettoId = 0;
 
 		if (progettoIdParam != null && !progettoIdParam.isEmpty())
@@ -35,32 +36,59 @@ public class ConcludeProject extends HttpServlet {
 		TaskDAO taskDAO = new TaskDAO(ds);
 		Progetto progetto;
 		
-		try {
-			// Ci sono task associati?
-			Collection<Task> tasks = taskDAO.doRetrieveAllByProject(progettoId, idAzienda);
-			for(Task t: tasks) {
-				System.out.println(t.getIdTask() + t.getSubordinatoEmail());
-			}
-			if(!tasks.isEmpty()) {
-				System.out.println("Non è possibile concludere il progetto perché ci sono task associati ancora da completare");
-				request.setAttribute("id", String.valueOf(progettoId));				
-				request.setAttribute("Error", "Impossibile concludere il progetto, task da completare");
-				request.getRequestDispatcher("/LoadTask").forward(request, response);				
+		//Gestione conclusione progetto (Responsabile)
+		if(op.equals("concludi")) {
+			try {
+				// Ci sono task associati?
+				Collection<Task> tasks = taskDAO.doRetrieveAllByProjectInProgress(progettoId, idAzienda);
+
+				if(!tasks.isEmpty()) {
+					System.out.println("Non è possibile concludere il progetto perché ci sono task associati ancora da completare");
+					request.setAttribute("id", String.valueOf(progettoId));				
+					request.setAttribute("Error", "Impossibile concludere il progetto, task da completare");
+					request.getRequestDispatcher("/LoadTask").forward(request, response);				
+				}
+				
+				else {
+					progetto = progettoDAO.doRetrieveByKey(progettoId, idAzienda);
+					progetto.setStato(true);
+					progettoDAO.doUpdate(progetto);
+					
+					System.out.println("Progetto Spostato nella sezione progetti conclusi");				
+					request.setAttribute("id", String.valueOf(progettoId));				
+					request.setAttribute("Success", "Progetto Spostato nella sezione progetti conclusi");
+					request.getRequestDispatcher("/LoadProjects").forward(request, response);	
+					
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
 			}
 			
-			else {
-				progetto = progettoDAO.doRetrieveByKey(progettoId, idAzienda);
-				progetto.setStato(true);
-				progettoDAO.doUpdate(progetto);
+		//Gestione eliminazione del progetto (dirigente)	
+		} else if (op.equals("elimina")) {
+			try {
+				LavoraDAO lavoraDAO = new LavoraDAO(ds);
+				Collection<Lavora> dipendenze = lavoraDAO.doRetriveByProject(progettoId);
+				Collection<Task> tasks = taskDAO.doRetrieveAllByProject(progettoId, idAzienda);
 				
-				System.out.println("Progetto Spostato nella sezione progetti conclusi");				
-				request.setAttribute("id", String.valueOf(progettoId));				
-				request.setAttribute("Success", "Progetto Spostato nella sezione progetti conclusi");
-				request.getRequestDispatcher("/LoadProjects").forward(request, response);	
+				//Rimozione delle dipendenze tra dipendenti e progetto
+				for(Lavora l: dipendenze) {
+					lavoraDAO.doDelete(l);
+				}	
 				
+				//Rimozione di tutti i task associati a quel progetto
+				for(Task t: tasks) {
+					taskDAO.doDelete(t.getIdTask());	
+				}
+				
+				//Rimozione del progetto dal db
+				progettoDAO.doDelete(progettoId);
+				
+				System.out.println("Progetto rimosso con successo");
+				request.getRequestDispatcher("/LoadProjects").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch(SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
