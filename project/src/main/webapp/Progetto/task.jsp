@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1"%>
 
-<%@ page import="java.util.List" import="progetto.bean.*" import="account.bean.*"  import="java.util.*"%>
+<%@ page import="java.util.List, progetto.bean.*, account.bean.*, java.util.*"%>
 
 <!DOCTYPE html>
 <html>
@@ -33,26 +33,38 @@
 
 	<!-- codice qui ... -->
 	<%
-	int progettoId = (int) request.getAttribute("progettoId");
-	boolean isFinish = (boolean) request.getAttribute("isFinish");
-	List<?> subordinati = (List<?>) request.getAttribute("subordinati");
-	Map<String, List<Task>> taskProgetto = (Map<String, List<Task>>) request.getAttribute("taskProgetto");
-
-	if(subordinati != null && !subordinati.isEmpty()) {
-		for (Object o : subordinati) {
-			if (o != null && o instanceof Utente) {
-			Utente u = (Utente) o;
+		Utente user = (Utente) session.getAttribute("utente");
+		String ruolo = user.getRuolo();	
+		int progettoId = (int) request.getAttribute("progettoId");
+		boolean isFinish = (boolean) request.getAttribute("isFinish");
+		List<?> subordinati = (List<?>) request.getAttribute("subordinati");
+		Map<String, List<Task>> taskProgetto = (Map<String, List<Task>>) request.getAttribute("taskProgetto");
 	%>
+	<div class="container text-center">
+		<button onclick="window.location.href='<%=request.getContextPath()%>/LoadProjects?id=<%= progettoId%>'" class="btn btn-danger">Torna al progetto</button>
+	</div>
+	<br>
+	<%
+		if(subordinati != null && !subordinati.isEmpty()) {
+			for (Object o : subordinati) {
+				if (o != null && o instanceof Utente) {
+					Utente u = (Utente) o;
+	%>
+	<div class="container">
+
 		<div class="subordinato-container">
 			<p class="subordinato-nome">
 				Nome: <%= u.getNome()%></p>
 	
 			<!-- Pulsante Apri Form -->	
-			<%if(!isFinish) {%>
+			<%if(!isFinish) {
+				if(ruolo.equals("responsabile")){
+			%>
+			
 			<div class="form-buttons">
 				<button class="apri-form" type="button" onclick="mostraForm('<%=u.getEmail()%>_form')">Apri Form</button>
 			</div>
-			<%} %>
+			<%}} %>
 	
 			<!-- Form per Aggiungere Task (inizialmente nascosto) -->
 			<form id="<%=u.getEmail()%>_form"
@@ -69,37 +81,41 @@
 			<!-- Visualizzazione dei task associati a questo subordinato -->
 			<ul class="task-list">
 				<%
-				List<Task> taskUtente = taskProgetto.get(u.getEmail());
-				if (taskUtente != null) {
-					for (Task task : taskUtente) {
+					List<Task> taskUtente = taskProgetto.get(u.getEmail());
+					if (taskUtente != null) {
+						for (Task task : taskUtente) {
 				%>
 				<li><%=task.getDescrizione()%> <!-- Pulsante Rimuovi Task -->
 					<form class="form-buttons" action="<%=request.getContextPath()%>/RemoveTask" method="post" style="display: inline;">
 						<input type="hidden" name="progettoId" value="<%=progettoId%>">
 						<input type="hidden" name="taskId" value="<%=task.getIdTask()%>">
 						<input type="hidden" name="utenteId" value="<%=u.getEmail()%>">
-						<%if(!task.isStato()) {%>
+						<%if(!task.isStato()) {
+							if(ruolo.equals("responsabile")){
+						%>
 							<button id="rimuovi-task" type="submit">Rimuovi Task</button>
-						<%}	else {%>		
+						<%	}	
+						  }  else {%>		
 							<h4>Task Completato</h4>
-						<%}	%>				
-					</form></li>
+						<%	 }%>				
+					</form>
+				</li>
 				<%
+						}
 					}
-				}
 				%>
 			</ul>
 		</div>
+	</div>
 	<%
+				}
 			}
 		}
-	}
-		
 		else {
 		%>
 		<p>Il progetto non ha subordinati assegnati</p>
 		<%
-	}
+		}
 	%>
 
 	<br>

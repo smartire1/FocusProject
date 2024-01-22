@@ -36,27 +36,44 @@ public class AddProject extends HttpServlet {
         String responsabile = request.getParameter("responsabile");
         // stato: false
         String idAzienda = (String) session.getAttribute("idAzienda");
-
+        String op = request.getParameter("action");
+        
         // Creiamo e salviamo il progetto
         Progetto nuovoProgetto = new Progetto(0, nomeProgetto, descrizione, obiettivi, scadenza, "", budget, 0, responsabile, false, idAzienda);
         ProgettoDAO progettoDAO = new ProgettoDAO(ds);
-        UtenteDAO utenteDAO = new UtenteDAO(ds);
-
-        try {
-        	Utente u = utenteDAO.doRetrieveByKey(responsabile, idAzienda);
-        	if (u == null) {
-        		System.out.println("Il subordinato inserito non esiste");
-                response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
-                return;
-        	}
-            progettoDAO.doSave(nuovoProgetto);
-            System.out.println("Progetto aggiunto con successo!");
-            response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Progetto non aggiunto");
-            response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
+        UtenteDAO utenteDAO = new UtenteDAO(ds);      
+        
+        if(op.equals("edit")) {
+        	int idProject = Integer.parseInt(request.getParameter("idProject"));
+        	nuovoProgetto.setIdProgetto(idProject);
+        	try {
+				progettoDAO.doUpdate(nuovoProgetto);
+	            System.out.println("Progetto Modificato con successo!");
+				request.setAttribute("id", String.valueOf(idProject));
+	            request.getRequestDispatcher("/LoadProjects").forward(request, response);				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        else {
+	        try {
+	        	Utente u = utenteDAO.doRetrieveByKey(responsabile, idAzienda);
+	        	if (u == null) {
+	        		System.out.println("Il Responsabile inserito non esiste");
+	                response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
+	                return;
+	        	}
+	            progettoDAO.doSave(nuovoProgetto);
+	            System.out.println("Progetto aggiunto con successo!");
+	            request.getRequestDispatcher("/LoadProjects").forward(request, response);
+	
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println("Progetto non aggiunto");
+	            response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
+	        }
         }
 	}
 

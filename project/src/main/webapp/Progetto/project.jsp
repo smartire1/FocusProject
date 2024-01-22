@@ -68,7 +68,6 @@
 	            Utente u = (Utente) o; %>			
 	        <!-- Form per la rimozione di subordinati -->
 		        <form action="<%= request.getContextPath()%>/HandleSubs" method="post">
-	
 		                <div>
 		                    <input type="hidden" name="email" value="<%= u.getEmail()%>">
 		                    <input type="hidden" name="idProject" value="<%= progetto.getIdProgetto()%>">
@@ -84,10 +83,65 @@
 
 	
 	<div class="container text-center">
-		<h2><%= progetto.getNome() %></h2>
-			<br>
-			<br>
-			
+		<h2><%= progetto.getNome() %></h2>			
+			<hr>		
+			<div class="container text-center">
+			  <div class="row">
+			  	<div class="col">
+				    <form id="addProjectForm" action="<%=request.getContextPath()%>/AddProject" method="POST">
+				    	 <input type="hidden" id="idProject" name="idProject" value="<%= progetto.getIdProgetto()%>" required>
+				    
+				         <input type="hidden" id="newnome" name="nome" value="<%= progetto.getNome()%>" required>
+				
+				         <input type="hidden" id="newresponsabile" name="responsabile" value="<%= progetto.getResponsabile_email()%>" required>
+				
+				         <input type="hidden" id="newdescrizione" name="descrizione" value="<%= progetto.getDescrizione()%>" required>
+				
+				         <input type="hidden" id="newobiettivi" name="obiettivi" value="<%= progetto.getObbiettivi()%>" required>
+				
+				         <input type="hidden" id="newscadenza" name="scadenza" value="<%= progetto.getScadenza()%>" >
+				
+				         <input type="hidden" id="newbudget" name="budget" value="<%= progetto.getBudget()%>" required>
+				
+				         <button id="applicaMod" name="action" value="edit" style="display:none;" class="btn btn-success" type="submit">applica modifiche</button>
+				         
+				    </form>			  	
+			  	</div>
+			    <div class="col">
+					<% if (!progetto.isStato()) { %>
+					    <form id="concludiProgettoForm" action="<%= request.getContextPath() %>/ConcludeProject" method="post">
+					        <input type="hidden" id="idProgetto" name="id_progetto" value="<%= progetto.getIdProgetto() %>" />
+					        <% if (ruolo.compareTo("responsabile") == 0) { %>
+					        <button class="btn btn-primary" name="action" value="concludi" type="submit">Concludi</button>
+					        <% } else if (ruolo.compareTo("dirigente") == 0) { %>
+					        <button class="btn btn-danger" name="action" value="elimina" type="submit">Elimina</button>					        
+					    </form>
+	    		</div>
+	    		<div class="col">
+			    
+			    <button id="editButton" style="display:block;" class="btn btn-primary" name="action" value="edit" onclick="handleEditClick()">Modifica</button>
+				<button id="ReloadMod" style="display:none;" class="btn btn-danger" type="button" onclick="window.location.href='<%= request.getContextPath() %>/LoadProjects?id=<%= progetto.getIdProgetto() %>';">Annulla modifiche</button>
+
+					<% } }else { %>
+					    <h3>Progetto Concluso!</h3>
+					<% } %>
+			    </div>
+			  </div>
+			</div>
+	    
+			<br>		    
+			<h3>Descrizione</h3>					    			
+		    <textarea id="testoDescrizione" class="form-control" readonly><%= progetto.getDescrizione() %></textarea>	
+		    <br>
+			<br>		
+				<p>
+					Scadenze
+					<input id="scadenzeProgetto" name="scadenze_progetto" value="<%=progetto.getScadenza()%>" readonly/>
+					budget		
+					<input id="budgetProgetto" name="budget_progetto" value="<%=progetto.getBudget()%>" readonly/>
+				</p>
+				<br>
+				<br>			
 			<div class="row">
 		        <!-- Contenitore Obiettivi -->
 		        <div class="col-md-6">
@@ -95,26 +149,21 @@
 		                <h3>Obiettivi</h3>
 		            	<textarea id="testoObiettivi" class="form-control" readonly><%= progetto.getObbiettivi() %></textarea>
 		            	<br>
-		            		
-		            	<%if(!progetto.isStato()) {%>	                		                
-			                <form id="concludiProgettoForm" action="<%=request.getContextPath()%>/ConcludeProject" method="post">
-			                	<input type="hidden" id="idProgetto" name="id_progetto" value="<%=progetto.getIdProgetto()%>" />
-			                	<%if(ruolo.compareTo("responsabile")==0) {%>
-						    		<button class="btn btn-primary" name="action" value="concludi" type="submit">Concludi</button>
-						    	<% } else if(ruolo.compareTo("dirigente")==0) {%>
-						    		<button class="btn btn-primary" name="action" value="elimina" type="submit">Elimina</button>
-						    	<% }%>
-						    </form>
-					    <%} else { %>
-					    	<h3>Progetto Concluso!</h3>
-					    <% }%>
 		            </div>
 		        </div>
 		           	
 				<div class="col-md-6">
 		            <div class="riquadro dip">
 		                <h3>Responsabile</h3>
-		                <p>Nome: <%=responsabile.getNome() %></p>
+		                <input type="hidden" id="responsabileProgetto" value="<%=progetto.getResponsabile_email()%>">
+		                <div class="row">
+			                <div class="col text-center d-flex flex-column align-items-center">
+			                	<p>Nome: <%=responsabile.getNome() %></p>
+
+			                	<button onclick="addButton()" class="btn btn-danger open-popup-btn" id="responsabileProgettoBtn" style="display:none;">Modifica responsabile</button>
+			                </div>
+		                </div>
+		                <hr>
 		                <h4>Subordinati</h4>
 		                <%for(Object o: subordinatiProj) {
 		                	Utente u = (Utente) o;%>
@@ -173,7 +222,6 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous">
-		
 	</script>
 </body>
 </html>

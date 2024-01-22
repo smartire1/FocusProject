@@ -83,7 +83,7 @@ public class ProgettoDAO {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
-	    String query = "UPDATE Progetto SET nome = ?, descrizione = ?, obbiettivi = ?, stato = ?, scadenza = ?, budget = ?, avvisi = ?, numDipendenti = ? WHERE id_progetto = ?";
+	    String query = "UPDATE Progetto SET nome = ?, descrizione = ?, obbiettivi = ?, stato = ?, scadenza = ?, budget = ? WHERE id_progetto = ?";
 
 	    try {
 	        connection = ds.getConnection();
@@ -94,9 +94,7 @@ public class ProgettoDAO {
 	        preparedStatement.setBoolean(4, progetto.isStato());
 	        preparedStatement.setString(5, progetto.getScadenza());
 	        preparedStatement.setDouble(6, progetto.getBudget());
-	        preparedStatement.setString(7, progetto.getAvvisi());
-	        preparedStatement.setInt(8, progetto.getNumDipendenti());
-	        preparedStatement.setInt(9, progetto.getIdProgetto());
+	        preparedStatement.setInt(7, progetto.getIdProgetto());
 	        preparedStatement.executeUpdate();
 	    } finally {
 	        try {

@@ -61,4 +61,74 @@ function removeButton() {
     toggleButtonDisplay('removeButton', 'addButton');
 }
 
+    function handleEditClick() {		
+		
+		var idProgetto = document.getElementById("idProject");
+        var budgetField = document.getElementById("budgetProgetto");
+        var scadenzeField = document.getElementById("scadenzeProgetto");
+        var obiettiviField = document.getElementById("testoObiettivi");
+        var responsabileField = document.getElementById("responsabileProgetto");
+        var descrizioneField = document.getElementById("testoDescrizione");
+
+        budgetField.readOnly = false;
+	    scadenzeField.readOnly = false;
+	    obiettiviField.readOnly = false;
+	    responsabileField.readOnly = false;
+	    descrizioneField.readOnly = false;
+        toggleElementVisibility("responsabileProgettoBtn");
+        toggleElementVisibility("applicaMod");
+        toggleElementVisibility("ReloadMod");
+        toggleElementVisibility("editButton");
+        
+        
+	    // Aggiungi un listener per l'evento di input sulla textarea
+	    //document.getElementById("testoDescrizione").addEventListener("input", updateInputValueNome);
+	    document.getElementById("testoDescrizione").addEventListener("input", updateInputValueDesc);
+	    document.getElementById("testoObiettivi").addEventListener("input", updateInputValueObbiett);
+	    document.getElementById("budgetProgetto").addEventListener("input", updateInputValueBudget);
+	    document.getElementById("scadenzeProgetto").addEventListener("input", updateInputValueScadenze);        
+        
+        alert("Modifiche abilitate!");
+        
+    }
+
+	function toggleElementVisibility(responsabileProgettoBtn) {
+	    var element = document.getElementById(responsabileProgettoBtn);
+	    if (element.style.display === "none" || element.style.display === "") {
+	        element.style.display = "block";
+	    } else {
+	        element.style.display = "none";
+	    }
+	}
+
+
+/*    function updateInputValueNome() {
+        var descrizioneValue = document.getElementById("testoDescrizione").value;
+        document.getElementById("newdescrizione").value = descrizioneValue;
+    }
+*/    
+    function updateInputValueDesc() {
+        var descrizioneValue = document.getElementById("testoDescrizione").value;
+        document.getElementById("newdescrizione").value = descrizioneValue;
+    }
+    
+    function updateInputValueObbiett() {
+        var descrizioneValue = document.getElementById("testoObiettivi").value;
+        document.getElementById("newobiettivi").value = descrizioneValue;
+    } 
+           
+    function updateInputValueBudget() {
+        var descrizioneValue = document.getElementById("budgetProgetto").value;
+        document.getElementById("newbudget").value = descrizioneValue;
+    }
+    
+    function updateInputValueScadenze() {
+        var descrizioneValue = document.getElementById("scadenzeProgetto").value;
+        document.getElementById("newscadenza").value = descrizioneValue;
+    }
+    
+
+
+
+
 

@@ -25,6 +25,11 @@ height: 100vh; /* Imposta l'altezza al 100% della viewport height */
 #testoObiettivi {
 	min-height: 150px;
 	max-height: 205px
+}
+
+#testoDescrizione {
+	min-height: 150px;
+	max-height: 205px
 }	      
 	    
 #Popup {
