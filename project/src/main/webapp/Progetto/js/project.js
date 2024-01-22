@@ -112,7 +112,16 @@ function removeButton() {
 	    document.getElementById("testoObiettivi").addEventListener("input", updateInputValueObbiett);
 	    document.getElementById("budgetProgetto").addEventListener("input", updateInputValueBudget);
 	    document.getElementById("scadenzeProgetto").addEventListener("input", updateInputValueScadenze);        
-       
+
+	  
+	    // Inizializza il datepicker
+	    $("#scadenzeProgetto").datepicker({
+			minDate: 0,
+	        onSelect: function(dateText, inst) {
+            updateInputValueScadenze();
+        }    
+	    });
+     
         alert("Modifiche abilitate!");
         
     }
@@ -157,6 +166,7 @@ function removeButton() {
 	    document.getElementById(targetId).value = valueR;
 	    document.getElementById("nomeresp").innerHTML = valueR;
 	}
+
 
 
     

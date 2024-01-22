@@ -14,7 +14,12 @@
 	<link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/Progetto/css/project.css">			  
 
 	<!-- JavaScript -->
-	<script type="text/javascript" src="<%= request.getContextPath()%>/Progetto/js/project.js"></script>
+ 	<script type="text/javascript" src="<%= request.getContextPath()%>/Progetto/js/project.js"></script>
+  
+  <!-- jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
 	
 	<!-- font -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 	
@@ -249,5 +254,8 @@
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous">
 	</script>
+
+
+	
 </body>
 </html>
