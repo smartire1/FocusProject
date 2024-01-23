@@ -24,10 +24,16 @@
 		rel="stylesheet"
 		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 		crossorigin="anonymous">
+		
+  	<!-- jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>			
 	
 	<!-- CSS -->
 	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Dipendenti/css/employeeDashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 	
 	
 	<!-- JavaScript -->
 	<script type="text/javascript"
@@ -43,6 +49,35 @@
 	</header>
 
 	<jsp:include page="../navbar.jsp" />
+
+	<div class="overlay" id="Overlay"></div>
+	<div class="container text-center" id="Popup">
+	    <button id="closeBtn" class="close-btn close-popup-btn"><i class="fas fa-times"></i></button>
+	    <div class="container">
+	        <h3 id="Operation" class="title">Compila Form Turno</h3>
+	
+	        <div>
+	        	<br>
+	        	<br>
+	        	<form action="<%=request.getContextPath()%>/AddTurno" method="POST">
+		        	<input type="text" id="datePicker" name="dataTurno" value="Inserisci Data" >
+		        	<br>
+		        	<br>
+		        	Ora inizio: <input type="time" name="oraInizio" id="oraInizio">
+		        	<br>
+		        	<br>
+		        	Ora fine: <input type="time" name="oraFine" id="oraFine">
+		        	<br>
+		        	<br>
+		        	<button type="submit" onclick="verificaOrario()">Aggiungi Tuno</button>
+		        	<br>
+		        	<br>
+		        	<input type="hidden" id="toAdd" name="utenteTurno">
+	        	</form>	        	
+	        </div>
+       
+	    </div>
+	</div>
 
 	<div class="container">
 		<div class="row">
@@ -153,12 +188,10 @@
 							        Utente responsabile = (Utente) utente;
 							        if(responsabile.isStato()) {						        
 							    %>
-							        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
 							            <input type="hidden" name="email" value="<%=responsabile.getEmail()%>">
 							            <p><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:
-							                <button type="submit">Aggiungi turno</button>
+							                <button onclick="toAddResp('<%=responsabile.getEmail()%>')" class="btn btn-success open-popup-btn">Aggiungi turno</button>
 							            </p>
-							        </form>
 							    <%
 							        }}
 						    }

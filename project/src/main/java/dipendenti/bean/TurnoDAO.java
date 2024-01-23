@@ -18,31 +18,54 @@ public class TurnoDAO {
 	}
 
 	// Metodo per salvare un Turno nel database
-	public synchronized void doSave(Turno turno) throws SQLException {
+	public synchronized Turno doSave(Turno turno) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet generatedKeys = null;
 
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    String query = "INSERT INTO Turno (giorno, ora_inizio, ora_fine) VALUES (?, ?, ?)";
 
-		String query = "INSERT INTO Turno (giorno, ora_inizio, ora_fine) VALUES (?, ?, ?)";
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, turno.getGiorno());
-			preparedStatement.setString(2, turno.getOraInizio());
-			preparedStatement.setString(3, turno.getOraFine());
-			preparedStatement.executeUpdate();
-		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
+	        preparedStatement.setString(1, turno.getGiorno());
+	        preparedStatement.setString(2, turno.getOraInizio());
+	        preparedStatement.setString(3, turno.getOraFine());
+
+	        int affectedRows = preparedStatement.executeUpdate();
+
+	        if (affectedRows == 0) {
+	            throw new SQLException("Inserimento del turno non riuscito, nessuna riga modificata.");
+	        }
+
+	        generatedKeys = preparedStatement.getGeneratedKeys();
+
+	        if (generatedKeys.next()) {
+	            int generatedId = generatedKeys.getInt(1);
+	            turno.setId(generatedId); // Imposta l'ID generato nel tuo oggetto Turno
+	        } else {
+	            throw new SQLException("Inserimento del turno non riuscito, nessun ID generato.");
+	        }
+	    } finally {
+	        try {
+	            if (generatedKeys != null) {
+	                generatedKeys.close();
+	            }
+	        } finally {
+	            try {
+	                if (preparedStatement != null) {
+	                    preparedStatement.close();
+	                }
+	            } finally {
+	                if (connection != null) {
+	                    connection.close();
+	                }
+	            }
+	        }
+	    }
+
+	    return turno; // Restituisci il turno con l'ID aggiornato
 	}
 
 	// Metodo per eliminare un Turno dal database
