@@ -36,15 +36,19 @@ public class GenerateStats extends HttpServlet {
 				Collection<Utente> responsabili = utenteDAO.doRetrieveAllResponsabili(idAzienda);
 				Collection<Utente> subordinati = utenteDAO.doRetrieveAllSubordinati(idAzienda);
 				
+				StatisticheResponsabileDAO statsResponsabileDAO = new StatisticheResponsabileDAO(ds);
+				StatisticheResponsabile sr;
+				
 				for(Utente responsabile : responsabili) {
-					StatisticheResponsabileDAO statsResponsabileDAO = new StatisticheResponsabileDAO(ds);
-					StatisticheResponsabile sr = statsResponsabileDAO.getStatisticheResponsabile(responsabile.getEmail());
+					sr = statsResponsabileDAO.getStatisticheResponsabile(responsabile.getEmail());
 					statsResponsabili.add(sr);
 				}
 				
+				StatisticheSubordinatoDAO statsSubordinatoDAO = new StatisticheSubordinatoDAO(ds);
+				StatisticheSubordinato ss;
+				
 				for(Utente subordinato : subordinati) {
-					StatisticheSubordinatoDAO statsSubordinatoDAO = new StatisticheSubordinatoDAO(ds);
-					StatisticheSubordinato ss = statsSubordinatoDAO.getStatisticheSubordinato(subordinato.getEmail());
+					ss = statsSubordinatoDAO.getStatisticheSubordinato(subordinato.getEmail());
 					statsSubordinati.add(ss);
 				}
 				// ...........................
@@ -53,6 +57,8 @@ public class GenerateStats extends HttpServlet {
 				request.setAttribute("statsSubordinati", statsSubordinati);
 			}
 			
+			
+			
 			if(utente.getRuolo().equals("responsabile")) {
 				System.out.println("Generazione statistiche per responsabile");
 				
@@ -60,18 +66,23 @@ public class GenerateStats extends HttpServlet {
 				StatisticheResponsabile myStats = statsResponsabileDAO.getStatisticheResponsabile(utente.getEmail());
 				List<StatisticheSubordinato> statsSubordinati = new ArrayList<>();
 				
-				Collection<Utente> subordinatiACarico = utenteDAO.doRetrieveAllSubMngdByResp(utente.getEmail(), idAzienda);
+				Collection<Utente> subordinatiACarico = utenteDAO.doRetrieveAllSubMngdByResp(idAzienda, utente.getEmail());
+				
+				StatisticheSubordinatoDAO statsSubordinatoDAO = new StatisticheSubordinatoDAO(ds);
+				StatisticheSubordinato ss;
 				
 				for(Utente subordinato : subordinatiACarico) {
-					StatisticheSubordinatoDAO statsSubordinatoDAO = new StatisticheSubordinatoDAO(ds);
-					StatisticheSubordinato ss = statsSubordinatoDAO.getStatisticheSubordinato(subordinato.getEmail());
+					ss = statsSubordinatoDAO.getStatisticheSubordinato(subordinato.getEmail());
 					statsSubordinati.add(ss);
 				}
+
 				// ...........................
 				
 				request.setAttribute("myStatsResponsabile", myStats);
 				request.setAttribute("statsMySubordinati", statsSubordinati);
 			}
+			
+			
 			
 			if(utente.getRuolo().equals("subordinato")) {
 				System.out.println("Generazione statistiche per subordinato");

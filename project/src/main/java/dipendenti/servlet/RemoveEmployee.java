@@ -2,13 +2,11 @@ package dipendenti.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import account.bean.*;
@@ -21,12 +19,9 @@ public class RemoveEmployee extends HttpServlet {
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 		UtenteDAO utenteDAO = new UtenteDAO(ds);
 		
-		HttpSession session = request.getSession();
-		String idAzienda = (String) session.getAttribute("idAzienda");
-		
 		String emailToRemove = request.getParameter("email");
 		
-		try { 
+		try {
 			utenteDAO.doDelete(emailToRemove);
 			System.out.println("Subordinato rimosso con successo!");
 			

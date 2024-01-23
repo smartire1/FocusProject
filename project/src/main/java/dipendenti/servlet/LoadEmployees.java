@@ -2,10 +2,7 @@ package dipendenti.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import account.bean.*;
+import dipendenti.bean.*;
 
 @WebServlet("/LoadEmployees")
 public class LoadEmployees extends HttpServlet {
@@ -22,33 +20,49 @@ public class LoadEmployees extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-		UtenteDAO utenteDAO = new UtenteDAO(ds);
-		
 		HttpSession session = request.getSession();
 		String idAzienda = (String) session.getAttribute("idAzienda");
+		Utente utente = (Utente) session.getAttribute("utente");
 		
-			Collection<Utente> responsabili = null;
-			Collection<Utente> subordinati = null;
-			System.out.println(idAzienda);
-			try {
+		Collection<Utente> responsabili = null;
+		Collection<Utente> subordinati = null;
+		Collection<Utente> mieiSubordinati = null;
+		UtenteDAO utenteDAO = new UtenteDAO(ds);
+		
+		// Caricare i turni di tutti i dipendenti (da continuare)
+		Collection<Turno> turni = null;
+		TurnoDAO turnoDAO = new TurnoDAO(ds);
+		// ...
+		// ...
+		// ...
+		
+		try {
+			// Se l'utente è il Dirigente
+			if(utente.getRuolo().equals("dirigente")) {
 				responsabili = utenteDAO.doRetrieveAllResponsabili(idAzienda);
-				subordinati = utenteDAO.doRetrieveAllSubordinati(idAzienda);								
+				subordinati = utenteDAO.doRetrieveAllSubordinati(idAzienda);
 				
 				request.setAttribute("responsabili", responsabili);
-				request.setAttribute("subordinati", subordinati);				
-				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Dipendenti/employeeDashboard.jsp");
-				try {
-					dispatcher.forward(request, response);
-				} catch (ServletException e) {
-					System.err.println(e);
-				} catch (IOException e) {
-					System.err.println(e);
-				}				
-			} catch (SQLException e) {
-				System.out.println(e);
+				request.setAttribute("subordinati", subordinati);
 			}
 			
+			// Se l'utente è un Responsabile allora gli verranno mostrati solo i subordianti che lavorano ai suoi progetti
+			if(utente.getRuolo().equals("responsabile")) {
+				mieiSubordinati = utenteDAO.doRetrieveAllSubMngdByResp(idAzienda, utente.getEmail());
+				
+				request.setAttribute("mieiSubordinati", mieiSubordinati);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		
+		// Se ci sono eventualmente delle notifiche da mostrare:
+		String notifica = (String) request.getAttribute("notifica");
+		request.setAttribute("notifica", notifica);
+		
+		request.getRequestDispatcher("/Dipendenti/employeeDashboard.jsp").forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

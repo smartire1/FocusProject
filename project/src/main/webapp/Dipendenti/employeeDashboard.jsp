@@ -5,9 +5,12 @@
 <%@ page import="java.util.Collection"%>
 
 <%
-	Collection<?> responsabili = null;
-	Collection<?> subordinati = null;
 	Utente u = (Utente) session.getAttribute("utente");
+	Collection<?> responsabili = (Collection<?>) request.getAttribute("responsabili");
+	Collection<?> subordinati = (Collection<?>) request.getAttribute("subordinati");
+	Collection<?> mieiSubordinati = (Collection<?>) request.getAttribute("mieiSubordinati");
+
+	String notifica = (String) request.getAttribute("notifica");
 %>
 
 <!DOCTYPE html>
@@ -80,6 +83,17 @@
 	</div>
 
 	<div class="container">
+	
+		<%
+		if(notifica != null && !notifica.isEmpty()) { %>
+			<div id="notification">
+				<p><%= notifica %></p>
+			</div>
+			
+			<%
+		}
+		%>
+	
 		<div class="row">
 			<div class="container-fluid1">
 				<!-- Sidebar con pulsanti -->
@@ -101,7 +115,7 @@
 					<div id="contentContainer">
 						<!-- Contenuto dei div associati ai pulsanti -->
 						<div id="content1" class="hidden">
-							<form id="addEmployeeForm">
+							<form id="addEmployeeForm" action="<%=request.getContextPath()%>/AddEmployee" method="POST">
 								<label for="nome">Nome:</label> 
 								<input type="text" id="nome"name="nome" required>
 									 
@@ -140,7 +154,7 @@
 						    <%-- Rimuovi Responsabili --%>
 						    <h4>Responsabili:</h4>
 						    <% 
-						    	responsabili = (Collection<?>) request.getAttribute("responsabili");
+						    	if(responsabili != null) {
 						        for (Object utente : responsabili) {
 						        Utente responsabile = (Utente) utente;
 						        if(responsabile.isStato()) {
@@ -152,13 +166,13 @@
 						            </p>
 						        </form>
 						    <%
-						        }}
+						        }}}
 						    %>
 						
 						    <%-- Rimuovi Subordinati --%>
 						    <h4>Subordinati:</h4>
 						    <% 
-					    		subordinati = (Collection<?>) request.getAttribute("subordinati");						    
+						    	if(subordinati != null) {
 						        for (Object utente : subordinati) {
 							        Utente subordinato = (Utente) utente;
 							    if(subordinato.isStato()) {    
@@ -170,7 +184,7 @@
 						            </p>
 						        </form>
 						    <%
-						        }}
+						        }}}
 						    %>
 						</div>
 
@@ -183,7 +197,6 @@
 						    <% if(u.getRuolo().equals("dirigente")) { %>
 							    <h4>Responsabili:</h4>
 							    <% 
-							    	responsabili = (Collection<?>) request.getAttribute("responsabili");
 							        for (Object utente : responsabili) {
 							        Utente responsabile = (Utente) utente;
 							        if(responsabile.isStato()) {						        
@@ -201,8 +214,7 @@
 						    <% if(u.getRuolo().equals("responsabile")) { %>
 							    <h4>Subordinati:</h4>
 							    <% 
-						    		subordinati = (Collection<?>) request.getAttribute("subordinati");						    
-							        for (Object utente : subordinati) {
+							        for (Object utente : mieiSubordinati) {
 								        Utente subordinato = (Utente) utente;
 								    if(subordinato.isStato()) {  
 							    %>
@@ -224,7 +236,6 @@
 						    <% if(u.getRuolo().equals("dirigente")) { %>
 							    <h4>Responsabili:</h4>
 							    <% 
-							    	responsabili = (Collection<?>) request.getAttribute("responsabili");
 							        for (Object utente : responsabili) {
 							        Utente responsabile = (Utente) utente;
 							        if(responsabile.isStato()) {						        
@@ -243,11 +254,10 @@
 						    <%-- Rimuovi turni Subordinati --%>
 						    <% if(u.getRuolo().equals("responsabile")) { %>
 							    <h4>Subordinati:</h4>
-							    <% 
-						    		subordinati = (Collection<?>) request.getAttribute("subordinati");						    
-							        for (Object utente : subordinati) {
+								<%					    
+							        for (Object utente : mieiSubordinati) {
 								        Utente subordinato = (Utente) utente;
-								        if(subordinato.isStato()) {							        
+								    if(subordinato.isStato()) {  
 							    %>
 							        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
 							            <input type="hidden" name="email" value="<%=subordinato.getEmail()%>">

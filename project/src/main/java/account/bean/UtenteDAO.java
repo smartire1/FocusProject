@@ -73,9 +73,32 @@ public class UtenteDAO {
 			}
 		}
 	}
+	
+	// Metodo per aggiornare lo stato di un Utente
+	public synchronized void doReHire(String email) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
 
+	    String query = "UPDATE Utente SET stato = TRUE WHERE email = ?";
+
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(query);
+	        preparedStatement.setString(1, email);
+	        preparedStatement.executeUpdate();
+	    } finally {
+	        try {
+	            if (preparedStatement != null)
+	                preparedStatement.close();
+	        } finally {
+	            if (connection != null)
+	                connection.close();
+	        }
+	    }
+	}
+	
 	// Metodo per aggiornare un Utente nel database
-	public synchronized void doUpdate(Utente utente, String email, String password) throws SQLException {
+	public synchronized void doUpdateCredentials(Utente utente, String email, String password) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
@@ -175,7 +198,7 @@ public class UtenteDAO {
 		PreparedStatement preparedStatement = null;
 
 		Collection<Utente> utenti = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Utente WHERE idAzienda = ?";
+		String selectSQL = "SELECT * FROM Utente WHERE idAzienda = ? AND stato = true";
 
 		try {
 			connection = ds.getConnection();
@@ -210,7 +233,7 @@ public class UtenteDAO {
 		PreparedStatement preparedStatement = null;
 
 		Collection<Utente> responsabili = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'responsabile' AND u.idAzienda = ?";
+		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'responsabile' AND u.idAzienda = ? AND stato = true";
 		
 		try {
 			connection = ds.getConnection();
@@ -245,7 +268,7 @@ public class UtenteDAO {
 		PreparedStatement preparedStatement = null;
 
 		Collection<Utente> subordinati = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'subordinato' AND u.idAzienda = ?";
+		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'subordinato' AND u.idAzienda = ? AND stato = true";
 		
 		try {
 			connection = ds.getConnection();
@@ -281,7 +304,8 @@ public class UtenteDAO {
     	        + "LEFT JOIN LavoraA ON Utente.email = LavoraA.email AND LavoraA.id_progetto = ? "
     	        + "WHERE Utente.idAzienda = ? "
     	        + "    AND LavoraA.id_progetto IS NULL "
-    	        + "    AND Utente.ruolo = 'subordinato'";
+    	        + "    AND Utente.ruolo = 'subordinato'"
+    	        + "    AND Utente.stato = true";
 
     	List<Utente> subordinati = new ArrayList<>();
         try (
@@ -304,11 +328,11 @@ public class UtenteDAO {
     
     public List<Utente> doRetrieveAllSubMngdByResp(String idAzienda, String email) throws SQLException {
         List<Utente> userList = new ArrayList<>();
-        String query = "SELECT U.* " +
+        String query = "SELECT DISTINCT U.* " +
                        "FROM Utente U " +
                        "JOIN LavoraA LA ON U.email = LA.email " +
                        "JOIN Progetto P ON LA.id_progetto = P.id_progetto " +
-                       "WHERE U.stato = TRUE AND U.idAzienda = ? AND P.responsabile_email = ?";
+                       "WHERE U.stato = TRUE AND U.idAzienda = ? AND P.responsabile_email = ? AND P.stato = FALSE";
 
         try (Connection connection = ds.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -339,7 +363,7 @@ public class UtenteDAO {
                 + "FROM Utente "
                 + "JOIN Azienda ON Utente.idAzienda = Azienda.piva "
                 + "LEFT JOIN Progetto ON Utente.email <> ? "
-                + "WHERE Utente.idAzienda = ? AND Utente.email <> ? AND Utente.ruolo = 'responsabile'";
+                + "WHERE Utente.idAzienda = ? AND Utente.email <> ? AND Utente.ruolo = 'responsabile' AND Utente.stato = true";
 
         List<Utente> responsabili = new ArrayList<>();
         try (

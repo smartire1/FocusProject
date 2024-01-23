@@ -59,7 +59,7 @@ public class ChangeCredentials extends HttpServlet {
 		        	
 		        	// Se l'-email non è già in uso
 		        	else {
-		        		utenteDAO.doUpdate(utente, email, password);
+		        		utenteDAO.doUpdateCredentials(utente, email, password);;
 		        		
 		        		// Aggiorniamo l'attributo di sessione 'utente'
 		        		utente = utenteDAO.doRetrieveByKey(email, piva);
