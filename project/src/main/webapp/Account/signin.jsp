@@ -19,8 +19,8 @@ if (error == null)
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link type="text/css" rel="stylesheet" href="../css/style.css">
-<link type="text/css" rel="stylesheet" href="css/signin.css">
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Account/css/signin.css">
 <script type="text/javascript" src="js/signin.js"></script>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">

@@ -14,8 +14,8 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 		
 	<!-- CSS --> 
-	<link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/css/style.css">	
-	<link type="text/css" rel="stylesheet" href="<%= request.getContextPath()%>/Account/css/userArea.css">	
+	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">	
+	<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Account/css/userArea.css">	
 	
 	<!-- JavaScript -->
 	<script type="text/javascript" src="<%= request.getContextPath()%>/Account/js/userArea.js"></script>
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="col-lg-5">
-                <img id="myCredentials" src="imgs/undraw_My_password_re_ydq7.png" class="img-fluid">
+                <img id="myCredentials" src="<%=request.getContextPath()%>/Account/imgs/undraw_My_password_re_ydq7.png" class="img-fluid">
             </div>
         </div>
     </div>

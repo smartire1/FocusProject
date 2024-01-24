@@ -16,8 +16,8 @@ if (error == null)
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- CSS -->
-<link type="text/css" rel="stylesheet" href="../css/style.css">
-<link type="text/css" rel="stylesheet" href="css/login.css">
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Account/css/login.css">
 
 <!-- JavaScript -->
 <script type="text/javascript" src="js/login.js"></script>

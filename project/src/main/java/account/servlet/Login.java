@@ -31,8 +31,7 @@ public class Login extends HttpServlet {
 			return;
 		}
 
-		// Se l'utente non è già autenticato, allora si procede alla verifica delle
-		// credenziali
+		// Se l'utente non è già autenticato, allora si procede alla verifica delle credenziali
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String error = "";
@@ -50,6 +49,7 @@ public class Login extends HttpServlet {
 			if (utente.getEmail().equals(email)) {
 				// se la password corrisponde
 				if (utente.getPassword().equals(password)) {
+					// se l'account non è attivo
 					if(!utente.isStato()) {
 						System.out.println("Stato disattivo");
 						error += "Il tuo Account non è attivo";
@@ -57,6 +57,8 @@ public class Login extends HttpServlet {
 						request.getRequestDispatcher("/Account/login.jsp").forward(request, response);
 						return;
 					}
+					
+					// se l'account è attivo
 					System.out.println("Log in effettuato con successo");
 					session.setAttribute("utente", utente);
 					session.setAttribute("idAzienda", utente.getIdAzienda());
@@ -80,7 +82,7 @@ public class Login extends HttpServlet {
 					request.setAttribute("error", error);
 					request.getRequestDispatcher("/Account/login.jsp").forward(request, response);
 				}
-				// se l'e-mail non corrisponde
+			// se l'e-mail non corrisponde
 			} else {
 				if (error.equals(""))
 					error += "Account inesistente";

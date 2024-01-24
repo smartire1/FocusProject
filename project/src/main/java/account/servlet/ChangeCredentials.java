@@ -38,16 +38,12 @@ public class ChangeCredentials extends HttpServlet {
 			notification = "I parametri inseriti non rispettano il formato";
 		}
         
-     // I parametri rispettano il formato
+        // I parametri rispettano il formato
         else {
-	        if(utente.getEmail().equals(email)) {
-	        	notification = "L'email inserita è uguale a quella precedente";
-	        	System.out.println("L'email inserita è uguale a quella precedente");
-	        }
-	        
-	        else if(utente.getPassword().equals(password)) {
-	        	notification = "La password inserita è uguale a quella precedente";
-	        	System.out.println("La password inserita è uguale a quella precedente");
+        	// Se le credenziali sono uguali alle precedenti
+	        if(utente.getEmail().equals(email) && utente.getPassword().equals(password)) {
+	        	notification = "Le credenziali inserite sono uguali alle precedenti";
+	        	System.out.println("Le credenziali inserite sono uguali alle precedenti");
 	        }
 	        
 	        else {
@@ -59,6 +55,7 @@ public class ChangeCredentials extends HttpServlet {
 		        	
 		        	// Se l'-email non è già in uso
 		        	else {
+		        		// Aggiorna le credenziali
 		        		utenteDAO.doUpdateCredentials(utente, email, password);;
 		        		
 		        		// Aggiorniamo l'attributo di sessione 'utente'
