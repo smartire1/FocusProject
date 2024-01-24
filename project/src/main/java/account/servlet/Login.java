@@ -28,7 +28,7 @@ public class Login extends HttpServlet {
 		// ERROR: Se l'utente è già autenticato!
 		if (utente != null) {
 			System.out.println("L'utente risulta già autenticato");
-			response.sendRedirect(request.getContextPath() + "/homePage.jsp");
+			request.getRequestDispatcher("/homePage.jsp").forward(request, response);
 			return;
 		}
 
@@ -55,6 +55,7 @@ public class Login extends HttpServlet {
 						session.setAttribute("idAzienda", utente.getIdAzienda());
 						
 						request.getRequestDispatcher("/homePage.jsp").forward(request, response);
+						return;
 					}
 					
 					// ERROR: l'account non è attivo

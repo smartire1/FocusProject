@@ -153,99 +153,16 @@ public class ProgettoDAO {
 
 	    return null;
 	}
-
-	// Metodo per recuperare tutti gli Progetti dal database
-	public Collection<Progetto> doRetrieveAll(String idAzienda) throws SQLException {
-
-	    Connection connection = null;
-	    PreparedStatement preparedStatement = null;
-	    Collection<Progetto> progetti = new LinkedList<>();
-
-	    String selectSQL = "SELECT * FROM Progetto WHERE idAzienda = ?";
-
-	    try {
-	        connection = ds.getConnection();
-	        preparedStatement = connection.prepareStatement(selectSQL);
-	        preparedStatement.setString(1, idAzienda);
-
-	        ResultSet rs = preparedStatement.executeQuery();
-
-	        while (rs.next()) {
-	            Progetto progetto = new Progetto(
-	                    rs.getInt("id_progetto"),
-	                    rs.getString("nome"),
-	                    rs.getString("descrizione"),
-	                    rs.getString("obbiettivi"),
-	                    rs.getString("scadenza"),
-	                    rs.getString("avvisi"),
-	                    rs.getDouble("budget"),
-	                    rs.getInt("numDipendenti"),
-	                    rs.getString("responsabile_email"),
-	                    rs.getBoolean("stato"),
-	                    rs.getString("idAzienda")
-	            );
-	            progetti.add(progetto);
-	        }
-	    } finally {
-	        try {
-	            if (preparedStatement != null) {
-	                preparedStatement.close();
-	            }
-	        } finally {
-	            if (connection != null) {
-	                connection.close();
-	            }
-	        }
-	    }
-
-	    return progetti;
-	}
 	
-	// Metodo per recuperare tutti gli Progetti completati dal database
-	public Collection<Progetto> doRetrieveAllFinished(String idAzienda) throws SQLException {
+	// Metodo per recuperare tutti i Progetti dal database secondo lo stato
+	public Collection<Progetto> doRetrieveAllByStato(String idAzienda, boolean stato) throws SQLException {
 	    Collection<Progetto> progetti = new LinkedList<>();
-	    String selectSQL = "SELECT * FROM Progetto WHERE stato = true AND idAzienda = ?";
+	    String selectSQL = "SELECT * FROM Progetto WHERE stato = ? AND idAzienda = ?";
 
 	    try (Connection connection = ds.getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
-
-	        preparedStatement.setString(1, idAzienda);
-
-	        try (ResultSet rs = preparedStatement.executeQuery()) {
-	            while (rs.next()) {
-	                Progetto progetto = new Progetto(
-	                        rs.getInt("id_progetto"),
-	                        rs.getString("nome"),
-	                        rs.getString("descrizione"),
-	                        rs.getString("obbiettivi"),
-	                        rs.getString("scadenza"),
-	                        rs.getString("avvisi"),
-	                        rs.getDouble("budget"),
-	                        rs.getInt("numDipendenti"),
-	                        rs.getString("responsabile_email"),
-	                        rs.getBoolean("stato"),
-	                        rs.getString("idAzienda")
-	                );
-	                progetti.add(progetto);
-	            }
-	        }
-
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-
-	    return progetti;
-	}
-		
-	// Metodo per recuperare tutti gli Progetti attivi dal database
-	public Collection<Progetto> doRetrieveAllCurrent(String idAzienda) throws SQLException {
-	    Collection<Progetto> progetti = new LinkedList<>();
-	    String selectSQL = "SELECT * FROM Progetto WHERE stato = false AND idAzienda = ?";
-
-	    try (Connection connection = ds.getConnection();
-	         PreparedStatement preparedStatement = connection.prepareStatement(selectSQL)) {
-
-	        preparedStatement.setString(1, idAzienda);
+	    	preparedStatement.setBoolean(1, stato);
+	        preparedStatement.setString(2, idAzienda);
 
 	        try (ResultSet rs = preparedStatement.executeQuery()) {
 	            while (rs.next()) {
@@ -274,19 +191,20 @@ public class ProgettoDAO {
 	}
 	
 	// Metodo per recuperare tutti i Progetti associati a un responsabile dal database
-	public Collection<Progetto> doRetrieveAllByResponsabile(String responsabileEmail, String idAzienda) throws SQLException {
+	public Collection<Progetto> doRetrieveAllByRespAndStato(String responsabileEmail, String idAzienda, boolean stato) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
 	    Collection<Progetto> progetti = new LinkedList<>();
 
-	    String selectSQL = "SELECT * FROM Progetto WHERE responsabile_email = ? AND idAzienda = ?";
+	    String selectSQL = "SELECT * FROM Progetto WHERE responsabile_email = ? AND idAzienda = ? AND stato = ?";
 
 	    try {
 	        connection = ds.getConnection();
 	        preparedStatement = connection.prepareStatement(selectSQL);
 	        preparedStatement.setString(1, responsabileEmail);
 	        preparedStatement.setString(2, idAzienda);
+	        preparedStatement.setBoolean(3, stato);
 
 	        try (ResultSet rs = preparedStatement.executeQuery()) {
 	            while (rs.next()) {
@@ -322,4 +240,58 @@ public class ProgettoDAO {
 	    return progetti;
 	}
 	
+	// Metodo per recuperare tutti i Progetti associati a un subordinato dal database
+	public Collection<Progetto> doRetrieveAllBySubAndStato(String subordinatoEmail, String idAzienda, boolean stato) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+
+	    Collection<Progetto> progetti = new LinkedList<>();
+
+	    String selectSQL = "SELECT P.* " +
+	                       "FROM Progetto P " +
+	                       "JOIN LavoraA L ON P.id_progetto = L.id_progetto " +
+	                       "JOIN Utente U ON L.email = U.email " +
+	                       "WHERE U.email = ? AND P.stato = ? AND U.idAzienda = ?";
+
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, subordinatoEmail);
+	        preparedStatement.setBoolean(2, stato);
+	        preparedStatement.setString(3, idAzienda);
+
+	        try (ResultSet rs = preparedStatement.executeQuery()) {
+	            while (rs.next()) {
+	                Progetto progetto = new Progetto(
+	                        rs.getInt("id_progetto"),
+	                        rs.getString("nome"),
+	                        rs.getString("descrizione"),
+	                        rs.getString("obbiettivi"),
+	                        rs.getString("scadenza"),
+	                        rs.getString("avvisi"),
+	                        rs.getDouble("budget"),
+	                        rs.getInt("numDipendenti"),
+	                        rs.getString("responsabile_email"),
+	                        rs.getBoolean("stato"),
+	                        rs.getString("idAzienda")
+	                );
+
+	                progetti.add(progetto);
+	            }
+	        }
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }
+
+	    return progetti;
+	}
+
 }

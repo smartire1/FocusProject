@@ -29,7 +29,7 @@
 			<% if(!u.getRuolo().equals("subordinato")) { %>
 			<a href="<%=request.getContextPath()%>/LoadEmployees" class="button">Dashboard Dipendenti</a>
 			<% } %>
-			<a href="Progetto/projectDashboard.jsp" class="button">Dashboard Progetti</a>
+			<a href="<%=request.getContextPath()%>/LoadProjects" class="button">Dashboard Progetti</a>
 			<a href="<%=request.getContextPath()%>/GenerateStats" class="button">Statistiche</a>
 			<a href="<%=request.getContextPath()%>/LoadData" class="button">Comunicazioni</a>
 		</div>
