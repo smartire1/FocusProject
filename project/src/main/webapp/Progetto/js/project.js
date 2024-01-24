@@ -134,6 +134,17 @@ function removeButton() {
 	        element.style.display = "none";
 	    }
 	}
+	
+	function avvisiFunct(invia, nuovo) {
+		console.log('avvisiFunct called with arguments:', invia, nuovo);
+		
+	    document.getElementById('testoAvviso').readOnly = false;
+	    document.getElementById('testoAvviso').innerText = "";
+	    document.getElementById('testoAvviso').placeholder = "Nuovo Avviso...";
+	    toggleElementVisibility(invia);
+	    toggleElementVisibility(nuovo);
+	}
+	
 
 
     function updateInputValueNome() {

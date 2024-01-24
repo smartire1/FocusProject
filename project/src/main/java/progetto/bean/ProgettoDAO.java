@@ -83,7 +83,7 @@ public class ProgettoDAO {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
-	    String query = "UPDATE Progetto SET nome = ?, descrizione = ?, obbiettivi = ?, stato = ?, scadenza = ?, budget = ?, responsabile_email =  ? WHERE id_progetto = ?";
+	    String query = "UPDATE Progetto SET nome = ?, descrizione = ?, obbiettivi = ?, stato = ?, scadenza = ?, avvisi = ?, budget = ?, responsabile_email =  ? WHERE id_progetto = ?";
 
 	    try {
 	        connection = ds.getConnection();
@@ -93,9 +93,10 @@ public class ProgettoDAO {
 	        preparedStatement.setString(3, progetto.getObbiettivi());
 	        preparedStatement.setBoolean(4, progetto.isStato());
 	        preparedStatement.setString(5, progetto.getScadenza());
-	        preparedStatement.setDouble(6, progetto.getBudget());
-	        preparedStatement.setString(7, progetto.getResponsabile_email());
-	        preparedStatement.setInt(8, progetto.getIdProgetto());
+	        preparedStatement.setString(6, progetto.getAvvisi());
+	        preparedStatement.setDouble(7, progetto.getBudget());
+	        preparedStatement.setString(8, progetto.getResponsabile_email());
+	        preparedStatement.setInt(9, progetto.getIdProgetto());
 	        preparedStatement.executeUpdate();
 	    } finally {
 	        try {
@@ -106,7 +107,7 @@ public class ProgettoDAO {
 	                connection.close();
 	        }
 	    }
-	}
+	}	
 
 	// Metodo per recuperare un Progetto dal database tramite la chiave primaria
 	public synchronized Progetto doRetrieveByKey(int idProgetto, String idAzienda) throws SQLException {

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import progetto.bean.Task;
 import progetto.bean.TaskDAO;
 
 @WebServlet("/RemoveTask")
@@ -23,6 +25,7 @@ public class RemoveTask extends HttpServlet {
 	    /* ---------------------------------------------- */
 	    
 	    String progettoIdParam = request.getParameter("progettoId");
+	    String op = request.getParameter("action");
 
 	    if (progettoIdParam == null || progettoIdParam.equals("")) {
 	        System.out.println("REMOVE_TASK: id parameter is NULL or EMPTY");
@@ -51,15 +54,32 @@ public class RemoveTask extends HttpServlet {
         int taskId = Integer.parseInt(taskIdParam);
         TaskDAO taskDAO = new TaskDAO(ds);
 
-        try {
-            taskDAO.doDelete(taskId);
-            System.out.println("Task rimosso con successo!");
-            
-            request.setAttribute("id", progettoId);
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error rimozione task");
+        if(op.equals("rimuoviTask")) {
+        
+	        try {
+	            taskDAO.doDelete(taskId);
+	            System.out.println("Task rimosso con successo!");
+	            
+	            request.setAttribute("id", progettoId);
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println("Error rimozione task");
+	        }
+        } else if(op.equals("completaTask")) {
+	        try {
+	            Task task = taskDAO.doRetrieveByKey(taskId, piva);
+	            task.setStato(true);
+	            taskDAO.doUpdate(task);
+	            System.out.println("Task completato con successo!");
+	            
+	            request.setAttribute("id", progettoId);
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            System.out.println("Error completamento task");
+	        }       	
+        	
         }
 
         request.getRequestDispatcher("/LoadTask").forward(request, response);

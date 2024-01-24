@@ -133,6 +133,8 @@
 				         <input type="hidden" id="newscadenza" name="scadenza" value="<%= progetto.getScadenza()%>" >
 				
 				         <input type="hidden" id="newbudget" name="budget" value="<%= progetto.getBudget()%>" required>
+				         
+				         <input type="hidden" id="avvisi" name="avvisi" value="<%= progetto.getAvvisi()%>" required>
 				
 				         <button id="applicaMod" name="action" value="edit" style="display:none;" class="btn btn-success" type="submit">applica modifiche</button>
 				         
@@ -140,13 +142,16 @@
 			  	</div>
 			    <div class="col">
 					<% if (!progetto.isStato()) { %>
+						<% if (ruolo.compareTo("responsabile") == 0) { %>
 					    <form id="concludiProgettoForm" action="<%= request.getContextPath() %>/ConcludeProject" method="post">
 					        <input type="hidden" id="idProgetto" name="id_progetto" value="<%= progetto.getIdProgetto() %>" />
-					        <% if (ruolo.compareTo("responsabile") == 0) { %>
-					        <button class="btn btn-primary" name="action" value="concludi" type="submit">Concludi</button>
-					        <% } else if (ruolo.compareTo("dirigente") == 0) { %>
-					        <button class="btn btn-danger" name="action" value="elimina" type="submit">Elimina</button>					        
+					        <button class="btn btn-primary" name="action" value="concludi" type="submit">Concludi</button>				        
 					    </form>
+					    <% } else if (ruolo.compareTo("dirigente") == 0) { %>					    
+					    <form id="concludiProgettoForm" action="<%= request.getContextPath() %>/ConcludeProject" method="post">
+					        <input type="hidden" id="idProgetto" name="id_progetto" value="<%= progetto.getIdProgetto() %>" />
+					        <button class="btn btn-danger" name="action" value="elimina" type="submit">Elimina</button>					        
+					    </form>					    
 	    		</div>
 	    		<div class="col">
 			    
@@ -221,14 +226,18 @@
    
 		 <div class="avvisi container">
 			<h3>Avvisi</h3>
-		        <div class="mb-3">
-		            <textarea class="form-control" id="testoAvviso" readonly><%= progetto.getAvvisi() %></textarea>
+			<form id="newAvvisoForm" action="<%= request.getContextPath() %>/AddProjectNews" method="POST">
+ 		        <div class="mb-3">
+		            <textarea class="form-control" id="testoAvviso" name="newAvviso" readonly><%= progetto.getAvvisi() %></textarea>
 		        </div>
-		        <%if(!progetto.isStato()) {%>			        
+		        <%if(!progetto.isStato() && !ruolo.equals("subordinato")) {%>			        
 			        <div class="text-end">
-			        	<button type="submit" class="btn btn-primary">Invia Avviso</button>
+						<input type="hidden" id="idProject" name="idProject" value="<%= progetto.getIdProgetto()%>" required>			        
+			        	<button type="button" style="display: block;"  id="makeAvviso" onclick="avvisiFunct('makeAvviso', 'inviaAvviso')" class="btn btn-primary">Nuovo Avviso</button>
+			        	<button style="display: none;" id="inviaAvviso" type="submit" class="btn btn-success">Invia Avviso</button>
 			        </div>
 		        <% } %>
+		    </form>
 		</div>	
 	</div>
         <% } %>	 	
