@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import="progetto.bean.Progetto"%>
+<%@ page import="account.bean.*"%>
+<%@ page import="progetto.bean.*"%>
 <%@ page import="java.util.Collection"%>
 
 <%
+Collection<?> LavoraAB = (Collection<?>) request.getAttribute("LavoraA");
+
 Collection<?> progettiAttivi = (Collection<?>) request.getAttribute("progetti_attivi");
 Collection<?> progettiConclusi = (Collection<?>) request.getAttribute("progetti_conclusi");
+Utente user = (Utente) session.getAttribute("utente");
 
 if (progettiAttivi == null || progettiConclusi == null) {
     response.sendRedirect(request.getContextPath() + "/LoadProjects");
@@ -53,8 +57,10 @@ if (progettiAttivi == null || progettiConclusi == null) {
         <div class="row">
             <!-- Sidebar con pulsanti -->
             <div class="col-md-12 text-center">
+            <%if(user.getRuolo().equals("dirigente")) {%>
                 <button id="showAddProject" class="button larger-button"
                     onclick="showContent('content1')">Aggiungi Progetto</button>
+            <%} %>
                 <button id="showOngoingProject" class="button larger-button"
                     onclick="showContent('content2')">Progetti in corso</button>
                 <button id="showCompletedProjects" class="button larger-button"
@@ -63,6 +69,7 @@ if (progettiAttivi == null || progettiConclusi == null) {
 
             <div class="col-md-12">
                 <div id="contentContainer">
+                	<%if(user.getRuolo().equals("dirigente")) {%>
                     <div id="content1" class="active">
                         <form id="addProjectForm" action="<%=request.getContextPath()%>/AddProject" method="POST">
                             <h5>Aggiungi un nuovo Progetto</h5>
@@ -87,6 +94,7 @@ if (progettiAttivi == null || progettiConclusi == null) {
                             <button type="submit">Aggiungi Progetto</button>
                         </form>
                     </div>
+                    <%} %>
 
                     <div id="content2" class="hidden">
                         <h5>Progetti in corso</h5>
@@ -96,11 +104,26 @@ if (progettiAttivi == null || progettiConclusi == null) {
                                 if (!progettiAttivi.isEmpty()) {
                                     for (Object obj : progettiAttivi) {
                                         Progetto progetto = (Progetto) obj;
+                                        if(progetto.getResponsabile_email().equals(user.getEmail())) {
+                                        	
                         %>
                                         <div class="currentProjectList">
                                             <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
                                         </div>
                         <%
+                                        } else if (user.getRuolo().equals("subordinato")){ 	//Fare in modo di vedere solo i progetti di un det subordinato
+                        %>  							
+						                        <div class="currentProjectList">
+						                            <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+						                        </div>
+        				<% 
+                                        } else if (user.getRuolo().equals("dirigente")){	//fine sezione
+                        %>
+				                        <div class="currentProjectList">
+				                            <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+				                        </div>
+        				<%
+                                        }
                                     }
                                 }
                             }
@@ -118,11 +141,28 @@ if (progettiAttivi == null || progettiConclusi == null) {
                                 if (!progettiConclusi.isEmpty()) {
                                     for (Object obj : progettiConclusi) {
                                         Progetto progetto = (Progetto) obj;
+                                        if(progetto.getResponsabile_email().equals(user.getEmail())) {
+                                        	
                         %>
                                         <div class="currentProjectList">
                                             <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
                                         </div>
                         <%
+                                        } else if (user.getRuolo().equals("subordinato")){ 
+                                        	
+                        %>			
+				                        <div class="currentProjectList">
+				                            <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+				                        </div>
+        				<% 
+                                        } else if (user.getRuolo().equals("dirigente")){
+                                        	System.out.println(progetto.getResponsabile_email() + user.getEmail());
+                        %>
+				                        <div class="currentProjectList">
+				                            <a href="<%=request.getContextPath()%>/Progetto/project.jsp?id=<%=progetto.getIdProgetto()%>"><%=progetto.getNome()%></a>
+				                        </div>
+        				<%
+                                        }
                                     }
                                 }
                             }

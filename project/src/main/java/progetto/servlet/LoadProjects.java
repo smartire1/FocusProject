@@ -88,7 +88,7 @@ public class LoadProjects extends HttpServlet {
 	        try {
 	            // Ottenere la lista di progetti attivi e conclusi associati all'azienda
 	            progettiAttivi = progettoDAO.doRetrieveAllCurrent(piva);
-	            progettiConclusi = progettoDAO.doRetrieveAllFinished(piva);
+	            progettiConclusi = progettoDAO.doRetrieveAllFinished(piva); 
 
 	            // Impostare gli attributi per la visualizzazione nella JSP
 	            request.setAttribute("progetti_attivi", progettiAttivi);
