@@ -164,5 +164,69 @@ public class PermessoDAO {
 
         return permessi;
     }
+    
+    // Metodo per recuperare tutti i permessi gestiti e richiesti da utenti con un certo ruolo (relativi sempre ad una data azienda)
+    public List<Permesso> doRetrieveAllManagedAndByRuolo(String idAzienda, String ruolo) throws SQLException {
+        List<Permesso> permessi = new ArrayList<>();
+        String query = "SELECT * FROM Permesso p " +
+                       "JOIN Utente u ON p.richiedente_email = u.email " +
+                       "WHERE p.stato IS NOT NULL AND u.idAzienda = ? AND u.ruolo = ?";
+
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, idAzienda);
+            preparedStatement.setString(2, ruolo);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Permesso permesso = new Permesso(
+                            resultSet.getInt("id"),
+                            resultSet.getString("dal_giorno"),
+                            resultSet.getString("al_giorno"),
+                            resultSet.getString("motivo"),
+                            resultSet.getBoolean("stato"),
+                            resultSet.getString("richiedente_email")
+                    );
+                    permessi.add(permesso);
+                }
+            }
+        }
+
+        return permessi;
+    }
+    
+    // Metodo per recuperare tutti i permessi richiesti da un certo utente (relativi sempre ad una data azienda)
+    public List<Permesso> doRetrieveAllByUser(String idAzienda, String email) throws SQLException {
+        List<Permesso> permessi = new ArrayList<>();
+        String query = "SELECT * FROM Permesso p " +
+                       "JOIN Utente u ON p.richiedente_email = u.email " +
+                       "WHERE u.idAzienda = ? AND u.email = ?";
+
+        try (
+            Connection connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            preparedStatement.setString(1, idAzienda);
+            preparedStatement.setString(2, email);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Permesso permesso = new Permesso(
+                            resultSet.getInt("id"),
+                            resultSet.getString("dal_giorno"),
+                            resultSet.getString("al_giorno"),
+                            resultSet.getString("motivo"),
+                            resultSet.getBoolean("stato"),
+                            resultSet.getString("richiedente_email")
+                    );
+                    permessi.add(permesso);
+                }
+            }
+        }
+
+        return permessi;
+    }
 
 }

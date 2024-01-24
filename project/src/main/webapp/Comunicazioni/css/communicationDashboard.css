@@ -41,13 +41,12 @@ body {
 	border-radius: 5px;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
-	width: 150px;
+	width: 200px;
 	height: 40px;
 }
 
 .button:hover {
 	background-color: #e5bd00;
-	/* Colore oro pi� scuro al passaggio del mouse */
 }
 
 
@@ -274,4 +273,36 @@ body {
     text-align: center;
     padding: 10px;
     z-index: 1;
+}
+
+/* Stili per le sezioni */
+#content4, #content5 {
+    display: none;
+    padding: 20px;
+    border: 2px solid #f8f9fa;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+#content4 h4, #content5 h4 {
+    font-size: 18px;
+    color: #333;
+}
+
+#content4 div, #content5 div {
+    margin-bottom: 20px;
+}
+
+#content4 p#approvato, #content5 p#approvato {
+    color: green;
+    margin-bottom: 5px;
+}
+
+#content4 p#rifiutato, #content5 p#rifiutato {
+    color: red;
+    margin-bottom: 5px;
+}
+
+#content4 p, #content5 p {
+    margin-bottom: 10px;
 }

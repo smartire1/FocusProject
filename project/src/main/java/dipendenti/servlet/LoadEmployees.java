@@ -31,10 +31,21 @@ public class LoadEmployees extends HttpServlet {
 		
 		// Caricare i turni di tutti i dipendenti (da continuare)
 		Collection<Turno> turni = null;
+		Collection<Turno> mieiTurni = null;
 		TurnoDAO turnoDAO = new TurnoDAO(ds);
 		// ...
 		// ...
 		// ...
+		// Caricare i propri turni
+		if(!utente.getRuolo().equals("dirigente")) {
+			try {
+				mieiTurni = turnoDAO.doRetrieveAllByUser(idAzienda, utente.getEmail());
+				
+				request.setAttribute("mieiTurni", mieiTurni);
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		try {
 			// Se l'utente è il Dirigente

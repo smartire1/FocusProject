@@ -38,11 +38,20 @@
 	
 	<%
 	Utente u = (Utente) session.getAttribute("utente");
+	
 	// Comunicazioni
 	List<Comunicazione> news = (List<Comunicazione>) request.getAttribute("news");
-	// Permessi
+	
+	// Permessi non gestiti
 	List<Permesso> permessiResponsabili = (List<Permesso>) request.getAttribute("permessiResponsabili");
 	List<Permesso> permessiSubordinati = (List<Permesso>) request.getAttribute("permessiSubordinati");
+	
+	// Permessi gestiti
+	List<Permesso> permessiRespGestiti = (List<Permesso>) request.getAttribute("permessiRespGestiti");
+	List<Permesso> permessiSubGestiti = (List<Permesso>) request.getAttribute("permessiSubGestiti");
+	
+	// Personali
+	List<Permesso> permessiRichiesti = (List<Permesso>) request.getAttribute("permessiRichiesti");
 	%>
 	
 	<%
@@ -65,14 +74,16 @@
 				<div class="col-md-3 col-lg-2 sidebar">
 					<button id="showAddNews" class="button" onclick="showContent('content1')">News</button>
 					
-					<%	if(u.getRuolo().equals("dirigente") || u.getRuolo().equals("responsabile")) {%>
-					<button id="showPermissionManagement" class="button" onclick="showContent('content2')">Gestione Permessi</button>
+					<%
+					if(u.getRuolo().equals("dirigente") || u.getRuolo().equals("responsabile")) {%>
+							<button id="showPermissionManagement" class="button" onclick="showContent('content2')">Gestione Permessi</button>
+							<button id="showManagedPermissions" class="button" onclick="showContent('content4')">Permessi Gestiti</button>
 					<%}
 					
 					if(u.getRuolo().equals("subordinato") || u.getRuolo().equals("responsabile")) {%>
 							<button id="showRequestPermission" class="button" onclick="showContent('content3')">Richiedi Permesso</button>
-					<%
-						}
+							<button id="showRequestedPermissions" class="button" onclick="showContent('content5')">Permessi Richiesti</button>
+					<%}
 					%>
 					
 				</div>
@@ -196,6 +207,59 @@
 
 								<input type="submit" value="Richiedi">
 							</form>
+						</div>
+						
+						<div id="content4" class="hidden">
+							<h4>Permessi Gestiti</h4>
+							<%
+						    if ("dirigente".equals(u.getRuolo())) {
+						        for (Permesso p : permessiRespGestiti) { %>
+						            <div>
+						            	<%= p.getRichiedenteEmail() %>
+						            	<% if(p.isStato()) {%>
+						            		<p id="approvato">Approvato</p>
+						            	<% } else { %>
+						            		<p id="rifiutato">Rifiutato</p>
+						            	<%}%>
+						            	dal giorno <%= p.getDalGiorno() %> <br/>
+						            	al giorno <%= p.getAlGiorno() %> <br/>
+						            	<%= p.getMotivo() %>
+						            </div>
+						        <%}
+						        
+						    } else if ("responsabile".equals(u.getRuolo())) {
+						        for (Permesso p : permessiSubGestiti) { %>
+						            <div>
+						            	<%= p.getRichiedenteEmail() %>
+						            	<% if(p.isStato()) {%>
+						            		<p id="approvato">Approvato</p>
+						            	<% } else { %>
+						            		<p id="rifiutato">Rifiutato</p>
+						            	<%}%>
+						            	dal giorno <%= p.getDalGiorno() %> <br/>
+						            	al giorno <%= p.getAlGiorno() %> <br/>
+						            	<%= p.getMotivo() %>
+						            </div>
+						        <%}
+						    }%>
+						    
+						</div>
+						
+						<div id="content5" class="hidden">
+							<h4>Permessi Richiesti</h4>
+							<%
+							for (Permesso p : permessiRichiesti) { %>
+						    	<div>
+						            <% if(p.isStato()) {%>
+						            	<p id="approvato">Approvato</p>
+						            <% } else { %>
+						            	<p id="rifiutato">Rifiutato</p>
+						            <%}%>
+						            dal giorno <%= p.getDalGiorno() %> <br/>
+						            al giorno <%= p.getAlGiorno() %> <br/>
+						            <%= p.getMotivo() %>
+						   		</div>
+							<%}%>
 						</div>
 					</div>
 				</div>

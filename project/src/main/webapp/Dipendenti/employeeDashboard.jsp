@@ -2,14 +2,20 @@
 	pageEncoding="ISO-8859-1"%>
 
 <%@ page import="account.bean.*"%>
+<%@ page import="dipendenti.bean.*"%>
 <%@ page import="java.util.Collection"%>
 
 <%
-	Utente u = (Utente) session.getAttribute("utente");
+	// Dipendenti
 	Collection<?> responsabili = (Collection<?>) request.getAttribute("responsabili");
 	Collection<?> subordinati = (Collection<?>) request.getAttribute("subordinati");
 	Collection<?> mieiSubordinati = (Collection<?>) request.getAttribute("mieiSubordinati");
+	
+	// Turni
+	Collection<?> mieiTurni = (Collection<?>) request.getAttribute("mieiTurni");
 
+	// Altro
+	Utente u = (Utente) session.getAttribute("utente");
 	String notifica = (String) request.getAttribute("notifica");
 %>
 
@@ -98,19 +104,22 @@
 			<div class="container-fluid1">
 				<!-- Sidebar con pulsanti -->
 				<div class="col-md-3 col-lg-2 sidebar">
+					<!-- Vista dirigente -->
 					<% if(u.getRuolo().equals("dirigente")) { %>
-						<button id="showAddEmployee" class="button"
-							onclick="showContent('content1')">Aggiungi Dipendente</button>
-						<button id="showRemoveEmployee" class="button"
-							onclick="showContent('content2')">Rimuovi Dipendente</button>
+						<button id="showAddEmployee" class="button" onclick="showContent('content1')">Aggiungi Dipendente</button>
+						<button id="showRemoveEmployee" class="button" onclick="showContent('content2')">Rimuovi Dipendente</button>
 					<% } %>
-					<button id="showAddShift" class="button"
-						onclick="showContent('content3')">Aggiungi Turni</button>
-					<button id="showRemoveShift" class="button"
-						onclick="showContent('content4')">Rimuovi Turni</button>
+					<!-- Vista comune -->
+					<button id="showAddShift" class="button" onclick="showContent('content3')">Aggiungi Turni</button>
+					<button id="showRemoveShift" class="button" onclick="showContent('content4')">Rimuovi Turni</button>
+					
+					<!-- Vista responsabile -->
+					<% if(u.getRuolo().equals("responsabile")) { %>
+					<button id="showMyShifts" class="button" onclick="showContent('content5')">I miei turni</button>
+					<% } %>
+				
 				</div>
 
-				<!-- Contenitore del testo dinamico -->
 				<div class="col-md-9 col-lg-10">
 					<div id="contentContainer">
 						<!-- Contenuto dei div associati ai pulsanti -->
@@ -151,7 +160,7 @@
 						<div id="content2" class="hidden">
 						    <h3>Rimuovi dipendente</h3>
 						
-						    <%-- Rimuovi Responsabili --%>
+						    <!-- Rimuovi Responsabili -->
 						    <h4>Responsabili:</h4>
 						    <% 
 						    	if(responsabili != null) {
@@ -169,7 +178,7 @@
 						        }}}
 						    %>
 						
-						    <%-- Rimuovi Subordinati --%>
+						    <!-- Rimuovi Subordinati -->
 						    <h4>Subordinati:</h4>
 						    <% 
 						    	if(subordinati != null) {
@@ -193,7 +202,7 @@
 						<div id="content3" class="hidden">
 							<h3>Aggiungi turno</h3>
 						
-						    <%-- Rimuovi Responsabili --%>
+						    <!-- Rimuovi Responsabili -->
 						    <% if(u.getRuolo().equals("dirigente")) { %>
 							    <h4>Responsabili:</h4>
 							    <% 
@@ -210,7 +219,7 @@
 						    }
 						    %>
 						
-						    <%-- Rimuovi Subordinati --%>
+						    <!-- Rimuovi Subordinati -->
 						    <% if(u.getRuolo().equals("responsabile")) { %>
 							    <h4>Subordinati:</h4>
 							    <% 
@@ -232,7 +241,7 @@
 						<div id="content4" class="hidden">
 							<h3>Rimuovi turno</h3>
 						
-						    <%-- Rimuovi turni Responsabili --%>
+						    <!-- Rimuovi turni Responsabili -->
 						    <% if(u.getRuolo().equals("dirigente")) { %>
 							    <h4>Responsabili:</h4>
 							    <% 
@@ -251,7 +260,7 @@
 						    }
 						    %>
 						
-						    <%-- Rimuovi turni Subordinati --%>
+						    <!-- Rimuovi turni Subordinati -->
 						    <% if(u.getRuolo().equals("responsabile")) { %>
 							    <h4>Subordinati:</h4>
 								<%					    
@@ -269,6 +278,22 @@
 							        }}
 						    }
 						    %>							
+						</div>
+						
+						
+						
+						<div id="content5" class="hidden">
+							<h3>I miei turni</h3>
+							<!-- Caricare i propri turni -->
+							<%
+							if(mieiTurni != null && !mieiTurni.isEmpty()) {
+							for(Object o : mieiTurni) {
+								Turno t = (Turno) o;
+							%>
+							<p><%= t.getGiorno() %></p>
+							<p>dalle ore <%= t.getOraFine() %></p>
+							<p>alle ore <%= t.getOraFine() %></p>
+							<% } }%>
 						</div>
 					</div>
 				</div>
