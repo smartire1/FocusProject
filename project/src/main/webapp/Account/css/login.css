@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-
 #loginBox {
     position: static;
     background-color: f8f8f8;
@@ -52,6 +51,19 @@
 		height: 400px;
     	width: 350px;
     }
+}
+
+/* Stili per la notifica */
+.notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #c0c0c0;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 1;
 }
 
 /* Stile per i messaggi di errore */

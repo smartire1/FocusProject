@@ -22,7 +22,7 @@
 		<a id="logo" href="homePage.jsp">FOCUS PROJECT</a>					
 	</header>
 	
-	<jsp:include page="navbar.jsp" />
+	<jsp:include page="navbar.jsp"/>
 	
 	<div id="menuContainer">
 		<div id="buttonsContainer">

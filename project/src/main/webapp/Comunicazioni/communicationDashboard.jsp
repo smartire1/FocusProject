@@ -227,6 +227,10 @@
 						            </div>
 						        <%}
 						        
+						        if(permessiRespGestiti.isEmpty()) {%>
+						        	<p>Nessun permesso gestito</p>
+						        <%}
+						        
 						    } else if ("responsabile".equals(u.getRuolo())) {
 						        for (Permesso p : permessiSubGestiti) { %>
 						            <div>
@@ -241,6 +245,11 @@
 						            	<%= p.getMotivo() %>
 						            </div>
 						        <%}
+						        
+						        if(permessiSubGestiti.isEmpty()) {%>
+					        	<p>Nessun permesso gestito</p>
+					        	
+					        <%}
 						    }%>
 						    
 						</div>
@@ -259,7 +268,13 @@
 						            al giorno <%= p.getAlGiorno() %> <br/>
 						            <%= p.getMotivo() %>
 						   		</div>
-							<%}%>
+							<%}
+							
+					        if(permessiRichiesti.isEmpty()) {%>
+				        	<p>Nessun permesso richiesto</p>
+				        	<%}
+					        
+							%>
 						</div>
 					</div>
 				</div>

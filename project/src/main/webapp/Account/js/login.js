@@ -11,8 +11,6 @@ function validateForm() {
     return isEmailValid && isPasswordValid;
 }
 
-
-
 function validateField(input, regex, errorMessageId, errorMessage) {
 	
     var errorMessageElement = document.getElementById(errorMessageId);
@@ -27,8 +25,6 @@ function validateField(input, regex, errorMessageId, errorMessage) {
     }
 }
 
-
-
 function togglePasswordVisibility() {
     var passwordInput = document.getElementById("passwordInput");
     var passwordButton = document.getElementById("showPass");
@@ -39,4 +35,9 @@ function togglePasswordVisibility() {
         passwordInput.type = "password";
         passwordButton.innerText = "Mostra password"
     }
+}
+
+function closeNotification() {
+	var notificationDiv = document.getElementById("notification");
+	notificationDiv.style.display = "none";
 }

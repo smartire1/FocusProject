@@ -238,6 +238,9 @@
 						    }
 						    %>
 						</div>
+						
+						
+						
 						<div id="content4" class="hidden">
 							<h3>Rimuovi turno</h3>
 						
