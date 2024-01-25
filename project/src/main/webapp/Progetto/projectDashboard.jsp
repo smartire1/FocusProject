@@ -16,6 +16,7 @@
 	// Dirigente
 	Collection<?> progettiAttivi = (Collection<?>) request.getAttribute("progettiAttivi");
 	Collection<?> progettiConclusi = (Collection<?>) request.getAttribute("progettiConclusi");
+	Collection<?> responsabiliDisp = (Collection<?>) request.getAttribute("responsabiliDisp");
 	
 	// Responsabile
 	Collection<?> progettiAttiviResp = (Collection<?>) request.getAttribute("progettiAttiviResp");
@@ -40,11 +41,18 @@
     <script type="text/javascript"
         src="<%=request.getContextPath()%>/Progetto/js/projectDashboard.js"></script>
 
+<!-- jQuery e jQuery UI Datepicker -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
+
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     
     <!-- font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 	
+   
 
 </head>
 <body>
@@ -53,6 +61,27 @@
     </header>
 
     <jsp:include page="../navbar.jsp" />
+
+	<div class="overlay" id="Overlay"></div>
+	<div class="container text-center" id="Popup">
+	    <button id="closeBtn" class="close-btn close-popup-btn"><i class="fas fa-times"></i></button>
+	    <div class="container">
+	        <h3 id="Operation" class="title">Seleziona responsabile</h3>
+	
+	        <!-- Form per l'aggiunta di subordinati -->
+	        <%if(responsabiliDisp != null ) {%>
+			<% for(Object o: responsabiliDisp) {
+			    Utente u = (Utente) o; %>
+			    <div>
+			        <p class="addButton">Nome: <%= u.getNome()%> <%= u.getEmail()%>
+			            <button id="closeBtn2" type="button" class="btn btn-outline-danger replaceResp close-popup-btn" name="action" value="insert" onclick="updateInputValueResponsabile('<%=u.getEmail() %>')">Seleziona</button>
+			        </p>
+			    </div>
+			<% }} %> 
+
+       
+	    </div>
+	</div>
 
     <div class="container-fluid1">
         <div class="row">
@@ -78,7 +107,8 @@
                             <input type="text" id="nome" name="nome" required>
 
                             <label for="responsabile">Responsabile:</label>
-                            <input type="text" id="responsabile" name="responsabile" required>
+                            <button  type="button" class="btn btn-success open-popup-btn">Responsabili</button>
+                            <input type="text" id="responsabile" name="responsabile" readonly>
 
                             <label for="descrizione">Descrizione:</label>
                             <input type="text" id="descrizione" name="descrizione" required>
@@ -92,7 +122,7 @@
                             <label for="budget">Budget:</label>
                             <input type="number" id="budget" name="budget" required>
 
-                            <button type="submit">Aggiungi Progetto</button>
+                            <button name="action" value="add" type="submit">Aggiungi Progetto</button>
                         </form>
                     </div>
                     <%} %>

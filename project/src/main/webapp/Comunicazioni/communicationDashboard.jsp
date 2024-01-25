@@ -30,20 +30,17 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 
 <!-- jQuery e jQuery UI Datepicker -->
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-
-<script>
-	$(function() {
-		$(".datepicker").datepicker();
-	});
-</script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>	
 
 </head>
 <body>
 	<header>
 		<a id="logo" href="<%=request.getContextPath()%>/homePage.jsp">FOCUS PROJECT</a>
 	</header>
+	
+	<jsp:include page="../navbar.jsp"/>	
 	
 	<%
 	// Comunicazioni
@@ -202,11 +199,11 @@
 						<div id="content3" class="hidden">
 							<h4>Richiedi permesso</h4>
 							<form action="<%=request.getContextPath()%>/RequestPermission" method="post">
-								<label for="dalGiorno">Dal giorno:</label> <input type="text"
-									id="dalGiorno" name="dalGiorno" class="datepicker" required>
+								<label for="dalGiorno">Dal giorno:</label> 
+								<input type="text" id="dalGiorno" name="dalGiorno" class="datepicker" required>
 
-								<label for="alGiorno">Al giorno:</label> <input type="text"
-									id="alGiorno" name="alGiorno" class="datepicker" required>
+								<label for="alGiorno">Al giorno:</label> 
+								<input type="text" id="alGiorno" name="alGiorno" class="datepicker" required>
 
 								<label for="motivazione">Motivazione:</label>
 								<textarea id="motivazione" name="motivazione" required></textarea>

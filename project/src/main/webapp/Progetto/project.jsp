@@ -136,7 +136,7 @@
 				
 				         <input type="hidden" id="newobiettivi" name="obiettivi" value="<%= progetto.getObbiettivi()%>" required>
 				
-				         <input type="hidden" id="newscadenza" name="scadenza" value="<%= progetto.getScadenza()%>" >
+				         <input type="hidden" id="newscadenza" name="scadenza" value="<%= progetto.getScadenza()%>" required>
 				
 				         <input type="hidden" id="newbudget" name="budget" value="<%= progetto.getBudget()%>" required>
 				         

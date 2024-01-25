@@ -21,15 +21,17 @@ public class ProgettoDAO {
 	}
 
 	// Metodo per salvare un Progetto nel database
-	public synchronized void doSave(Progetto progetto) throws SQLException {
+	public synchronized int doSave(Progetto progetto) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
+	    ResultSet generatedKeys = null;
 
 	    String query = "INSERT INTO Progetto (nome, descrizione, obbiettivi, stato, scadenza, budget, avvisi, idAzienda, responsabile_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try {
 	        connection = ds.getConnection();
-	        preparedStatement = connection.prepareStatement(query);
+	        preparedStatement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+
 	        preparedStatement.setString(1, progetto.getNome());
 	        preparedStatement.setString(2, progetto.getDescrizione());
 	        preparedStatement.setString(3, progetto.getObbiettivi());
@@ -40,9 +42,23 @@ public class ProgettoDAO {
 	        preparedStatement.setString(8, progetto.getIdAzienda());
 	        preparedStatement.setString(9, progetto.getResponsabile_email());
 
-	        preparedStatement.executeUpdate();
+	        int affectedRows = preparedStatement.executeUpdate();
+
+	        if (affectedRows > 0) {
+	            // Ottieni l'ID generato dal database
+	            generatedKeys = preparedStatement.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                return generatedKeys.getInt(1);  // Restituisci l'ID del progetto
+	            }
+	        }
+
+	        // Se non è stato generato alcun ID, puoi gestire l'errore come preferisci.
+	        throw new SQLException("Inserimento del progetto fallito, nessun ID generato.");
 	    } finally {
 	        try {
+	            if (generatedKeys != null) {
+	                generatedKeys.close();
+	            }
 	            if (preparedStatement != null) {
 	                preparedStatement.close();
 	            }
@@ -53,6 +69,7 @@ public class ProgettoDAO {
 	        }
 	    }
 	}
+
 
 	// Metodo per eliminare un Progetto nel database
 	public synchronized void doDelete(int idProgetto) throws SQLException {

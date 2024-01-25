@@ -15,3 +15,26 @@ function closeNotification() {
 setTimeout(function() {
 	closeNotification();
 }, 5000);
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+	$("#dalGiorno").datepicker({
+	    minDate: 0,
+	    dateFormat: 'yy-mm-dd',
+	    onSelect: function(dateText, inst) {
+
+	    }
+	});
+	
+		$("#alGiorno").datepicker({
+	    minDate: 0,
+	    dateFormat: 'yy-mm-dd',
+	    onSelect: function(dateText, inst) {
+
+	    }
+	});
+		              
+});
+
+

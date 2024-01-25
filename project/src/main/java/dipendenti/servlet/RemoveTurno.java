@@ -18,15 +18,15 @@ public class RemoveTurno extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 		
-		Turno turno = (Turno) request.getAttribute("turno");
-		String email = (String) request.getAttribute("email");
+		String turno = request.getParameter("turnoId");
+		String email = request.getParameter("utenteId");
 		
 		TurnoDAO turnoDAO = new TurnoDAO(ds);
 		AssegnatoADAO assegnatoADAO = new AssegnatoADAO(ds);
 		
 		try {
-			assegnatoADAO.doDelete(email);
-			turnoDAO.doDelete(turno.getId());
+			assegnatoADAO.doDelete(email, Integer.valueOf(turno));
+			turnoDAO.doDelete(Integer.valueOf(turno));
 			
 			System.out.println("Rimozione turno avvenuta con successo!");
 		} catch(SQLException e) {

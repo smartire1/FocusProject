@@ -92,12 +92,15 @@ public class LoadProjects extends HttpServlet {
 	    	if(utente.getRuolo().equals("dirigente")) {
 		        Collection<Progetto> progettiAttivi = null;
 		        Collection<Progetto> progettiConclusi = null;
+		        Collection<Utente> responsabiliDisp = new ArrayList<>();
 		        
 		        try {
 		            // Ottenere la lista di progetti attivi e conclusi associati all'azienda
 		            progettiAttivi = progettoDAO.doRetrieveAllByStato(piva, false);
 		            progettiConclusi = progettoDAO.doRetrieveAllByStato(piva, true);
+		            responsabiliDisp = utenteDAO.doRetrieveAllResponsabili(piva);
 		            
+		            request.setAttribute("responsabiliDisp", responsabiliDisp);
 		            request.setAttribute("progettiAttivi", progettiAttivi);
 		            request.setAttribute("progettiConclusi", progettiConclusi);
 		            
@@ -109,13 +112,14 @@ public class LoadProjects extends HttpServlet {
 	    	// Se l'utente è un responsabile
 	    	if(utente.getRuolo().equals("responsabile")) {
 		        Collection<Progetto> progettiAttiviResp = null;
-		        Collection<Progetto> progettiConclusiResp = null;
+		        Collection<Progetto> progettiConclusiResp = null;		        
 		        
 		        try {
 		            // Ottenere la lista di progetti attivi e conclusi associati all'azienda
+		        	
 		        	progettiAttiviResp = progettoDAO.doRetrieveAllByRespAndStato(utente.getEmail(), piva, false);
-		        	progettiConclusiResp = progettoDAO.doRetrieveAllByRespAndStato(utente.getEmail(), piva, true);
-		            
+		        	progettiConclusiResp = progettoDAO.doRetrieveAllByRespAndStato(utente.getEmail(), piva, true);          
+		        	
 		            request.setAttribute("progettiAttiviResp", progettiAttiviResp);
 		            request.setAttribute("progettiConclusiResp", progettiConclusiResp);
 		            

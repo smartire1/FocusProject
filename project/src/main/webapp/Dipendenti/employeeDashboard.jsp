@@ -3,17 +3,20 @@
 
 <%@ page import="account.bean.*"%>
 <%@ page import="dipendenti.bean.*"%>
-<%@ page import="java.util.Collection"%>
+<%@ page import="java.util.*"%>
 
 <%
-	// Dipendenti
+	// Dipendenti 
+	
 	Collection<?> responsabili = (Collection<?>) request.getAttribute("responsabili");
 	Collection<?> subordinati = (Collection<?>) request.getAttribute("subordinati");
 	Collection<?> mieiSubordinati = (Collection<?>) request.getAttribute("mieiSubordinati");
 	
 	// Turni
 	Collection<?> mieiTurni = (Collection<?>) request.getAttribute("mieiTurni");
-
+	Map<String, Collection<Turno>> turniResponsabili = (Map<String, Collection<Turno>>) request.getAttribute("turniResponsabili");
+	Map<String, Collection<Turno>> turniMieiSubordinati = (Map<String, Collection<Turno>>) request.getAttribute("turniMieiSubordinati");
+	
 	// Altro
 	Utente u = (Utente) session.getAttribute("utente");
 	String notifica = (String) request.getAttribute("notifica");
@@ -93,7 +96,7 @@
        
 	    </div>
 	</div>
-
+	
 	<div class="container">
 	
 		<%
@@ -218,7 +221,7 @@
 							    %>
 							            <input type="hidden" name="email" value="<%=responsabile.getEmail()%>">
 							            <p><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:
-							                <button onclick="toAddResp('<%=responsabile.getEmail()%>')" class="btn btn-success open-popup-btn">Aggiungi turno</button>
+							                <button onclick="toAddUser('<%=responsabile.getEmail()%>')" class="btn btn-success open-popup-btn">Aggiungi turno</button>
 							            </p>
 							    <%
 							        }}
@@ -233,12 +236,10 @@
 								        Utente subordinato = (Utente) utente;
 								    if(subordinato.isStato()) {  
 							    %>
-							        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
 							            <input type="hidden" name="email" value="<%=subordinato.getEmail()%>">
 							            <p><%=subordinato.getNome()%> <%=subordinato.getCognome()%>:
-							                <button type="submit">Aggiungi turno</button>
+							                <button onclick="toAddUser('<%=subordinato.getEmail()%>')" class="btn btn-success open-popup-btn">Aggiungi turno</button>
 							            </p>
-							        </form>
 							    <%
 							        }}
 						    }
@@ -252,41 +253,103 @@
 						
 						    <!-- Rimuovi turni Responsabili -->
 						    <% if(u.getRuolo().equals("dirigente")) { %>
+						    	<div class="form-container" style="overflow-y: auto; max-height: 500px;">
 							    <h4>Responsabili:</h4>
+							    <hr>
 							    <% 
 							        for (Object utente : responsabili) {
 							        Utente responsabile = (Utente) utente;
-							        if(responsabile.isStato()) {						        
+							        if(responsabile.isStato()) {	
+							        	Collection<Turno> turni = turniResponsabili.get(responsabile.getEmail());
 							    %>
-							        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+
+								<%		if(turniResponsabili.containsKey(responsabile.getEmail())) {%>
+										
 							            <input type="hidden" name="email" value="<%=responsabile.getEmail()%>">
-							            <p><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:
-							                <button type="submit">Rimuovi turno</button>
-							            </p>
-							        </form>
-							    <%
-							        }}
+							            <h5><%=responsabile.getNome()%> <%=responsabile.getCognome()%>:</h5>
+							            
+											<%for(Turno t: turni) {%>
+																		            
+											
+											    <form class="<%=responsabile.getEmail()%>_form" action="<%=request.getContextPath()%>/RemoveTurno" method="post">
+											        <input type="hidden" name="utenteId" value="<%=responsabile.getEmail()%>">
+											        <input type="hidden" name="turnoId" value="<%=t.getId()%>">
+											        <br>										          
+											        <input type="text" name="turnoData" value="<%=t.getGiorno()%>">
+											        Data
+											        <br>										         
+											        <input type="text" name="turnoOraF" value="<%=t.getOraInizio()%>">
+											        Ora inizio
+											        <br>										        
+											        <input type="text" name="turnoOraF" value="<%=t.getOraFine()%>">
+											        Ora fine	
+											        <div class="form-buttons">
+											            <button class="btn btn-danger" type="submit">Rimuovi Turno</button>
+											        </div>
+											    </form>
+											
+
+											<br>
+											
+											<br>										           
+						<%					}
+						%>				<hr>
+						<% 
+										} 
+							        }
+							    }
 						    }
-						    %>
+						%>
 						
 						    <!-- Rimuovi turni Subordinati -->
 						    <% if(u.getRuolo().equals("responsabile")) { %>
 							    <h4>Subordinati:</h4>
-								<%					    
+							    <hr>
+							    <% 
 							        for (Object utente : mieiSubordinati) {
-								        Utente subordinato = (Utente) utente;
-								    if(subordinato.isStato()) {  
+							        Utente subordinato = (Utente) utente;
+							        if(subordinato.isStato()) {	
+							        	Collection<Turno> turni = turniMieiSubordinati.get(subordinato.getEmail());
 							    %>
-							        <form action="<%=request.getContextPath()%>/RemoveEmployee" method="post">
+
+								<%		if(turniMieiSubordinati.containsKey(subordinato.getEmail())) {%>
+										
 							            <input type="hidden" name="email" value="<%=subordinato.getEmail()%>">
-							            <p><%=subordinato.getNome()%> <%=subordinato.getCognome()%>:
-							                <button type="submit">Rimuovi turno</button>
-							            </p>
-							        </form>
-							    <%
-							        }}
+							            <h5><%=subordinato.getNome()%> <%=subordinato.getCognome()%>:</h5>
+							            
+											<%for(Turno t: turni) {%>
+																		            
+											
+											    <form class="<%=subordinato.getEmail()%>_form" action="<%=request.getContextPath()%>/RemoveTurno" method="post">
+											        <input type="hidden" name="utenteId" value="<%=subordinato.getEmail()%>">
+											        <input type="hidden" name="turnoId" value="<%=t.getId()%>">
+											        <br>										          
+											        <input type="text" name="turnoData" value="<%=t.getGiorno()%>">
+											        Data
+											        <br>										         
+											        <input type="text" name="turnoOraF" value="<%=t.getOraInizio()%>">
+											        Ora inizio
+											        <br>										        
+											        <input type="text" name="turnoOraF" value="<%=t.getOraFine()%>">
+											        Ora fine	
+											        <div class="form-buttons">
+											            <button class="btn btn-danger" type="submit">Rimuovi Turno</button>
+											        </div>
+											    </form>
+											
+
+											<br>
+											
+											<br>										           
+						<%					}
+						%>				<hr>
+						<% 
+										} 
+							        }
+							    }
 						    }
-						    %>							
+						%>							
+						</div>
 						</div>
 						
 						

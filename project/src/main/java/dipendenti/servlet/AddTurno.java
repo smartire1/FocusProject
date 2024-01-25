@@ -2,6 +2,9 @@ package dipendenti.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,13 +36,26 @@ public class AddTurno extends HttpServlet {
 		String oraFine = request.getParameter("oraFine");
 		String emailUser = request.getParameter("utenteTurno");
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate turnoDate = LocalDate.parse(dataTurno, formatter);
+		
 		try {
-			TurnoDAO turnoDAO = new TurnoDAO(ds);
+			TurnoDAO turnoDAO = new TurnoDAO(ds);						
+			AssegnatoADAO assegnatoaDAO = new AssegnatoADAO(ds);			
+			Collection<Turno> turniUser = turnoDAO.doRetrieveAllByUser(idAzienda, emailUser);
+			//COntrolli sulle date DA IMPLEMENTARE
+			
+			for(Turno t: turniUser) {
+				LocalDate data1 = LocalDate.parse(t.getGiorno(), formatter);
+				if(data1.equals(turnoDate)) {
+					System.out.println("Turno gia presente in questa giornata");
+					request.getRequestDispatcher("/LoadEmployees").forward(request, response);
+					return;
+				}
+			}
+			
 			Turno turno = new Turno(0, dataTurno, oraInizio, oraFine);
 			turno = turnoDAO.doSave(turno);
-			
-			//COntrolli sulle date DA IMPLEMENTARE
-			AssegnatoADAO assegnatoaDAO = new AssegnatoADAO(ds);
 			assegnatoaDAO.doSave(new AssegnatoA(turno.getId(), emailUser));
 			
 			System.out.println("Turno Assegnato con successo");

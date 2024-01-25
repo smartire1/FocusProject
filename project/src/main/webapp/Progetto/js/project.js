@@ -114,13 +114,14 @@ function removeButton() {
 	    document.getElementById("scadenzeProgetto").addEventListener("input", updateInputValueScadenze);        
 
 	  
-	    // Inizializza il datepicker
-	    $("#scadenzeProgetto").datepicker({
-			minDate: 0,
-	        onSelect: function(dateText, inst) {
-            updateInputValueScadenze();
-        }    
-	    });
+	    // Inizializza il datepicker	    
+		$("#scadenzeProgetto").datepicker({
+		    minDate: 0,
+		    dateFormat: 'yy-mm-dd',
+		    onSelect: function(dateText, inst) {
+			updateInputValueScadenze();
+		    }
+		});	    
      
         alert("Modifiche abilitate!");
         

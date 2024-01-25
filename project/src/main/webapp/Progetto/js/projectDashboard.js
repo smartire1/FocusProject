@@ -11,3 +11,39 @@ function showContent(contentId) {
 	// Aggiungi la classe 'active' al div corrispondente
 	contentDiv.classList.add('active');
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const openBtns = document.querySelectorAll(".open-popup-btn");
+    const closeBtn = document.querySelectorAll(".close-popup-btn");
+    const popup = document.getElementById("Popup");
+    const overlay = document.getElementById("Overlay");
+
+    openBtns.forEach(function(btn) {
+        btn.addEventListener("click", () => {			
+            popup.style.display = "block";
+            overlay.style.display = "block";
+        });
+    });
+
+    closeBtn.forEach(function(btn) {
+        btn.addEventListener("click", () => {			
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        });
+    });
+
+	$("#scadenza").datepicker({
+	    minDate: 0,
+	    dateFormat: 'yy-mm-dd',
+	    onSelect: function(dateText, inst) {
+
+	    }
+	});
+		     
+});
+
+	function updateInputValueResponsabile(email) {
+		document.getElementById("responsabile").value = email;
+	}
+	
+	

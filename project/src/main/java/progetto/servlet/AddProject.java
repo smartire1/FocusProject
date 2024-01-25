@@ -57,7 +57,7 @@ public class AddProject extends HttpServlet {
 			}
         }
         
-        else {
+        else if(op.equals("add")){
 	        try {
 	        	Utente u = utenteDAO.doRetrieveByKey(responsabile, idAzienda);
 	        	if (u == null) {
@@ -65,8 +65,9 @@ public class AddProject extends HttpServlet {
 	                response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
 	                return;
 	        	}
-	            progettoDAO.doSave(nuovoProgetto);
+	            int idprogetto = progettoDAO.doSave(nuovoProgetto);
 	            System.out.println("Progetto aggiunto con successo!");
+	            request.setAttribute("id", String.valueOf(idprogetto));
 	            request.getRequestDispatcher("/LoadProjects").forward(request, response);
 	
 	        } catch (SQLException e) {

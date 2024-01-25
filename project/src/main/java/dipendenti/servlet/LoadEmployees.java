@@ -48,7 +48,8 @@ public class LoadEmployees extends HttpServlet {
 				
 				for(Utente u : responsabili) {
 					turniResp = turnoDAO.doRetrieveAllByUser(idAzienda, u.getEmail());
-					turniResponsabili.put(u.getEmail(), turniResp);
+					if(!turniResp.isEmpty())
+						turniResponsabili.put(u.getEmail(), turniResp);
 				}
 				
 				request.setAttribute("turniResponsabili", turniResponsabili);
@@ -64,7 +65,8 @@ public class LoadEmployees extends HttpServlet {
 				
 				for(Utente u : mieiSubordinati) {
 					turniSub = turnoDAO.doRetrieveAllByUser(idAzienda, u.getEmail());
-					turniMieiSubordinati.put(u.getEmail(), turniSub);
+					if(!turniSub.isEmpty())
+						turniMieiSubordinati.put(u.getEmail(), turniSub);
 				}
 				
 				request.setAttribute("turniMieiSubordinati", turniMieiSubordinati);

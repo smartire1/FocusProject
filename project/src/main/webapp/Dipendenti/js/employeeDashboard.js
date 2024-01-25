@@ -33,17 +33,29 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
       
-	    $("#datePicker").datepicker({
-			minDate: 0,
-	        onSelect: function(dateText, inst) {
-        }    
-	    });
-	    
-	          
+	$("#datePicker").datepicker({
+	    minDate: 0,
+	    dateFormat: 'yy-mm-dd',
+	    onSelect: function(dateText, inst) {
+
+	    }
+	});
+	              
 });
 
-function toAddResp(emailResp) {
-	document.getElementById("toAdd").value = emailResp;	
+function mostraForm(classeForm) {
+    // Seleziona tutti gli elementi con la classe specificata
+    var forms = document.getElementsByClassName(classeForm);
+
+    // Itera su tutti gli elementi selezionati e cambia lo stile di visualizzazione
+    for (var i = 0; i < forms.length; i++) {
+        var form = forms[i];
+        form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+    }
+}
+
+function toAddUser(email) {
+	document.getElementById("toAdd").value = email;	
 }
 
 function verificaOrario() {

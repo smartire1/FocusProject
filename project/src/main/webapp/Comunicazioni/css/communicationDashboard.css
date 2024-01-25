@@ -223,45 +223,6 @@ body {
   background-color: #0056b3;
 }
 
-/* --- Stile per il datepicker --- */
-
-.ui-datepicker {
-	background-color: #fff;
-	border-radius: 4px;
-	border: 2px solid #ddd;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* giorni */
-.ui-datepicker-calendar a {
-	text-decoration: none;
-	display: block;
-	padding: 5px;
-	margin: 2px;
-	border-radius: 5px;
-}
-
-.ui-datepicker-calendar a:hover {
-	background-color: #e0e0e0;
-}
-
-.ui-datepicker-calendar td a.ui-state-active {
-	background-color: #eabb00;
-}
-
-/* Stile per i pulsanti "Prev" e "Next" */
-.ui-datepicker-prev, .ui-datepicker-next {
-	margin: 0;
-	text-align: center;
-	margin-right: 15px;
-	cursor: pointer;
-	text-decoration: none;
-}
-
-.ui-datepicker-prev:hover, .ui-datepicker-next:hover {
-	color: #eabb00;
-}
-
 /* Stili per la notifica */
 .notification {
     position: fixed;

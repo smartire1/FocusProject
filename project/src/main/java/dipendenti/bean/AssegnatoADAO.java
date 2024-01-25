@@ -39,17 +39,18 @@ public class AssegnatoADAO {
 		}
 	}
 
-	public synchronized void doDelete(String email) throws SQLException {
+	public synchronized void doDelete(String email, int id) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String query = "DELETE FROM AssegnatoA WHERE id_utente = ?";
+		String query = "DELETE FROM AssegnatoA WHERE id_utente = ? AND id_turno = ?";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, email);
+			preparedStatement.setInt(2, id);
 			preparedStatement.executeUpdate();
 		} finally {
 			try {
