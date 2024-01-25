@@ -3,6 +3,8 @@ package dipendenti.servlet;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Map;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,14 +36,45 @@ public class LoadEmployees extends HttpServlet {
 		Collection<Utente> mieiSubordinati = null;
 		UtenteDAO utenteDAO = new UtenteDAO(ds);
 		
-		// Caricare i turni di tutti i dipendenti (da continuare)
-		Collection<Turno> turni = null;
-		Collection<Turno> mieiTurni = null;
+		// Caricare i turni di tutti i dipendenti
 		TurnoDAO turnoDAO = new TurnoDAO(ds);
-		// ...
-		// ...
-		// ...
+		Map<String, Collection<Turno>> turniResponsabili = new HashMap<>();
+		Map<String, Collection<Turno>> turniMieiSubordinati = new HashMap<>();
+
+		if(utente.getRuolo().equals("dirigente")) {
+			try {
+				Collection<Turno> turniResp;
+				responsabili = utenteDAO.doRetrieveAllResponsabili(idAzienda);
+				
+				for(Utente u : responsabili) {
+					turniResp = turnoDAO.doRetrieveAllByUser(idAzienda, u.getEmail());
+					turniResponsabili.put(u.getEmail(), turniResp);
+				}
+				
+				request.setAttribute("turniResponsabili", turniResponsabili);
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(utente.getRuolo().equals("responsabile")) {
+			try {
+				Collection<Turno> turniSub;
+				mieiSubordinati = utenteDAO.doRetrieveAllSubMngdByResp(idAzienda, utente.getEmail());
+				
+				for(Utente u : mieiSubordinati) {
+					turniSub = turnoDAO.doRetrieveAllByUser(idAzienda, u.getEmail());
+					turniMieiSubordinati.put(u.getEmail(), turniSub);
+				}
+				
+				request.setAttribute("turniMieiSubordinati", turniMieiSubordinati);
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		// Caricare i propri turni
+		Collection<Turno> mieiTurni = null;
 		if(!utente.getRuolo().equals("dirigente")) {
 			try {
 				mieiTurni = turnoDAO.doRetrieveAllByUser(idAzienda, utente.getEmail());

@@ -205,5 +205,45 @@ public class TurnoDAO {
 
 	    return turni;
 	}
+	
+	// Metodo per recuperare tutti i Turni dei responsabili per un'azienda specifica dal database
+	public Collection<Turno> doRetrieveAllResp(String piva) throws SQLException {
+
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+
+	    Collection<Turno> turni = new LinkedList<>();
+
+	    String selectSQL = "SELECT T.* " +
+	            "FROM Turno T " +
+	            "JOIN AssegnatoA A ON T.id = A.id_turno " +
+	            "JOIN Utente U ON A.id_utente = U.email " +
+	            "WHERE U.idAzienda = ? AND U.ruolo = 'responsabile'";
+
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, piva);
+
+	        ResultSet rs = preparedStatement.executeQuery();
+	        while (rs.next()) {
+	            Turno turno = new Turno(rs.getInt("id"), rs.getString("giorno"), rs.getString("ora_inizio"),
+	                    rs.getString("ora_fine"));
+	            turni.add(turno);
+	        }
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }
+
+	    return turni;
+	}
 
 }

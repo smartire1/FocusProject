@@ -21,11 +21,11 @@ public class Azienda {
 		this.nome = nome;
 	}
 	
-	private boolean isValidPiva(String piva) {
+	boolean isValidPiva(String piva) {
 		return piva.matches("^\\d{11}$");
 	}
 	
-	private boolean isValidCompanyName(String name) {
+	boolean isValidCompanyName(String name) {
 		return name.matches("^[a-zA-Z0-9]+$");
 	}
 	

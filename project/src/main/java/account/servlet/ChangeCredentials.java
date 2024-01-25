@@ -19,7 +19,7 @@ public class ChangeCredentials extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// NOTA: manca la logica per modificare solo l'email o solo la password!
+		// NOTA: manca la logica per modificare solo l'email o solo la password
 		
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
         HttpSession session = request.getSession();
