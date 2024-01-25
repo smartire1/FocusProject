@@ -41,7 +41,21 @@
 	<header>
 		<a id="logo" href="<%=request.getContextPath()%>/homePage.jsp">FOCUS PROJECT</a>	
 	</header>
-
+	
+	<!-- Stampiamo eventuali notifiche di errore -->
+	<%
+	String notification = (String) request.getAttribute("notification");
+	System.out.println(notification);
+	if (notification != null && !notification.isEmpty()) {
+	%>
+	<div id="notification" class="notification">
+		<span><%=notification%></span>
+		<button onclick="closeNotification()">Chiudi</button>
+	</div>
+	<%
+	}
+	%>
+	
 	<jsp:include page="../navbar.jsp" />
 	
 	 <div class="welcome-message">
@@ -65,7 +79,7 @@
 					        <label for="enableEmail">Abilita Modifica E-mail</label>
 					    </div>
 					    <div class="form-group">
-					        <input type="password" id="password" name="password" value="<%=user.getPassword() %>" readonly>
+					        <input type="password" id="password" name="password" placeholder="Inserisci nuova password..." readonly>
 					        <input type="checkbox" id="enablePassword" onchange="enableInput('password', 'enablePassword')"> 
 					        <label for="enablePassword">Abilita Modifica Password</label>
 					        <input type="checkbox" id="showPassword" onchange="togglePasswordVisibility()"> 

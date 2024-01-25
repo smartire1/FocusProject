@@ -7,14 +7,14 @@ INSERT INTO Azienda (piva, nome) VALUES
 
 -- Inserisci Dirigenti, Subordinati e Responsabili per Azienda1
 INSERT INTO Utente (email, pwd, nome, cognome, idAzienda, ruolo) VALUES
-('dirigente1@example.com', 'Password1_', 'Marco', 'Rossi', '12345678901', 'dirigente'),
-('responsabile1@example.com', 'Password1_', 'Luca', 'Verdi', '12345678901', 'responsabile'),
-('responsabile2@example.com', 'Password1_', 'Giulia', 'Gallo', '12345678901', 'responsabile'),
-('subordinato1@example.com', 'Password1_', 'Matteo', 'Ferrari', '12345678901', 'subordinato'),
-('subordinato2@example.com', 'Password1_', 'Chiara', 'Rizzo', '12345678901', 'subordinato'),
-('subordinato3@example.com', 'Password1_', 'Davide', 'Romano', '12345678901', 'subordinato'),
-('subordinato4@example.com', 'Password1_', 'Sara', 'Moretti', '12345678901', 'subordinato'),
-('subordinato5@example.com', 'Password1_', 'Alessandro', 'Conti', '12345678901', 'subordinato');
+('dirigente1@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Marco', 'Rossi', '12345678901', 'dirigente'),
+('responsabile1@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Luca', 'Verdi', '12345678901', 'responsabile'),
+('responsabile2@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Giulia', 'Gallo', '12345678901', 'responsabile'),
+('subordinato1@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Matteo', 'Ferrari', '12345678901', 'subordinato'),
+('subordinato2@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Chiara', 'Rizzo', '12345678901', 'subordinato'),
+('subordinato3@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Davide', 'Romano', '12345678901', 'subordinato'),
+('subordinato4@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Sara', 'Moretti', '12345678901', 'subordinato'),
+('subordinato5@example.com', 'Kn1gSsoYq9jgW4A8q+YII6dlLEDDHBIKdQLWEVFO5/c=', 'Alessandro', 'Conti', '12345678901', 'subordinato');
 
 -- Inserisci Dirigenti, Subordinati e Responsabili per Azienda2
 INSERT INTO Utente (email, pwd, nome, cognome, idAzienda, ruolo) VALUES
@@ -59,27 +59,27 @@ INSERT INTO Permesso (dal_giorno, al_giorno, motivo, stato, richiedente_email) V
 
 
 -- Inserisci Progetti per Azienda1
-INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, numDipendenti, responsabile_email, stato, idAzienda) VALUES
-('Progetto1Azienda1', 'Descrizione del Progetto1Azienda1', 'Obiettivi del Progetto1Azienda1', '2024-05-31', 'Avvisi Progetto1Azienda1', 50000.00, 5, 'responsabile1@example.com', false, '12345678901'),
-('ProgettoInCorso1', 'Descrizione del ProgettoInCorso1', 'Obiettivi del ProgettoInCorso1', '2024-05-30', 'Avvisi ProgettoInCorso1', 60000.00, 6, 'responsabile1@example.com', false, '12345678901'),
-('ProgettoInCorso2', 'Descrizione del ProgettoInCorso2', 'Obiettivi del ProgettoInCorso2', '2024-06-25', 'Avvisi ProgettoInCorso2', 80000.00, 8, 'responsabile1@example.com', false, '12345678901'),
-('Progetto2Azienda1', 'Descrizione del Progetto2Azienda1', 'Obiettivi del Progetto2Azienda1', '2024-06-30', 'Avvisi Progetto2Azienda1', 75000.00, 8, 'responsabile2@example.com', false, '12345678901'),
-('Progetto3Azienda1', 'Descrizione del Progetto3Azienda1', 'Obiettivi del Progetto3Azienda1', '2024-07-15', 'Avvisi Progetto3Azienda1', 100000.00, 10, 'subordinato1@example.com', false, '12345678901'),
-('ProgettoCompletato1', 'Descrizione del ProgettoCompletato1', 'Obiettivi del ProgettoCompletato1', '2024-03-15', 'Avvisi ProgettoCompletato1', 30000.00, 3, 'responsabile1@example.com', true, '12345678901'),
-('ProgettoCompletato2', 'Descrizione del ProgettoCompletato2', 'Obiettivi del ProgettoCompletato2', '2024-04-20', 'Avvisi ProgettoCompletato2', 45000.00, 5, 'responsabile1@example.com', true, '12345678901');
+INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, responsabile_email, stato, idAzienda) VALUES
+('Progetto1Azienda1', 'Descrizione del Progetto1Azienda1', 'Obiettivi del Progetto1Azienda1', '2024-05-31', 'Avvisi Progetto1Azienda1', 50000.00, 'responsabile1@example.com', false, '12345678901'),
+('ProgettoInCorso1', 'Descrizione del ProgettoInCorso1', 'Obiettivi del ProgettoInCorso1', '2024-05-30', 'Avvisi ProgettoInCorso1', 60000.00, 'responsabile1@example.com', false, '12345678901'),
+('ProgettoInCorso2', 'Descrizione del ProgettoInCorso2', 'Obiettivi del ProgettoInCorso2', '2024-06-25', 'Avvisi ProgettoInCorso2', 80000.00, 'responsabile1@example.com', false, '12345678901'),
+('Progetto2Azienda1', 'Descrizione del Progetto2Azienda1', 'Obiettivi del Progetto2Azienda1', '2024-06-30', 'Avvisi Progetto2Azienda1', 75000.00, 'responsabile2@example.com', false, '12345678901'),
+('Progetto3Azienda1', 'Descrizione del Progetto3Azienda1', 'Obiettivi del Progetto3Azienda1', '2024-07-15', 'Avvisi Progetto3Azienda1', 100000.00, 'subordinato1@example.com', false, '12345678901'),
+('ProgettoCompletato1', 'Descrizione del ProgettoCompletato1', 'Obiettivi del ProgettoCompletato1', '2024-03-15', 'Avvisi ProgettoCompletato1', 30000.00, 'responsabile1@example.com', true, '12345678901'),
+('ProgettoCompletato2', 'Descrizione del ProgettoCompletato2', 'Obiettivi del ProgettoCompletato2', '2024-04-20', 'Avvisi ProgettoCompletato2', 45000.00, 'responsabile1@example.com', true, '12345678901');
 
 
 -- Inserisci Progetti per Azienda2
-INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, numDipendenti, responsabile_email, stato, idAzienda) VALUES
-('Progetto1Azienda2', 'Descrizione del Progetto1Azienda2', 'Obiettivi del Progetto1Azienda2', '2024-05-31', 'Avvisi Progetto1Azienda2', 50000.00, 5, 'responsabile3@example.com', false, '98765432101'),
-('Progetto2Azienda2', 'Descrizione del Progetto2Azienda2', 'Obiettivi del Progetto2Azienda2', '2024-06-30', 'Avvisi Progetto2Azienda2', 75000.00, 8, 'responsabile4@example.com', true, '98765432101'),
-('Progetto3Azienda2', 'Descrizione del Progetto3Azienda2', 'Obiettivi del Progetto3Azienda2', '2024-07-15', 'Avvisi Progetto3Azienda2', 100000.00, 10, 'subordinato6@example.com', false, '98765432101');
+INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, responsabile_email, stato, idAzienda) VALUES
+('Progetto1Azienda2', 'Descrizione del Progetto1Azienda2', 'Obiettivi del Progetto1Azienda2', '2024-05-31', 'Avvisi Progetto1Azienda2', 50000.00, 'responsabile3@example.com', false, '98765432101'),
+('Progetto2Azienda2', 'Descrizione del Progetto2Azienda2', 'Obiettivi del Progetto2Azienda2', '2024-06-30', 'Avvisi Progetto2Azienda2', 75000.00, 'responsabile4@example.com', true, '98765432101'),
+('Progetto3Azienda2', 'Descrizione del Progetto3Azienda2', 'Obiettivi del Progetto3Azienda2', '2024-07-15', 'Avvisi Progetto3Azienda2', 100000.00, 'subordinato6@example.com', false, '98765432101');
 
 -- Inserisci Progetti per Azienda3
-INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, numDipendenti, responsabile_email, stato, idAzienda) VALUES
-('Progetto1Azienda3', 'Descrizione del Progetto1Azienda3', 'Obiettivi del Progetto1Azienda3', '2024-05-31', 'Avvisi Progetto1Azienda3', 50000.00, 5, 'responsabile5@example.com', false, '11223344556'),
-('Progetto2Azienda3', 'Descrizione del Progetto2Azienda3', 'Obiettivi del Progetto2Azienda3', '2024-06-30', 'Avvisi Progetto2Azienda3', 75000.00, 8, 'responsabile6@example.com', true, '11223344556'),
-('Progetto3Azienda3', 'Descrizione del Progetto3Azienda3', 'Obiettivi del Progetto3Azienda3', '2024-07-15', 'Avvisi Progetto3Azienda3', 100000.00, 10, 'subordinato11@example.com', false, '11223344556');
+INSERT INTO Progetto (nome, descrizione, obbiettivi, scadenza, avvisi, budget, responsabile_email, stato, idAzienda) VALUES
+('Progetto1Azienda3', 'Descrizione del Progetto1Azienda3', 'Obiettivi del Progetto1Azienda3', '2024-05-31', 'Avvisi Progetto1Azienda3', 50000.00, 'responsabile5@example.com', false, '11223344556'),
+('Progetto2Azienda3', 'Descrizione del Progetto2Azienda3', 'Obiettivi del Progetto2Azienda3', '2024-06-30', 'Avvisi Progetto2Azienda3', 75000.00, 'responsabile6@example.com', true, '11223344556'),
+('Progetto3Azienda3', 'Descrizione del Progetto3Azienda3', 'Obiettivi del Progetto3Azienda3', '2024-07-15', 'Avvisi Progetto3Azienda3', 100000.00, 'subordinato11@example.com', false, '11223344556');
 
 -- LavoraA per azienda 1
 INSERT INTO LavoraA (email, id_progetto) VALUES

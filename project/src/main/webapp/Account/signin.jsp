@@ -1,11 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
-<%
-String error = (String) request.getAttribute("error");
-if (error == null)
-	error = "";
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,23 +6,31 @@ if (error == null)
 <meta charset="ISO-8859-1">
 <title>Registrazione</title>
 <meta charset="ISO-8859-1">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-	crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/Account/css/signin.css">
 <script type="text/javascript" src="js/signin.js"></script>
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap">
 </head>
 <body>
 
 	<header>
 		<a id="logo" href="../index.jsp">FOCUS PROJECT</a>
 	</header>
+	
+	<!-- Stampiamo eventuali notifiche di errore -->
+	<%
+	String notification = (String) request.getAttribute("notification");
+	if (notification != null && !notification.isEmpty()) {
+	%>
+	<div id="notification" class="notification">
+		<span><%=notification%></span>
+		<button onclick="closeNotification()">Chiudi</button>
+	</div>
+	<%
+	}
+	%>
 
 	<div id="signinContainer" class="container">
 		<div class="row">
@@ -81,13 +82,6 @@ if (error == null)
 						<button id="showPass" type="button"
 							onclick="togglePasswordVisibility()">Mostra password</button>
 						<p class="error-message" id="errorMessagePassword"></p>
-						<%
-						if (!error.isEmpty()) {
-						%>
-						<p class="error-message"><%=error%></p>
-						<%
-						}
-						%>
 					</div>
 
 					<div class="links">
@@ -100,7 +94,7 @@ if (error == null)
 				</form>
 			</div>
 			<div class="col-md-5 imgsContainer">
-				<img alt="foto" src="imgs/undraw_Group_hangout_re_4t8r.png">
+				<img alt="foto" src="<%=request.getContextPath()%>/Account/imgs/undraw_Group_hangout_re_4t8r.png">
 			</div>
 		</div>
 	</div>

@@ -76,7 +76,6 @@ CREATE TABLE Progetto (
     scadenza VARCHAR(255) NOT NULL,
     avvisi VARCHAR(255),
     budget DOUBLE NOT NULL,
-    numDipendenti INT,
     responsabile_email VARCHAR(255) NOT NULL,
     stato BOOLEAN DEFAULT FALSE,
     idAzienda VARCHAR(11) NOT NULL,

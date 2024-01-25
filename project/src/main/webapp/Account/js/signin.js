@@ -22,8 +22,6 @@ function validateForm() {
     return isNomeValid && isCognomeValid && isPIVAValid && isNomeAziendaValid && isEmailValid && isPasswordValid;
 }
 
-
-
 function validateField(input, regex, errorMessageId, errorMessage) {
 	
     var errorMessageElement = document.getElementById(errorMessageId);
@@ -38,8 +36,6 @@ function validateField(input, regex, errorMessageId, errorMessage) {
     }
 }
 
-
-
 function togglePasswordVisibility() {
     var passwordInput = document.getElementById("passwordInput");
     var passwordButton = document.getElementById("showPass");
@@ -51,3 +47,12 @@ function togglePasswordVisibility() {
         passwordButton.innerText = "Mostra password"
     }
 }
+
+// Funzione per chiudere la notifica
+function closeNotification() {
+	document.getElementById("notification").style.display = "none";
+}
+
+setTimeout(function() {
+	closeNotification();
+}, 5000);

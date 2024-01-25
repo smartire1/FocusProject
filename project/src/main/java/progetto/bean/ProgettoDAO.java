@@ -25,7 +25,7 @@ public class ProgettoDAO {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;
 
-	    String query = "INSERT INTO Progetto (nome, descrizione, obbiettivi, stato, scadenza, budget, avvisi, numDipendenti, idAzienda, responsabile_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	    String query = "INSERT INTO Progetto (nome, descrizione, obbiettivi, stato, scadenza, budget, avvisi, idAzienda, responsabile_email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	    try {
 	        connection = ds.getConnection();
@@ -37,9 +37,8 @@ public class ProgettoDAO {
 	        preparedStatement.setString(5, progetto.getScadenza());
 	        preparedStatement.setDouble(6, progetto.getBudget());
 	        preparedStatement.setString(7, progetto.getAvvisi());
-	        preparedStatement.setInt(8, progetto.getNumDipendenti());
-	        preparedStatement.setString(9, progetto.getIdAzienda());
-	        preparedStatement.setString(10, progetto.getResponsabile_email());
+	        preparedStatement.setString(8, progetto.getIdAzienda());
+	        preparedStatement.setString(9, progetto.getResponsabile_email());
 
 	        preparedStatement.executeUpdate();
 	    } finally {
@@ -132,7 +131,6 @@ public class ProgettoDAO {
 	            		    rs.getString("scadenza"),
 	            		    rs.getString("avvisi"),
 	            		    rs.getDouble("budget"),
-	            		    rs.getInt("numDipendenti"),
 	            		    rs.getString("responsabile_email"),
 	            		    rs.getBoolean("stato"),
 	            		    rs.getString("idAzienda")
@@ -174,7 +172,6 @@ public class ProgettoDAO {
 	                        rs.getString("scadenza"),
 	                        rs.getString("avvisi"),
 	                        rs.getDouble("budget"),
-	                        rs.getInt("numDipendenti"),
 	                        rs.getString("responsabile_email"),
 	                        rs.getBoolean("stato"),
 	                        rs.getString("idAzienda")
@@ -216,7 +213,6 @@ public class ProgettoDAO {
 	            	        rs.getString("scadenza"),
 	            	        rs.getString("avvisi"),
 	            	        rs.getDouble("budget"),
-	            	        rs.getInt("numDipendenti"),
 	            	        rs.getString("responsabile_email"),
 	            	        rs.getBoolean("stato"),
 	            	        rs.getString("idAzienda")
@@ -270,7 +266,6 @@ public class ProgettoDAO {
 	                        rs.getString("scadenza"),
 	                        rs.getString("avvisi"),
 	                        rs.getDouble("budget"),
-	                        rs.getInt("numDipendenti"),
 	                        rs.getString("responsabile_email"),
 	                        rs.getBoolean("stato"),
 	                        rs.getString("idAzienda")

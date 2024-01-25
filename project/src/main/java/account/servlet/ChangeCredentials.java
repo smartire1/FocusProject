@@ -1,8 +1,11 @@
 package account.servlet;
 
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,43 +44,55 @@ public class ChangeCredentials extends HttpServlet {
         // I parametri rispettano il formato
         else {
         	// Se le credenziali sono uguali alle precedenti
-	        if(utente.getEmail().equals(email) && utente.getPassword().equals(password)) {
+	        if(utente.getEmail().equals(email) && utente.getPassword().equals(toHash(password))) {
 	        	notification = "Le credenziali inserite sono uguali alle precedenti";
 	        	System.out.println("Le credenziali inserite sono uguali alle precedenti");
 	        }
 	        
 	        else {
 		        try {
-		        	// Controlliamo se esiste un utente con quella e-mail
-		        	if(utenteDAO.doRetrieveByKey(email) != null) {
+		        	// Controlliamo se esiste un utente con quella e-mail che non sia l'utente corrente
+		        	if(!email.equals(utente.getEmail()) && utenteDAO.doRetrieveByKey(email) != null) {
 		        		notification = "L'email inserita è già in uso";
+		        		System.out.println("L'email inserita è già in uso");
 		        	}
 		        	
 		        	// Se l'-email non è già in uso
 		        	else {
 		        		// Aggiorna le credenziali
-		        		utenteDAO.doUpdateCredentials(utente, email, password);;
+		        		utenteDAO.doUpdateCredentials(utente, email, toHash(password));
 		        		
 		        		// Aggiorniamo l'attributo di sessione 'utente'
 		        		utente = utenteDAO.doRetrieveByKey(email, piva);
 		        		session.setAttribute("utente", utente);
 		        		
-		        		System.out.println("Modifiche effettuate con successo!");
 		        		notification = "Modifiche effettuate con successo!";
+		        		System.out.println("Modifiche effettuate con successo!");
 		        	}
 		        }
 		        catch(SQLException e) {
 		        	e.printStackTrace();
 		        	notification = "Modifica credenziali fallita";
+		        	System.out.println("Modifica credenziali fallita");
 		        }
 	        }
 		}
         
-        session.setAttribute("notification", notification);
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Account/userArea.jsp");
-        dispatcher.forward(request, response);
+        request.setAttribute("notification", notification);
+        request.getRequestDispatcher("/Account/userArea.jsp").forward(request, response);
 	}
+	
+    // Funzione di hashing della password
+    public static String toHash(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

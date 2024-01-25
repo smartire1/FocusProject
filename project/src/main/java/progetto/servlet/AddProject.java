@@ -39,7 +39,7 @@ public class AddProject extends HttpServlet {
         String op = request.getParameter("action");
         
         // Creiamo e salviamo il progetto
-        Progetto nuovoProgetto = new Progetto(0, nomeProgetto, descrizione, obiettivi, scadenza, avvisi, budget, 0, responsabile, false, idAzienda);
+        Progetto nuovoProgetto = new Progetto(0, nomeProgetto, descrizione, obiettivi, scadenza, avvisi, budget, responsabile, false, idAzienda);
         ProgettoDAO progettoDAO = new ProgettoDAO(ds);
         UtenteDAO utenteDAO = new UtenteDAO(ds);      
         

@@ -75,7 +75,7 @@
 						<br>
 						<p class="lead">
 							Non hai ancora un account?
-							<a href="signin.jsp" target="_self">Registrati</a>
+							<a href="<%=request.getContextPath()%>/Account/signin.jsp" target="_self">Registrati</a>
 						</p>
 					</div>
 				</div>

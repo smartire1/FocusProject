@@ -20,3 +20,12 @@ function togglePasswordVisibility() {
 		passwordInput.type = "password";
 	}
 }
+
+// Funzione per chiudere la notifica
+function closeNotification() {
+	document.getElementById("notification").style.display = "none";
+}
+
+setTimeout(function() {
+	closeNotification();
+}, 5000);

@@ -8,14 +8,13 @@ public class Progetto {
 	private String scadenza;
 	private String avvisi;
 	private double budget;
-	private int numDipendenti;
 	private String responsabile_email;
 	private boolean stato;
 	private String idAzienda;
 
 	// Costruttore
 	public Progetto(int idProgetto, String nome, String descrizione, String obbiettivi, String scadenza, String avvisi,
-			double budget, int numDipendenti, String responsabile_email, boolean stato, String idAzienda) {
+			double budget, String responsabile_email, boolean stato, String idAzienda) {
 		this.idProgetto = idProgetto;
 		this.nome = nome;
 		this.descrizione = descrizione;
@@ -23,7 +22,6 @@ public class Progetto {
 		this.scadenza = scadenza;
 		this.avvisi = avvisi;
 		this.budget = budget;
-		this.numDipendenti = numDipendenti;
 		this.responsabile_email = responsabile_email;
 		this.stato = stato;
 		this.idAzienda = idAzienda;
@@ -86,14 +84,6 @@ public class Progetto {
 		this.budget = budget;
 	}
 
-	public int getNumDipendenti() {
-		return numDipendenti;
-	}
-
-	public void setNumDipendenti(int numDipendenti) {
-		this.numDipendenti = numDipendenti;
-	}
-
 	public String getResponsabile_email() {
 		return responsabile_email;
 	}
@@ -122,7 +112,7 @@ public class Progetto {
 	public String toString() {
 		return "Progetto [idProgetto=" + idProgetto + ", nome=" + nome + ", descrizione=" + descrizione
 				+ ", obbiettivi=" + obbiettivi + ", scadenza=" + scadenza + ", avvisi=" + avvisi + ", budget=" + budget
-				+ ", numDipendenti=" + numDipendenti + ", responsabile_email=" + responsabile_email + ", stato=" + stato
+				+ ", " + ", responsabile_email=" + responsabile_email + ", stato=" + stato
 				+ ", idAzienda=" + idAzienda + "]";
 	}
 
