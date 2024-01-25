@@ -24,6 +24,11 @@ public class LoadEmployees extends HttpServlet {
 		String idAzienda = (String) session.getAttribute("idAzienda");
 		Utente utente = (Utente) session.getAttribute("utente");
 		
+	    if(utente == null) {
+	    	response.sendRedirect(request.getContextPath() + "/Account/login.jsp");
+	    	return;
+	    }
+		
 		Collection<Utente> responsabili = null;
 		Collection<Utente> subordinati = null;
 		Collection<Utente> mieiSubordinati = null;

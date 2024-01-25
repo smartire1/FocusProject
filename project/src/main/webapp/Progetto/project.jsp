@@ -35,8 +35,14 @@
 	<br>
 
 	<%
-	Progetto progetto = (Progetto) request.getAttribute("progetto");
 	Utente user = (Utente) session.getAttribute("utente");
+	
+    if(user == null) {
+    	response.sendRedirect(request.getContextPath() + "LoadProjects.jsp");
+    	return;
+    }
+	
+	Progetto progetto = (Progetto) request.getAttribute("progetto");
 	String ruolo = user.getRuolo();
 	if (progetto == null) {
 		String projectId = request.getParameter("id");

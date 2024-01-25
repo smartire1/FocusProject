@@ -17,6 +17,12 @@
 	// Altro
 	Utente u = (Utente) session.getAttribute("utente");
 	String notifica = (String) request.getAttribute("notifica");
+
+	// SE L'UTENTE NON E' AUTENTICATO
+	if(u == null) {
+		response.sendRedirect(request.getContextPath() + "/LoadEmployees");
+		return;
+	}
 %>
 
 <!DOCTYPE html>

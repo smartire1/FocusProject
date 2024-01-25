@@ -27,6 +27,11 @@ public class LoadProjects extends HttpServlet {
 	    HttpSession session = request.getSession();
 	    String piva = (String) session.getAttribute("idAzienda");
 	    Utente utente = (Utente) session.getAttribute("utente");
+	    
+	    if(utente == null) {
+	    	response.sendRedirect(request.getContextPath() + "/Account/login.jsp");
+	    	return;
+	    }
 	    // ---------------------------------------------------------
 	    LavoraDAO lavoraDAO = new LavoraDAO(ds);
 	    ProgettoDAO progettoDAO = new ProgettoDAO(ds);

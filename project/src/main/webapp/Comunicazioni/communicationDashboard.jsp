@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="comunicazioni.bean.*" import="java.util.*" import="account.bean.*"%>
 
+<%
+	// SE L'UTENTE NON E' AUTENTICATO
+	Utente u = (Utente) session.getAttribute("utente");
+	if(u == null) {
+		response.sendRedirect(request.getContextPath() + "/LoadData");
+		return;
+	}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,8 +46,6 @@
 	</header>
 	
 	<%
-	Utente u = (Utente) session.getAttribute("utente");
-	
 	// Comunicazioni
 	List<Comunicazione> news = (List<Comunicazione>) request.getAttribute("news");
 	

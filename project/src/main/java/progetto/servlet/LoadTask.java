@@ -25,7 +25,12 @@ public class LoadTask extends HttpServlet {
 	    DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 	    HttpSession session = request.getSession();
 	    String piva = (String) session.getAttribute("idAzienda");
+	    Utente utente = (Utente) session.getAttribute("utente");
 	    
+	    if(utente == null) {
+	    	response.sendRedirect(request.getContextPath() + "/Account/login.jsp");
+	    	return;
+	    }
 	    
 	    /* ---------------------------------------------- */
 	    

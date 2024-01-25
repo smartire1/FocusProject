@@ -1,5 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="account.bean.*"%>
+
+<%
+	// SE L'UTENTE E' GIA' AUTENTICATO
+	Utente u = (Utente) session.getAttribute("utente");
+	if(u != null) {
+		response.sendRedirect(request.getContextPath() + "/Login");
+	}
+%>
 
 <!DOCTYPE html>
 <html>

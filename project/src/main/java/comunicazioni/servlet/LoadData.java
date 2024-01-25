@@ -28,6 +28,11 @@ public class LoadData extends HttpServlet {
 	    String piva = (String) session.getAttribute("idAzienda");
 	    Utente utente = (Utente) session.getAttribute("utente");
 	    
+	    if(utente == null) {
+	    	response.sendRedirect(request.getContextPath() + "/Account/login.jsp");
+	    	return;
+	    }
+	    
 	    // Per comunicazioni
 	    List<Comunicazione> news = new ArrayList<>();
 	    ComunicazioneDAO comunicazioneDAO = new ComunicazioneDAO(ds);

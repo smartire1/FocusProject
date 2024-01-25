@@ -8,6 +8,11 @@
 <%
 	Utente utente = (Utente) session.getAttribute("utente");
 	
+	if(utente == null) {
+		response.sendRedirect(request.getContextPath() + "/LoadProjects");
+		return;
+	}
+
 	// Dirigente
 	Collection<?> progettiAttivi = (Collection<?>) request.getAttribute("progettiAttivi");
 	Collection<?> progettiConclusi = (Collection<?>) request.getAttribute("progettiConclusi");

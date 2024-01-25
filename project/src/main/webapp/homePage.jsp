@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="account.bean.*"%>
 <!DOCTYPE html>
 
-<% Utente u = (Utente) session.getAttribute("utente"); %>
+<% Utente u = (Utente) session.getAttribute("utente");
+
+	// SE L'UTENTE NON E' AUTENTICATO
+	if(u == null) {
+		response.sendRedirect("Account/login.jsp");
+		return;
+	}
+%>
 
 <html>
 <head>

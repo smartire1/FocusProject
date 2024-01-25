@@ -3,6 +3,15 @@
 
 <%@ page import="java.util.List, progetto.bean.*, account.bean.*, java.util.*"%>
 
+<%
+	Utente user = (Utente) session.getAttribute("utente");
+
+	if(user == null) {
+	    response.sendRedirect(request.getContextPath() + "LoadTask");
+		return;
+	}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,7 +42,6 @@
 
 	<!-- codice qui ... -->
 	<%
-		Utente user = (Utente) session.getAttribute("utente");
 		String ruolo = user.getRuolo();	
 		int progettoId = (int) request.getAttribute("progettoId");
 		boolean isFinish = (boolean) request.getAttribute("isFinish");

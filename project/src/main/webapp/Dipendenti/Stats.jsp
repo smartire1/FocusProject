@@ -3,6 +3,12 @@
 <%
 	Utente u = (Utente) session.getAttribute("utente");
 
+	// SE L'UTENTE NON E' AUTENTICATO
+	if(u == null) {
+		response.sendRedirect(request.getContextPath() + "/GenerateStats");
+		return;
+	}
+
 	// Dirigente
 	List<StatisticheResponsabile> statsResponsabili = (List<StatisticheResponsabile>) request.getAttribute("statsResponsabili");
 	List<StatisticheSubordinato> statsSubordinati = (List<StatisticheSubordinato>) request.getAttribute("statsSubordinati");
