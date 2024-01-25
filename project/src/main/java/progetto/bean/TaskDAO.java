@@ -136,87 +136,6 @@ public class TaskDAO {
 	    return null;
 	}
 	
-	// Metodo per recuperare tutti i Task per un'azienda specifica dal database
-	public Collection<Task> doRetrieveAll(String idAzienda) throws SQLException {
-	    Connection connection = null;
-	    PreparedStatement preparedStatement = null;
-
-	    Collection<Task> tasks = new LinkedList<>();
-
-	    String selectSQL = "SELECT * FROM Task WHERE id_progetto IN (SELECT id_progetto FROM Progetto WHERE idAzienda = ?)";
-
-	    try {
-	        connection = ds.getConnection();
-	        preparedStatement = connection.prepareStatement(selectSQL);
-	        preparedStatement.setString(1, idAzienda);
-
-	        ResultSet rs = preparedStatement.executeQuery();
-	        while (rs.next()) {
-	            Task task = new Task(
-	                    rs.getInt("id_task"),
-	                    rs.getString("descrizione"),
-	                    rs.getBoolean("stato"),
-	                    rs.getInt("id_progetto"),
-	                    rs.getString("subordinato_email")
-	            );
-	            tasks.add(task);
-	        }
-	    } finally {
-	        try {
-	            if (preparedStatement != null) {
-	                preparedStatement.close();
-	            }
-	        } finally {
-	            if (connection != null) {
-	                connection.close();
-	            }
-	        }
-	    }
-
-	    return tasks;
-	}
-	
-	// Metodo per recuperare tutti i Task associati a un dipendente per un'azienda specifica dal database
-	public Collection<Task> doRetrieveAllByUser(String idAzienda, String email) throws SQLException {
-	    Connection connection = null;
-	    PreparedStatement preparedStatement = null;
-
-	    Collection<Task> tasks = new LinkedList<>();
-
-	    String selectSQL = "SELECT * FROM Task WHERE id_progetto IN (SELECT id_progetto FROM Progetto WHERE idAzienda = ?) AND assegnato_a_email = ?";
-
-	    try {
-	        connection = ds.getConnection();
-	        preparedStatement = connection.prepareStatement(selectSQL);
-	        preparedStatement.setString(1, idAzienda);
-	        preparedStatement.setString(2, email);
-
-	        ResultSet rs = preparedStatement.executeQuery();
-	        while (rs.next()) {
-	            Task task = new Task(
-	                    rs.getInt("id_task"),
-	                    rs.getString("descrizione"),
-	                    rs.getBoolean("stato"),
-	                    rs.getInt("id_progetto"),
-	                    rs.getString("subordinato_email")
-	            );
-	            tasks.add(task);
-	        }
-	    } finally {
-	        try {
-	            if (preparedStatement != null) {
-	                preparedStatement.close();
-	            }
-	        } finally {
-	            if (connection != null) {
-	                connection.close();
-	            }
-	        }
-	    }
-
-	    return tasks;
-	}
-
 	// Metodo per recuperare tutti i Task associati a uno specifico progetto per un'azienda specifica dal database
 	public Collection<Task> doRetrieveAllByProject(int idProgetto, String idAzienda) throws SQLException {
 	    Connection connection = null;
@@ -258,46 +177,6 @@ public class TaskDAO {
 	    return tasks;
 	}
 	
-	public Collection<Task> doRetrieveAllByProjectInProgress(int idProgetto, String idAzienda) throws SQLException {
-	    Connection connection = null;
-	    PreparedStatement preparedStatement = null;
-
-	    Collection<Task> tasks = new LinkedList<>();
-
-	    String selectSQL = "SELECT * FROM Task WHERE id_progetto = ? AND stato = FALSE AND id_progetto IN (SELECT id_progetto FROM Progetto WHERE idAzienda = ?)";
-
-	    try {
-	        connection = ds.getConnection();
-	        preparedStatement = connection.prepareStatement(selectSQL);
-	        preparedStatement.setInt(1, idProgetto);
-	        preparedStatement.setString(2, idAzienda);
-
-	        ResultSet rs = preparedStatement.executeQuery();
-	        while (rs.next()) {
-	            Task task = new Task(
-	                    rs.getInt("id_task"),
-	                    rs.getString("descrizione"),
-	                    rs.getBoolean("stato"),
-	                    rs.getInt("id_progetto"),
-	                    rs.getString("subordinato_email")
-	            );
-	            tasks.add(task);
-	        }
-	    } finally {
-	        try {
-	            if (preparedStatement != null) {
-	                preparedStatement.close();
-	            }
-	        } finally {
-	            if (connection != null) {
-	                connection.close();
-	            }
-	        }
-	    }
-
-	    return tasks;
-	}	
-
 	// Metodo per recuperare tutti i Task associati a uno specifico progetto, utente e azienda dal database
 	public Collection<Task> doRetrieveAllByProjectAndUser(int idProgetto, String emailUtente) throws SQLException {
 	    Connection connection = null;

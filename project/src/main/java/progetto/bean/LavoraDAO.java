@@ -77,27 +77,5 @@ public class LavoraDAO {
         }
 
         return lavora;
-    }
-    
-    public synchronized Collection<Lavora> doRetriveByCompany(String idAzienda) throws SQLException {
-        String query = "SELECT * FROM LavoraA "
-        		+ "JOIN Progetto p ON p.id_progetto = LavoraA.id_progetto "
-        		+ "WHERE p.idAzienda = ?";
-        Collection<Lavora> subordinati = new ArrayList<>();
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, idAzienda);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Lavora lavora = new Lavora(resultSet.getString("email"), resultSet.getInt("id_progetto"));
-                    subordinati.add(lavora);
-                }
-            }
-        }
-        return subordinati;
-    }
-    
-    
+    }    
 }

@@ -41,29 +41,6 @@ public class AziendaDAO {
 		}
 	}
 
-	// Metodo per eliminare un Utente nel database
-	public synchronized void doDelete(String piva) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-
-		String query = "DELETE FROM Azienda WHERE piva = ?";
-
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(query);
-			preparedStatement.setString(1, piva);
-			preparedStatement.executeUpdate();
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-	}
-
 	public synchronized Azienda doRetrieveByKey(String piva) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

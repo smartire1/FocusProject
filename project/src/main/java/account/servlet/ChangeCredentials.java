@@ -52,7 +52,7 @@ public class ChangeCredentials extends HttpServlet {
 	        else {
 		        try {
 		        	// Controlliamo se esiste un utente con quella e-mail che non sia l'utente corrente
-		        	if(!email.equals(utente.getEmail()) && utenteDAO.doRetrieveByKey(email) != null) {
+		        	if(!email.equals(utente.getEmail()) && utenteDAO.doRetrieveByKey(email, piva) != null) {
 		        		notification = "L'email inserita è già in uso";
 		        		System.out.println("L'email inserita è già in uso");
 		        	}

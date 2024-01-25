@@ -64,8 +64,31 @@ function verificaOrario() {
 
     if (oraInizio >= oraFine) {
         alert("L'ora di inizio non puo' essere maggiore o uguale all'ora di fine.");
-    } else {
-        alert("Orario valido!");
-        // Puoi eseguire altre azioni qui se l'orario è valido
+        event.preventDefault();
     }
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const closeBtns = document.querySelectorAll(".close-popup-btn1");    
+   
+    const popup = document.getElementById("Popup1");
+    const overlay = document.getElementById("Overlay1");
+
+    closeBtns.forEach(function(btn) {
+        btn.addEventListener("click", () => {			
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        });
+    });
+     	              
+});
+
+// Funzione per chiudere la notifica
+function closeNotification() {
+	document.getElementById("notification").style.display = "none";
+}
+
+setTimeout(function() {
+	closeNotification();
+}, 5000);

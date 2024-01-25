@@ -40,26 +40,30 @@ public class ConcludeProject extends HttpServlet {
 		if(op.equals("concludi")) {
 			try {
 				// Ci sono task associati?
-				Collection<Task> tasks = taskDAO.doRetrieveAllByProjectInProgress(progettoId, idAzienda);
-
-				if(!tasks.isEmpty()) {
-					System.out.println("Non è possibile concludere il progetto perché ci sono task associati ancora da completare");
-					request.setAttribute("id", String.valueOf(progettoId));				
-					request.setAttribute("Error", "Impossibile concludere il progetto, task da completare");
-					request.getRequestDispatcher("/LoadTask").forward(request, response);				
-				}
+				Collection<Task> tasks = taskDAO.doRetrieveAllByProject(progettoId, idAzienda);	
 				
-				else {
-					progetto = progettoDAO.doRetrieveByKey(progettoId, idAzienda);
-					progetto.setStato(true);
-					progettoDAO.doUpdate(progetto);
+				if(!tasks.isEmpty()) {
 					
-					System.out.println("Progetto Spostato nella sezione progetti conclusi");				
-					request.setAttribute("id", String.valueOf(progettoId));				
-					request.setAttribute("Success", "Progetto Spostato nella sezione progetti conclusi");
-					request.getRequestDispatcher("/LoadProjects").forward(request, response);	
+					for(Task t: tasks) {
+						if(!t.isStato()) {
+							System.out.println("Non è possibile concludere il progetto perché ci sono task associati ancora da completare");
+							request.setAttribute("id", String.valueOf(progettoId));				
+							request.setAttribute("Error", "Impossibile concludere il progetto, task da completare");
+							request.getRequestDispatcher("/LoadTask").forward(request, response);
+							return;
+						}
+					}
 					
-				}
+				}				
+				progetto = progettoDAO.doRetrieveByKey(progettoId, idAzienda);
+				progetto.setStato(true);
+				progettoDAO.doUpdate(progetto);
+
+				System.out.println("Progetto Spostato nella sezione progetti conclusi");
+				request.setAttribute("id", String.valueOf(progettoId));
+				request.setAttribute("Success", "Progetto Spostato nella sezione progetti conclusi");
+				request.getRequestDispatcher("/LoadProjects").forward(request, response);	
+					
 			} catch(SQLException e) {
 				e.printStackTrace();
 			}

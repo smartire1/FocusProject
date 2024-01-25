@@ -56,20 +56,6 @@ public class PermessoDAO {
             preparedStatement.executeUpdate();
         }
     }
-
-
-    // Metodo per eliminare un Permesso nel database
-    public synchronized void doDelete(int id) throws SQLException {
-        String query = "DELETE FROM Permesso WHERE id = ?";
-
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)
-        ) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        }
-    }
     
     // Metodo per recuperare un permesso specifico
     public Permesso doRetrieveByKey(int id, String idAzienda) throws SQLException {
@@ -100,37 +86,6 @@ public class PermessoDAO {
         }
 
         return permesso;
-    }
-
- // Metodo per recuperare tutti i permessi (relativi sempre ad una data azienda)
-    public List<Permesso> doRetrieveAll(String idAzienda) throws SQLException {
-        List<Permesso> permessi = new ArrayList<>();
-        String query = "SELECT * FROM Permesso p " +
-                       "JOIN Utente u ON p.richiedente_email = u.email " +
-                       "WHERE u.idAzienda = ?";
-
-        try (
-            Connection connection = dataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, idAzienda);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Permesso permesso = new Permesso(
-                            resultSet.getInt("id"),
-                            resultSet.getString("dal_giorno"),
-                            resultSet.getString("al_giorno"),
-                            resultSet.getString("motivo"),
-                            resultSet.getBoolean("stato"),
-                            resultSet.getString("richiedente_email")
-                    );
-                    permessi.add(permesso);
-                }
-            }
-        }
-
-        return permessi;
     }
 
     // Metodo per recuperare tutti i permessi richiesti da utenti con un certo ruolo (relativi sempre ad una data azienda)

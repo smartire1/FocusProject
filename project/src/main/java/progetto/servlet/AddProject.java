@@ -65,6 +65,8 @@ public class AddProject extends HttpServlet {
 	                response.sendRedirect(request.getContextPath() + "/Progetto/projectDashboard.jsp");
 	                return;
 	        	}
+	        	if (nuovoProgetto.getAvvisi() == null) 
+	        		nuovoProgetto.setAvvisi("");
 	            int idprogetto = progettoDAO.doSave(nuovoProgetto);
 	            System.out.println("Progetto aggiunto con successo!");
 	            request.setAttribute("id", String.valueOf(idprogetto));

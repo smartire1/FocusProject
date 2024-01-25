@@ -18,8 +18,8 @@
 	Map<String, Collection<Turno>> turniMieiSubordinati = (Map<String, Collection<Turno>>) request.getAttribute("turniMieiSubordinati");
 	
 	// Altro
+	String password = (String) request.getAttribute("password");
 	Utente u = (Utente) session.getAttribute("utente");
-	String notifica = (String) request.getAttribute("notifica");
 
 	// SE L'UTENTE NON E' AUTENTICATO
 	if(u == null) {
@@ -68,6 +68,25 @@
 
 	<jsp:include page="../navbar.jsp" />
 
+	<% if(password != null) {%>
+	<div class="overlay1" id="Overlay1"></div>
+	<div class="container text-center" id="Popup1">
+	    <button id="closeBtn1" class="close-btn close-popup-btn1"><i class="fas fa-times"></i></button>
+	    <div class="container">
+	        <h3 id="Operation" class="title">Password Generata</h3>
+	        <div>
+		        	<br>
+		        	<br>
+						<p>Utente Registrato con successo</p>	        	
+						<h3><%= password%></h3>						
+		        	<br>
+		        	<br>       	
+	        </div>
+       
+	    </div>
+	</div>	
+	<%} %>
+
 	<div class="overlay" id="Overlay"></div>
 	<div class="container text-center" id="Popup">
 	    <button id="closeBtn" class="close-btn close-popup-btn"><i class="fas fa-times"></i></button>
@@ -96,19 +115,22 @@
        
 	    </div>
 	</div>
+
 	
 	<div class="container">
-	
+
 		<%
-		if(notifica != null && !notifica.isEmpty()) { %>
-			<div id="notification">
-				<p><%= notifica %></p>
-			</div>
-			
-			<%
+		String notification = (String) request.getAttribute("notification");
+		if (notification != null && !notification.isEmpty()) {
+		%>
+		<div id="notification" class="notification">
+			<span><%=notification%></span>
+			<button onclick="closeNotification()">Chiudi</button>
+		</div>
+		<%
 		}
 		%>
-	
+
 		<div class="row">
 			<div class="container-fluid1">
 				<!-- Sidebar con pulsanti -->
