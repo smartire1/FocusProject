@@ -218,13 +218,17 @@ public class PermessoDAO {
                             resultSet.getString("dal_giorno"),
                             resultSet.getString("al_giorno"),
                             resultSet.getString("motivo"),
-                            resultSet.getBoolean("stato"),
+                            resultSet.getObject("stato", Boolean.class),
                             resultSet.getString("richiedente_email")
                     );
                     permessi.add(permesso);
                 }
             }
         }
+        
+    	for(Permesso p : permessi) {
+    		System.out.println(p.isStato());
+    	}
 
         return permessi;
     }

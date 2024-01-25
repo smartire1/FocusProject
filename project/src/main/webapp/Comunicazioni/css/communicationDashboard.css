@@ -303,6 +303,11 @@ body {
     margin-bottom: 5px;
 }
 
+#content4 p#sospeso, #content5 p#sospeso {
+    color: #b2b2b2;
+    margin-bottom: 5px;
+}
+
 #content4 p, #content5 p {
     margin-bottom: 10px;
 }

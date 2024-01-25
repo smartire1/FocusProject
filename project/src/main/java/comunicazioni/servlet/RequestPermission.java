@@ -69,8 +69,7 @@ public class RequestPermission extends HttpServlet {
         }
         
         request.setAttribute("notification", notification);
-        
-        response.sendRedirect(request.getContextPath() + "/LoadData");
+        request.getRequestDispatcher("/LoadData").forward(request, response);
         
 	}
 	

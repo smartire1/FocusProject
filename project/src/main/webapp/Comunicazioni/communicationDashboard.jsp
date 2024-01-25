@@ -67,7 +67,6 @@
 	%>
 	<div id="notification" class="notification">
 		<span><%=notification%></span>
-		<!-- Aggiungi un pulsante o chiudi automaticamente dopo un certo periodo -->
 		<button onclick="closeNotification()">Chiudi</button>
 	</div>
 	<%
@@ -223,11 +222,13 @@
 						        for (Permesso p : permessiRespGestiti) { %>
 						            <div>
 						            	<%= p.getRichiedenteEmail() %>
-						            	<% if(p.isStato()) {%>
+						            	<% if(p.isStato() != null && p.isStato() == true) { %>
 						            		<p id="approvato">Approvato</p>
-						            	<% } else { %>
+						            	<% } else if(p.isStato() != null && p.isStato() == false) { %>
 						            		<p id="rifiutato">Rifiutato</p>
-						            	<%}%>
+						            	<% } else { %>
+						            		<p id="sospeso">Sospeso</p>
+						            	<% } %>
 						            	dal giorno <%= p.getDalGiorno() %> <br/>
 						            	al giorno <%= p.getAlGiorno() %> <br/>
 						            	<%= p.getMotivo() %>
@@ -242,11 +243,13 @@
 						        for (Permesso p : permessiSubGestiti) { %>
 						            <div>
 						            	<%= p.getRichiedenteEmail() %>
-						            	<% if(p.isStato()) {%>
+						            	<% if(p.isStato() != null && p.isStato() == true) { %>
 						            		<p id="approvato">Approvato</p>
-						            	<% } else { %>
+						            	<% } else if(p.isStato() != null && p.isStato() == false) { %>
 						            		<p id="rifiutato">Rifiutato</p>
-						            	<%}%>
+						            	<% } else { %>
+						            		<p id="sospeso">Sospeso</p>
+						            	<% } %>
 						            	dal giorno <%= p.getDalGiorno() %> <br/>
 						            	al giorno <%= p.getAlGiorno() %> <br/>
 						            	<%= p.getMotivo() %>
@@ -266,11 +269,13 @@
 							<%
 							for (Permesso p : permessiRichiesti) { %>
 						    	<div>
-						            <% if(p.isStato()) {%>
+						            <% if(p.isStato() != null && p.isStato() == true) { %>
 						            	<p id="approvato">Approvato</p>
-						            <% } else { %>
+						            <% } else if(p.isStato() != null && p.isStato() == false) { %>
 						            	<p id="rifiutato">Rifiutato</p>
-						            <%}%>
+						            <% } else { %>
+						            		<p id="sospeso">Sospeso</p>
+						            <% } %>
 						            dal giorno <%= p.getDalGiorno() %> <br/>
 						            al giorno <%= p.getAlGiorno() %> <br/>
 						            <%= p.getMotivo() %>

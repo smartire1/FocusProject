@@ -20,7 +20,7 @@ import account.bean.*;
 public class LoadData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	// Questa Servlet carica le informazioni, quali 'comunicazioni' e 'permessi'
+	// Questa Servlet carica le informazioni, quali 'comunicazioni' e 'permessi'.
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
@@ -116,6 +116,8 @@ public class LoadData extends HttpServlet {
 	    catch(SQLException e) {
 	    	e.printStackTrace();
 	    }
+	    
+	    String notification = (String) request.getAttribute("notification");
 	    
 	    request.getRequestDispatcher("/Comunicazioni/communicationDashboard.jsp").forward(request, response);
 	}
