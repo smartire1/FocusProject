@@ -1,5 +1,7 @@
 package account.bean;
 
+import java.util.Objects;
+
 public class Utente {
 	private String email;
 	private String password;	
@@ -117,6 +119,24 @@ public class Utente {
 	public String toString() {
 		return "Utente [email=" + email + ", password=" + password + ", nome=" + nome + ", cognome=" + cognome
 				+ ", idAzienda=" + idAzienda + ", stato=" + stato + ", ruolo=" + ruolo + "]";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) {
+	        return true;
+	    }
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    Utente utente = (Utente) obj;
+	    return Objects.equals(email, utente.email) &&
+	           Objects.equals(password, utente.password) &&
+	           Objects.equals(nome, utente.nome) &&
+	           Objects.equals(cognome, utente.cognome) &&
+	           Objects.equals(idAzienda, utente.idAzienda) &&
+	           Objects.equals(stato, utente.stato) &&
+	           Objects.equals(ruolo, utente.ruolo);
 	}
 	
 }

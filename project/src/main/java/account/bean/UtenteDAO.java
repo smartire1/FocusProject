@@ -191,110 +191,88 @@ public class UtenteDAO {
 		return null;
 	}
 
-	// Metodo per recuperare tutti gli Utenti dal database
 	public Collection<Utente> doRetrieveAll(String idAzienda) throws SQLException {
+	    Collection<Utente> utenti = new LinkedList<>();
+	    String selectSQL = "SELECT * FROM Utente WHERE idAzienda = ? AND stato = true";
 
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    try (
+	        Connection connection = ds.getConnection();
+	        PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+	    ) {
+	        preparedStatement.setString(1, idAzienda);
 
-		Collection<Utente> utenti = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Utente WHERE idAzienda = ? AND stato = true";
+	        try (ResultSet rs = preparedStatement.executeQuery()) {
+	            while (rs.next()) {
+	                Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"),
+	                        rs.getString("cognome"), rs.getString("idAzienda"),
+	                        rs.getBoolean("stato"), rs.getString("ruolo"));
+	                utenti.add(utente);
+	            }
+	        }
+	    }
 
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, idAzienda);
-
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
-						  				   rs.getString("cognome"), rs.getString("idAzienda"), 
-						  				   rs.getBoolean("stato"),rs.getString("ruolo"));
-				utenti.add(utente);
-			}
-		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
-
-		return utenti;
+	    return utenti;
 	}
 	
-	// Metodo per recuperare tutti gli Utenti dal database che sono Responsabili
 	public Collection<Utente> doRetrieveAllResponsabili(String idAzienda) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    Collection<Utente> responsabili = new LinkedList<>();
+	    String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'responsabile' AND u.idAzienda = ? AND stato = true";
 
-		Collection<Utente> responsabili = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'responsabile' AND u.idAzienda = ? AND stato = true";
-		
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, idAzienda);
+	    try (
+	        Connection connection = ds.getConnection();
+	        PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+	    ) {
+	        preparedStatement.setString(1, idAzienda);
 
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
-						  				   rs.getString("cognome"), rs.getString("idAzienda"), 
-						  				   rs.getBoolean("stato"),rs.getString("ruolo"));
-				responsabili.add(utente);
-			}
-		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
-		
-		return responsabili;
+	        try (ResultSet rs = preparedStatement.executeQuery()) {
+	            while (rs.next()) {
+	                Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"),
+	                        rs.getString("cognome"), rs.getString("idAzienda"),
+	                        rs.getBoolean("stato"), rs.getString("ruolo"));
+	                responsabili.add(utente);
+	            }
+	        }
+	    }
+
+	    return responsabili;
 	}
 	
-	// Metodo per recuperare tutti gli Utenti dal database che sono Subordinati
 	public Collection<Utente> doRetrieveAllSubordinati(String idAzienda) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
 
-		Collection<Utente> subordinati = new LinkedList<>();
-		String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'subordinato' AND u.idAzienda = ? AND stato = true";
-		
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, idAzienda);
+	    Collection<Utente> subordinati = new LinkedList<>();
+	    String selectSQL = "SELECT * FROM Utente u WHERE u.ruolo = 'subordinato' AND u.idAzienda = ? AND stato = true";
 
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"), 
-						  				   rs.getString("cognome"), rs.getString("idAzienda"), 
-						  				   rs.getBoolean("stato"),rs.getString("ruolo"));
-				subordinati.add(utente);
-			}
-		} finally {
-			try {
-				if (preparedStatement != null) {
-					preparedStatement.close();
-				}
-			} finally {
-				if (connection != null) {
-					connection.close();
-				}
-			}
-		}
-		
-		return subordinati;
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, idAzienda);
+
+	        rs = preparedStatement.executeQuery();
+	        while (rs.next()) {
+	            Utente utente = new Utente(rs.getString("email"), rs.getString("pwd"), rs.getString("nome"),
+	                    rs.getString("cognome"), rs.getString("idAzienda"),
+	                    rs.getBoolean("stato"), rs.getString("ruolo"));
+	            subordinati.add(utente);
+	        }
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	        } finally {
+	            if (connection != null) {
+	                connection.close();
+	            }
+	        }
+	    }
+
+	    return subordinati;
 	}
 	
     public synchronized List<Utente> doRetriveByNotProject(int id_project, String idAzienda) throws SQLException {
