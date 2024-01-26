@@ -46,4 +46,13 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("responsabile").value = email;
 	}
 	
+// Funzione per chiudere la notifica
+function closeNotification() {
+	document.getElementById("notification").style.display = "none";
+}
+
+setTimeout(function() {
+	closeNotification();
+}, 5000);	
+	
 	
