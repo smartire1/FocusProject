@@ -1,4 +1,4 @@
-package dipendenti.bean;  // Sostituisci "tuopackage" con il tuo package
+package dipendenti.bean;
 
 import javax.sql.DataSource;
 import java.sql.*;

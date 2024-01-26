@@ -25,6 +25,4 @@ public class AssegnatoA {
 	public void setId_utente(String id_utente) {
 		this.id_utente = id_utente;
 	}
-	
-	
 }
