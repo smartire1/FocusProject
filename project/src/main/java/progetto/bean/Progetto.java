@@ -110,10 +110,11 @@ public class Progetto {
 
 	@Override
 	public String toString() {
-		return "Progetto [idProgetto=" + idProgetto + ", nome=" + nome + ", descrizione=" + descrizione
-				+ ", obbiettivi=" + obbiettivi + ", scadenza=" + scadenza + ", avvisi=" + avvisi + ", budget=" + budget
-				+ ", " + ", responsabile_email=" + responsabile_email + ", stato=" + stato
-				+ ", idAzienda=" + idAzienda + "]";
+	    return "Progetto [idProgetto=" + idProgetto + ", nome=" + nome + ", descrizione=" + descrizione
+	            + ", obbiettivi=" + obbiettivi + ", scadenza=" + scadenza + ", avvisi=" + avvisi
+	            + ", budget=" + budget + ", responsabile_email=" + responsabile_email + ", stato=" + stato
+	            + ", idAzienda=" + idAzienda + "]";
 	}
+
 
 }

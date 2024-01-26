@@ -42,12 +42,12 @@ class PermissionManagementTest {
     private PermissionManagement servlet;
 
     @BeforeEach
-    void setUp() throws ServletException {
+    void setUp() throws ServletException, SQLException {
         MockitoAnnotations.openMocks(this);
         servlet = new PermissionManagement();
         servlet.init();
         when(request.getSession()).thenReturn(session);
-        when(getServletContext().getAttribute("DataSource")).thenReturn(dataSource);
+        when(request.getServletContext().getAttribute("DataSource")).thenReturn(dataSource);
         when(dataSource.getConnection()).thenReturn(null); // Puoi sostituire con il tuo mock di DataSource
     }
 

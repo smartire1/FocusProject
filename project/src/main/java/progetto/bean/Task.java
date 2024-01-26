@@ -1,5 +1,7 @@
 package progetto.bean;
 
+import java.util.Objects;
+
 public class Task {
     private int idTask;
     private String descrizione;
@@ -56,6 +58,23 @@ public class Task {
     public void setSubordinatoEmail(String subordinatoEmail) {
         this.subordinatoEmail = subordinatoEmail;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return getIdTask() == task.getIdTask() &&
+                isStato() == task.isStato() &&
+                getIdProgetto() == task.getIdProgetto() &&
+                Objects.equals(getDescrizione(), task.getDescrizione()) &&
+                Objects.equals(getSubordinatoEmail(), task.getSubordinatoEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIdTask(), getDescrizione(), isStato(), getIdProgetto(), getSubordinatoEmail());
+    }    
 
 	@Override
 	public String toString() {

@@ -42,19 +42,19 @@ class RequestPermissionTest {
     private RequestPermission servlet;
 
     @BeforeEach
-    void setUp() throws ServletException {
+    void setUp() throws ServletException, SQLException {
         MockitoAnnotations.openMocks(this);
         servlet = new RequestPermission();
         servlet.init();
         when(request.getSession()).thenReturn(session);
-        when(getServletContext().getAttribute("DataSource")).thenReturn(dataSource);
+        when(request.getServletContext().getAttribute("DataSource")).thenReturn(dataSource);
         when(dataSource.getConnection()).thenReturn(null); // Puoi sostituire con il tuo mock di DataSource
     }
 
     @Test
     void testDoGetValidRequest() throws ServletException, IOException, SQLException {
         when(session.getAttribute("idAzienda")).thenReturn("azienda123");
-        when(session.getAttribute("utente")).thenReturn(new Utente("utente@example.com", "Nome", "Cognome", "ruolo", "azienda123"));
+        when(session.getAttribute("utente")).thenReturn(new Utente("utente@example.com", "Nome", "Cognome", "ruolo", "azienda123", false, null));
         when(request.getParameter("dalGiorno")).thenReturn("2022-01-01");
         when(request.getParameter("alGiorno")).thenReturn("2022-01-02");
         when(request.getParameter("motivazione")).thenReturn("Vacanza");
@@ -66,7 +66,7 @@ class RequestPermissionTest {
 
         // Verifica che la servlet reindirizzi correttamente
         verify(request).setAttribute("notification", "Permesso aggiunto con successo!");
-        verify(requestDispatcher).forward(request, response);
+        verify(request.getRequestDispatcher(null)).forward(request, response);
     }
 
     @Test
@@ -81,7 +81,7 @@ class RequestPermissionTest {
 
         // Verifica che la servlet reindirizzi correttamente
         verify(request).setAttribute("notification", "Errore: le date non rispettano il formato");
-        verify(requestDispatcher).forward(request, response);
+        verify(request.getRequestDispatcher(null)).forward(request, response);
     }
 
     // Puoi aggiungere altri test se necessario
