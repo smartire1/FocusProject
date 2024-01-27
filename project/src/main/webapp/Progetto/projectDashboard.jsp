@@ -62,6 +62,18 @@
 
     <jsp:include page="../navbar.jsp" />
 
+	<%
+	String notification = (String) request.getAttribute("notification");
+	if (notification != null && !notification.isEmpty()) {
+	%>
+	<div id="notification" class="notification">
+		<span><%=notification%></span>
+		<button onclick="closeNotification()">Chiudi</button>
+	</div>
+	<%
+	}
+	%>
+
 	<div class="overlay" id="Overlay"></div>
 	<div class="container text-center" id="Popup">
 	    <button id="closeBtn" class="close-btn close-popup-btn"><i class="fas fa-times"></i></button>

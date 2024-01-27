@@ -146,6 +146,8 @@ public class LoadProjects extends HttpServlet {
 	        }
 
 	        // Inoltrare la richiesta alla JSP dedicata alla visualizzazione della dashboard
+	        String notification = (String) request.getAttribute("notification");
+	        request.setAttribute("notification", notification);
 	        request.getRequestDispatcher("/Progetto/projectDashboard.jsp").forward(request, response);
 	    }
 	}

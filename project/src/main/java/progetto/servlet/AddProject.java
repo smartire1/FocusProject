@@ -31,12 +31,13 @@ public class AddProject extends HttpServlet {
         String obiettivi = request.getParameter("obiettivi");
         String scadenza = request.getParameter("scadenza");
         String avvisi = request.getParameter("avvisi");
-        Double budget = Double.parseDouble(request.getParameter("budget"));
+        String budgetParameter = request.getParameter("budget");
+        Double budget = (budgetParameter != null && !budgetParameter.isEmpty()) ? Double.parseDouble(budgetParameter) : 0.0; 
         // numDipendenti: 0
         String responsabile = request.getParameter("responsabile");
         // stato: false
         String idAzienda = (String) session.getAttribute("idAzienda");
-        String op = request.getParameter("action");
+        String op = request.getParameter("action");            
         
         // Creiamo e salviamo il progetto
         Progetto nuovoProgetto = new Progetto(0, nomeProgetto, descrizione, obiettivi, scadenza, avvisi, budget, responsabile, false, idAzienda);
