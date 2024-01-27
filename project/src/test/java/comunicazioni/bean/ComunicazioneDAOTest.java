@@ -47,23 +47,20 @@ public class ComunicazioneDAOTest {
 
         comunicazioneDAO = new ComunicazioneDAO(dataSource);
 
-        // Creazione della tabella Comunicazione
         when(connection.createStatement()).thenReturn((Statement) mock(Statement.class));
     }
 
     @AfterEach
     public void tearDown() throws SQLException {
-        // Non è necessario, poiché stiamo usando un database in memoria
+    	
     }
 
     @Test
     public void testDoSave() throws SQLException {
         Comunicazione comunicazione = new Comunicazione(1, "Titolo", "Corpo del messaggio", "mittente@example.com");
-
-        // Salvataggio della comunicazione nel database
+        
         comunicazioneDAO.doSave(comunicazione);
 
-        // Verifica che la comunicazione sia stata salvata correttamente
         verify(preparedStatement).setString(1, "Titolo");
         verify(preparedStatement).setString(2, "Corpo del messaggio");
         verify(preparedStatement).setString(3, "mittente@example.com");
@@ -72,7 +69,6 @@ public class ComunicazioneDAOTest {
 
     @Test
     public void testDoRetrieveAll() throws SQLException {
-        // Simulazione del risultato della query
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true).thenReturn(false);
         when(resultSet.getInt("id")).thenReturn(1);
@@ -80,10 +76,8 @@ public class ComunicazioneDAOTest {
         when(resultSet.getString("corpo")).thenReturn("Corpo del messaggio");
         when(resultSet.getString("mittente_email")).thenReturn("mittente@example.com");
 
-        // Recupero delle comunicazioni relative a un'azienda (nel nostro caso, è fittizio)
         List<Comunicazione> comunicazioni = comunicazioneDAO.doRetrieveAll("idAzienda");
 
-        // Verifica che la lista contenga la comunicazione simulata
         assertEquals(1, comunicazioni.size());
         Comunicazione comunicazione = comunicazioni.get(0);
         assertEquals(1, comunicazione.getId());
@@ -91,7 +85,6 @@ public class ComunicazioneDAOTest {
         assertEquals("Corpo del messaggio", comunicazione.getCorpo());
         assertEquals("mittente@example.com", comunicazione.getMittenteEmail());
 
-        // Verifica che la query sia stata eseguita correttamente
         verify(preparedStatement).setString(1, "idAzienda");
         verify(preparedStatement).executeQuery();
     }

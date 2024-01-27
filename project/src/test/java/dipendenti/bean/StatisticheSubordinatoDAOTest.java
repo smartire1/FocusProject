@@ -22,7 +22,6 @@ public class StatisticheSubordinatoDAOTest {
 
     @BeforeEach
     public void setUp() throws SQLException {
-        // Inizializza i mock prima di ogni test
         mockDataSource = mock(DataSource.class);
         mockConnection = mock(Connection.class);
         mockPreparedStatement = mock(PreparedStatement.class);

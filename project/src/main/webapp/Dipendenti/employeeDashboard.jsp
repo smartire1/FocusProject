@@ -306,7 +306,7 @@
 											        <input type="text" name="turnoOraF" value="<%=t.getOraFine()%>">
 											        Ora fine	
 											        <div class="form-buttons">
-											            <button class="btn btn-danger" type="submit">Rimuovi Turno</button>
+											            <button id="rimuoviTurno" class="btn btn-danger" type="submit">Rimuovi Turno</button>
 											        </div>
 											    </form>
 											

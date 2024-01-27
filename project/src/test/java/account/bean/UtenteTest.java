@@ -11,7 +11,6 @@ class UtenteTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Inizializzare l'oggetto Utente prima di ogni test
         utente = new Utente("test@example.com", "Test123!", "Mario", "Rossi", "azienda1", true, "UtenteNormale");
     }
 

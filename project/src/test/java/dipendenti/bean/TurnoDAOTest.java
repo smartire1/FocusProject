@@ -23,7 +23,6 @@ public class TurnoDAOTest {
 
     @BeforeEach
     public void setUp() throws SQLException {
-        // Inizializza i mock prima di ogni test
         mockDataSource = mock(DataSource.class);
         mockConnection = mock(Connection.class);
         mockPreparedStatement = mock(PreparedStatement.class);
@@ -109,17 +108,14 @@ public class TurnoDAOTest {
         when(mockConnection.prepareStatement(any(String.class))).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
 
-        // Configura il mock ResultSet per restituire risultati
         when(mockResultSet.next()).thenReturn(true, false);
         when(mockResultSet.getInt("id")).thenReturn(1);
         when(mockResultSet.getString("giorno")).thenReturn("Lunedì");
         when(mockResultSet.getString("ora_inizio")).thenReturn("09:00");
         when(mockResultSet.getString("ora_fine")).thenReturn("17:00");
 
-        // Esegui il metodo doRetrieveAllResp
         Collection<Turno> resultTurni = turnoDAO.doRetrieveAllResp("piva123");
 
-        // Verifica che il risultato sia corretto
         assertEquals(1, resultTurni.size());
         Turno resultTurno = resultTurni.iterator().next();
         assertEquals(1, resultTurno.getId());

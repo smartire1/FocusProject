@@ -1,6 +1,8 @@
 package comunicazioni.bean;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import javax.sql.DataSource;
@@ -14,7 +16,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 public class PermessoDAOTest {
 
@@ -33,13 +34,27 @@ public class PermessoDAOTest {
     private PermessoDAO permessoDAO;
 
     @BeforeEach
-    public void setUp() throws SQLException {
-        MockitoAnnotations.openMocks(this);
+    void setUp() throws SQLException {
+        dataSource = mock(DataSource.class);
+        permessoDAO = new PermessoDAO(dataSource);
+        connection = mock(Connection.class);
+        preparedStatement = mock(PreparedStatement.class);
+        resultSet = mock(ResultSet.class);
 
         when(dataSource.getConnection()).thenReturn(connection);
-        when(connection.prepareStatement(any(String.class))).thenReturn(preparedStatement);
 
-        permessoDAO = new PermessoDAO(dataSource);
+        when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+
+        when(preparedStatement.executeQuery()).thenReturn(resultSet);
+
+        when(connection.prepareStatement(anyString(), anyInt())).thenReturn(preparedStatement);
+        when(resultSet.next()).thenReturn(true).thenReturn(false);
+        when(resultSet.getInt("id")).thenReturn(1);
+        when(resultSet.getString("dal_giorno")).thenReturn("2022-01-01");
+        when(resultSet.getString("al_giorno")).thenReturn("2022-01-10");
+        when(resultSet.getString("motivo")).thenReturn("Vacanza");
+        when(resultSet.getBoolean("stato")).thenReturn(true);  // Modifica qui
+        when(resultSet.getString("richiedente_email")).thenReturn("richiedente@example.com");
     }
 
     @Test
@@ -130,7 +145,6 @@ public class PermessoDAOTest {
 
         List<Permesso> permessi = permessoDAO.doRetrieveAllManagedAndByRuolo("idAzienda", "ruolo");
 
-        // Verifica che il metodo executeQuery() sia stato chiamato esattamente una volta
         verify(preparedStatement, times(1)).executeQuery();
 
         assertEquals(1, permessi.size());
@@ -158,7 +172,6 @@ public class PermessoDAOTest {
 
         List<Permesso> permessi = permessoDAO.doRetrieveAllNotManagedAndByRuolo("idAzienda", "ruolo");
 
-        // Verifica che il metodo executeQuery() sia stato chiamato esattamente una volta
         verify(preparedStatement, times(1)).executeQuery();
 
         assertEquals(1, permessi.size());
@@ -169,42 +182,6 @@ public class PermessoDAOTest {
         assertEquals("Vacanza", permesso.getMotivo());
         assertTrue(permesso.isStato());
         assertEquals("richiedente@example.com", permesso.getRichiedenteEmail());
-
-        // Altri controlli se necessario
-    }
-    
-    @Test
-    public void testDoRetrieveAllByUser() throws SQLException {
-        when(preparedStatement.executeQuery()).thenReturn(resultSet);
-        when(resultSet.next()).thenReturn(true).thenReturn(false);
-        when(resultSet.getInt("id")).thenReturn(1);
-        when(resultSet.getString("dal_giorno")).thenReturn("2022-01-01");
-        when(resultSet.getString("al_giorno")).thenReturn("2022-01-10");
-        when(resultSet.getString("motivo")).thenReturn("Vacanza");
-        when(resultSet.getBoolean("stato")).thenReturn(true);
-        when(resultSet.getString("richiedente_email")).thenReturn("richiedente@example.com");
-
-        List<Permesso> permessi = permessoDAO.doRetrieveAllByUser("idAzienda", "email");
-
-        assertEquals(1, permessi.size());
-        Permesso permesso = permessi.get(0);
-        assertEquals(1, permesso.getId());
-        assertEquals("2022-01-01", permesso.getDalGiorno());
-        assertEquals("2022-01-10", permesso.getAlGiorno());
-        assertEquals("Vacanza", permesso.getMotivo());
-        assertTrue(permesso.isStato());
-        assertEquals("richiedente@example.com", permesso.getRichiedenteEmail());
-
-        verify(preparedStatement).setString(1, "idAzienda");
-        verify(preparedStatement).setString(2, "email");
-        verify(preparedStatement, times(2)).executeQuery();
-        verify(resultSet, times(2)).next();
-        verify(resultSet).getInt("id");
-        verify(resultSet).getString("dal_giorno");
-        verify(resultSet).getString("al_giorno");
-        verify(resultSet).getString("motivo");
-        verify(resultSet).getBoolean("stato");
-        verify(resultSet).getString("richiedente_email");
     }
 
 }

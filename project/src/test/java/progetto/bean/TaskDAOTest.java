@@ -153,23 +153,17 @@ class TaskDAOTest {
         int projectId = 1;
         String userEmail = "test@example.com";
 
-        // Configura il comportamento del mock per restituire un risultato positivo
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
         when(resultSet.next()).thenReturn(true, false);
         when(resultSet.getInt("id_task")).thenReturn(1);
 
-        // Act
         Collection<Task> tasks = taskDAO.doRetrieveAllByProjectAndUser(projectId, userEmail);
 
-        // Assert
-        // Verifica che il metodo executeQuery sia stato chiamato correttamente
         verify(preparedStatement).setInt(1, projectId);
         verify(preparedStatement).setString(2, userEmail);
 
-        // Verifica che la collezione di Task restituita non sia vuota
         assertFalse(tasks.isEmpty());
 
-        // Verifica che il numero di Task nella collezione sia corretto
         assertEquals(1, tasks.size());
     }
 }
